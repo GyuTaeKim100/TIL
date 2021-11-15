@@ -2,16 +2,12 @@
 1. The RED : 견고한 UI 설계를 위한 마크업 가이드 by 정찬명
 2. https://fastcampus.app/course-detail/204706
 3. 총 강의 시간은 6시간 
-<br>
 ### 목차
 1. HTML
 2. CSS
 3. Perpormance
 4. Accessibility
-<br>
 ### 평가
 미완
-<br>
 ### 후기
 미완
-<br>
