@@ -1,0 +1,17 @@
+﻿  4_ver2 Translate Language.cpp
+c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(138): warning C4473: 'scanf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(138): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 1개가 제공되었습니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(138): note: 누락된 variadic 인수 2이(가) 서식 문자열 '%c'에 필요합니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(138): note: 이 인수는 버퍼 크기로 사용됩니다.
+c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(159): warning C4473: 'scanf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(159): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 1개가 제공되었습니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(159): note: 누락된 variadic 인수 2이(가) 서식 문자열 '%c'에 필요합니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(159): note: 이 인수는 버퍼 크기로 사용됩니다.
+c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(168): warning C4473: 'scanf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(168): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 1개가 제공되었습니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(168): note: 누락된 variadic 인수 2이(가) 서식 문자열 '%c'에 필요합니다.
+  c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\4_ver2 translate language.cpp(168): note: 이 인수는 버퍼 크기로 사용됩니다.
+c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\string_process.h(38): warning C4715: 'ToUpperAlphabet': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\string_process.h(52): warning C4715: 'ToLowerAlphabet': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\gyutae\desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate engintokor\4 translate engintokor\string_process.h(106): warning C4715: 'SplitString': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  4 translate EngIntoKor.vcxproj -> C:\Users\GyuTae\Desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate EngIntoKor\Debug\4 translate EngIntoKor.exe

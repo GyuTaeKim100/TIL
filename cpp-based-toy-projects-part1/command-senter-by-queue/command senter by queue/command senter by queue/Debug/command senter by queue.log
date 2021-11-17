@@ -1,0 +1,6 @@
+﻿  stdafx.cpp
+  commandSenter_By_Queue.cpp
+k:\side project\1 level\12월 29일[2] hash and command senter\command senter by queue\command senter by queue\commandsenter_by_queue.cpp(109): warning C4244: '인수': 'double'에서 '__int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+k:\side project\1 level\12월 29일[2] hash and command senter\command senter by queue\command senter by queue\commandsenter_by_queue.cpp(140): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+k:\side project\1 level\12월 29일[2] hash and command senter\command senter by queue\command senter by queue\commandsenter_by_queue.cpp(215): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  command senter by queue.vcxproj -> K:\Side Project\1 Level\12월 29일[2] hash and command Senter\command senter by queue\Debug\command senter by queue.exe

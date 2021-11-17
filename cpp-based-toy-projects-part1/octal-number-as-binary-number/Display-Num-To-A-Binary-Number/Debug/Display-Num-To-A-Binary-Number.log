@@ -1,0 +1,6 @@
+﻿  stdafx.cpp
+  lib_bit.cc
+c:\users\gyutae\desktop\side project\1 level\1 비트 연산자\display-num-to-a-binary-number\display-num-to-a-binary-number\lib_bit.cc(27): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+  main.cpp
+  코드를 생성하고 있습니다...
+  Display-Num-To-A-Binary-Number.vcxproj -> C:\Users\GyuTae\Desktop\Side Project\1 Level\1 비트 연산자\Display-Num-To-A-Binary-Number\Debug\Display-Num-To-A-Binary-Number.exe

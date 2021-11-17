@@ -1,0 +1,20 @@
+﻿  stdafx.cpp
+  4_ver2 Translate Language.cpp
+4_ver2 Translate Language.cpp(138): warning C4473: 'scanf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+  4_ver2 Translate Language.cpp(138): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 1개가 제공되었습니다.
+  4_ver2 Translate Language.cpp(138): note: 누락된 variadic 인수 2이(가) 서식 문자열 '%c'에 필요합니다.
+  4_ver2 Translate Language.cpp(138): note: 이 인수는 버퍼 크기로 사용됩니다.
+4_ver2 Translate Language.cpp(159): warning C4473: 'scanf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+  4_ver2 Translate Language.cpp(159): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 1개가 제공되었습니다.
+  4_ver2 Translate Language.cpp(159): note: 누락된 variadic 인수 2이(가) 서식 문자열 '%c'에 필요합니다.
+  4_ver2 Translate Language.cpp(159): note: 이 인수는 버퍼 크기로 사용됩니다.
+4_ver2 Translate Language.cpp(168): warning C4473: 'scanf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+  4_ver2 Translate Language.cpp(168): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 1개가 제공되었습니다.
+  4_ver2 Translate Language.cpp(168): note: 누락된 variadic 인수 2이(가) 서식 문자열 '%c'에 필요합니다.
+  4_ver2 Translate Language.cpp(168): note: 이 인수는 버퍼 크기로 사용됩니다.
+  코드를 생성하고 있습니다.
+  0 of 15 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  코드를 생성했습니다.
+  4 translate EngIntoKor.vcxproj -> C:\Users\GyuTae\Desktop\procademy side project\1 month\12월 20일[1] 한영번역기\4 translate EngIntoKor\Release\4 translate EngIntoKor.exe

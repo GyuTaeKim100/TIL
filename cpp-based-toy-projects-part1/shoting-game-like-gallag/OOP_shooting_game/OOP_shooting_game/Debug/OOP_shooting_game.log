@@ -1,0 +1,10 @@
+﻿  OOP_shooting_game.cpp
+c:\users\gyutae\desktop\side project\2 level\슈팅 게임 객체지향 프로젝트\oop_shooting_game\oop_shooting_game\scean.h(109): warning C4101: 'g_ptr_player' :참조되지 않은 지역 변수입니다.
+c:\users\gyutae\desktop\side project\2 level\슈팅 게임 객체지향 프로젝트\oop_shooting_game\oop_shooting_game\oop_shooting_game.cpp(23): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
+  코드를 생성하고 있습니다...
+c:\users\gyutae\desktop\side project\2 level\슈팅 게임 객체지향 프로젝트\oop_shooting_game\oop_shooting_game\object.h(460): warning C4715: 'CBullet::Action': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  컴파일하고 있습니다...
+  _g_public.cpp
+c:\users\gyutae\desktop\side project\2 level\슈팅 게임 객체지향 프로젝트\oop_shooting_game\oop_shooting_game\scean.h(109): warning C4101: 'g_ptr_player' :참조되지 않은 지역 변수입니다.
+  코드를 생성하고 있습니다...
+  OOP_shooting_game.vcxproj -> C:\Users\GyuTae\Desktop\Side Project\2 Level\슈팅 게임 객체지향 프로젝트\OOP_shooting_game\Debug\OOP_shooting_game.exe
