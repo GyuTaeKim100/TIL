@@ -1,19 +1,15 @@
-## TODO: 개요 heading 별 링크 추가 필요
-
-<br>
-
-## 견고한 UI 설계를 위한 마크업 가이드
+## [견고한_UI_설계를_위한_마크업_가이드](견고한_UI_설계를_위한_마크업_가이드/readme.md)
 - TODO : 추후 자세한 상세 작성 필요
 
 <br>
 
-## fx-js-study
+## [fx-js-study](fx-js-study/readme.md)
 - 인프런 FxJS 제작자 직강 강의 수강
 - TODO : 추후 자세한 상세 작성 필요
 
 <br>
 
-## cpp-toy-projects-part 1
+## [cpp-toy-projects-part-1](cpp-toy-projects-part-1/readme.md)
 ### c++ 98 기반
 1. anci-text-parser
    - ANCI 포매팅 text 파일 대상
@@ -27,7 +23,7 @@
     - 생략
 5. display-binary-search-tree
     - win32 기반 바이너리 서치 트리 랜더링
-    - 바이너리 서치 트리를 생성 및 삭제 가능
+    - 바이너리 서치 트리 노드를 생성 및 삭제 가능
 6. double-linkedlist-like-STL
     - stl 구조 모방인 양방향 링크드 리스트
 7. memory-leak-chaser-library
@@ -38,7 +34,7 @@
     - 8진수를 2진수로 변환
 9. online-drawing
     - 소켓을 이용한 온라인 그림판
-10.  online-star-moving
+10. online-star-moving
     - 소켓을 이용한 별 움직이기
     - 클라이언트 다중 가능
 11. recursive-paint-map
@@ -54,10 +50,9 @@
     - console을 이용한 갤로그 게임
 16. simple-wrod-translator
     - 간단한 영한 번역기
-
 <br>
 
-## vanila-js-toy-projects-part-1
+## [vanila-js-toy-projects-part-1](vanila-js-toy-projects-part-1/readme.md)
 1. vanilla-js-banner
    - 간단한 배너
 2. vanilla-js-calendar
@@ -77,25 +72,25 @@
 
 <br>
 
-## nest-js-toy-projects-part-1
+## [nest-js-toy-projects-part-1](nest-js-toy-projects-part-1/readme.md)
 1. nest_js_api_exam
    - 노마드 코더 nest 기본 api 강의 수강 결과물
 
 <br>
 
-## node-js-toy-projects-part-1
+## [node-js-toy-projects-part-1](node-js-toy-projects-part-1/readme.md)
 1. web-shoping-mall
    - '노드 js를 이용한 쇼핑몰 제작하기' 패스트 캠퍼스 오프라인 강의 수강 결과물
 
 <br>
 
-## php5-toy-projects-part-1
+## [php5-toy-projects-part-1](php5-toy-projects-part-1)
 1. php-basic-board
    - php5와 mysql, HTML5를 이용한 유저가 사용 가능한 게시판
 
 <br>
 
-## react-toy-projects-part-1
+## [react-toy-projects-part-1](react-toy-projects-part-1)
 1. react-local-board
    - local storage를 이용
    - 사용자가 사용 가능한 게시판
