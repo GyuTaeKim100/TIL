@@ -1,15 +1,15 @@
-## [견고한_UI_설계를_위한_마크업_가이드](견고한_UI_설계를_위한_마크업_가이드/readme.md)
+## [견고한_UI_설계를_위한_마크업_가이드](견고한_UI_설계를_위한_마크업_가이드)
 - TODO : 추후 자세한 상세 작성 필요
 
 <br>
 
-## [fx-js-study](fx-js-study/readme.md)
+## [fx-js-study](fx-js-study)
 - 인프런 FxJS 제작자 직강 강의 수강
 - TODO : 추후 자세한 상세 작성 필요
 
 <br>
 
-## [cpp-toy-projects-part-1](cpp-toy-projects-part-1/readme.md)
+## [cpp-toy-projects-part-1](cpp-toy-projects-part-1)
 ### c++ 98 기반
 1. anci-text-parser
    - ANCI 포매팅 text 파일 대상
@@ -52,7 +52,7 @@
     - 간단한 영한 번역기
 <br>
 
-## [vanila-js-toy-projects-part-1](vanila-js-toy-projects-part-1/readme.md)
+## [vanila-js-toy-projects-part-1](vanila-js-toy-projects-part-1)
 1. vanilla-js-banner
    - 간단한 배너
 2. vanilla-js-calendar
@@ -72,13 +72,13 @@
 
 <br>
 
-## [nest-js-toy-projects-part-1](nest-js-toy-projects-part-1/readme.md)
+## [nest-js-toy-projects-part-1](nest-js-toy-projects-part-1)
 1. nest_js_api_exam
    - 노마드 코더 nest 기본 api 강의 수강 결과물
 
 <br>
 
-## [node-js-toy-projects-part-1](node-js-toy-projects-part-1/readme.md)
+## [node-js-toy-projects-part-1](node-js-toy-projects-part-1/)
 1. web-shoping-mall
    - '노드 js를 이용한 쇼핑몰 제작하기' 패스트 캠퍼스 오프라인 강의 수강 결과물
 
