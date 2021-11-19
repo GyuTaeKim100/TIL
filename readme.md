@@ -7,13 +7,13 @@
 
 <br>
 
-## js-based-functional-programing-study
+## fx-js-study
 - 인프런 FxJS 제작자 직강 강의 수강
 - TODO : 추후 자세한 상세 작성 필요
 
 <br>
 
-## cpp based toy projects part1
+## cpp-toy-projects-part 1
 ### c++ 98 기반
 1. anci-text-parser
    - ANCI 포매팅 text 파일 대상
@@ -57,7 +57,7 @@
 
 <br>
 
-## js based toy projects part1
+## vanila-js-toy-projects-part-1
 1. vanilla-js-banner
    - 간단한 배너
 2. vanilla-js-calendar
@@ -77,25 +77,25 @@
 
 <br>
 
-## nest-js-based-toy-projects-part1
+## nest-js-toy-projects-part-1
 1. nest_js_api_exam
    - 노마드 코더 nest 기본 api 강의 수강 결과물
 
 <br>
 
-## node-js-based-toy-projects-part1
+## node-js-toy-projects-part-1
 1. web-shoping-mall
    - '노드 js를 이용한 쇼핑몰 제작하기' 패스트 캠퍼스 오프라인 강의 수강 결과물
 
 <br>
 
-## php5-based-toy-projects-part1
+## php5-toy-projects-part-1
 1. php-basic-board
    - php5와 mysql, HTML5를 이용한 유저가 사용 가능한 게시판
 
 <br>
 
-## php5-based-toy-projects-part1
+## react-toy-projects-part-1
 1. react-local-board
    - local storage를 이용
    - 사용자가 사용 가능한 게시판
