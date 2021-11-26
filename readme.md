@@ -13,7 +13,7 @@
 1. github-search
    - public 유저 목록 by pangation
    - 특정 유저의 public 레포지토리 보기 by pagination
-   - 작업 했는데 별도 git 중이여서 일일 커밋을 위해 변경사항 텍스트 넣기 시도-2일도 함...3일도 함... 4일째 함.. 5일차.. 완료 되감
+   - 작업 했는데 별도 git 존재해서 root git이 감지 못하는 중
 
 ## [cpp-toy-projects-part-1](cpp-toy-projects-part-1)
 ### c++ 98 기반
