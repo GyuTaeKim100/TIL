@@ -13,7 +13,6 @@
 1. github-search
    - public 유저 목록 by pangation
    - 특정 유저의 public 레포지토리 보기 by pagination
-   - 작업 했는데 별도 git 존재해서 root git이 감지 못하는 중
 
 ## [cpp-toy-projects-part-1](cpp-toy-projects-part-1)
 ### c++ 98 기반
