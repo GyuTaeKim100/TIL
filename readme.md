@@ -10,9 +10,9 @@
 <br>
 
 ## [react-toy-projects-part-2](react-toy-projects-part-2)
-1. github-search
-   - public 유저 목록 by pangation
-   - 특정 유저의 public 레포지토리 보기 by pagination
+1. filterable-todos
+   - todos + filter 기능
+   - 부분적으로 RTL 테스트 코드 작성
 
 ## [cpp-toy-projects-part-1](cpp-toy-projects-part-1)
 ### c++ 98 기반
