@@ -3,7 +3,7 @@ https://support.google.com/chrome/answer/157179?hl=ko&co=GENIE.Platform%3DDeskto
 
 ## 자주 쓰는 mac 단축키
 ### 탭 및 창 단축키
-1. 새 창 열기
+1. 새 창 열기           
  - ⌘ + n
 2. 시크릿 모드로 새 창 열기
  - ⌘ + Shift + n
