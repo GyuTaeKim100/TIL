@@ -29,7 +29,6 @@
 ## 프로그래밍
 1. 프로그래밍 언어 만들기
     - http://www.yes24.com/Product/Goods/74031333
-
 2. 한 권으로 읽는 컴퓨터 구조와 프로그래밍
     - http://www.yes24.com/Product/Goods/98997716
   
