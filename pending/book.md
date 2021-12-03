@@ -1,4 +1,6 @@
-## 구매 예정 책
+### 구매 예정 책
+
+## 웹
 1. 데이터 시각화 교과서 + 대시보드 설계와 데이터 시각화 세트
     - http://www.yes24.com/Product/Goods/89109968
 2. 웹 성능 최적화 기법
@@ -24,14 +26,13 @@
 
 9. 네트워킹과 웹 성능 최적화 기법
     - http://www.yes24.com/Product/Goods/22884121
-
 ## 프로그래밍
 1. 프로그래밍 언어 만들기
     - http://www.yes24.com/Product/Goods/74031333
 
 2. 한 권으로 읽는 컴퓨터 구조와 프로그래밍
     - http://www.yes24.com/Product/Goods/98997716
-
+  
 ## 네트워크
 1. TCP/IP 완벽 가이드
     - http://www.yes24.com/Product/Goods/2355754
@@ -57,4 +58,18 @@
     - http://www.yes24.com/Product/Goods/67882661
 2. 데이터베이스 시스템
     - http://www.yes24.com/Product/Goods/103156919
-3. 
+
+## 데브옵스
+1. 데브옵스 도입 전략
+    - http://www.yes24.com/Product/Goods/102361028
+
+## 에디터
+1. Practical Vim
+   - http://www.yes24.com/Product/Goods/36686205
+
+## 리눅스
+1. 리눅스 작동법
+    - http://www.yes24.com/Product/Goods/22404368
+2. 리눅스 커맨드라인 쉘 스크립트 바이블
+    - http://www.yes24.com/Product/Goods/32397271
+ 
