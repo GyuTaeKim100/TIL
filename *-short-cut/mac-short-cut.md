@@ -1,7 +1,13 @@
 ## 공식 사이트 
   - https://support.apple.com/ko-kr/HT201236
 
-## 자주 쓰는 단축키 모음
+## mack keyboard symbols
+- ⌘	커맨드 (command)
+- ⌃	컨트롤 (control)
+- ⌥	옵션 (option)
+- ⇧	쉬프트 (shift)
+- ⇪	캡스락 (caps lock)
+
 ### 오려두기, 복사하기, 붙여 넣기 및 기타 일반적으로 사용하는 단축키
    - command-X: 선택한 항목을 잘라내어 클립보드에 복사합니다.
    - command-C: 선택한 항목을 클립보드에 복사합니다. 이 키는 Finder의 파일에도 작동합니다.
@@ -23,3 +29,13 @@
 
 ### 잠자기, 로그아웃 및 시스템 종료 단축키
    - control-command-Q: 화면을 곧바로 잠급니다.
+   - shift-command-Q: macOS 사용자 계정에서 로그아웃합니다. 확인하는 메시지가 표시됩니다. 확인하지 않고 바로 로그아웃하려면 option-shift-command-Q 키를 누릅니다.
+
+## 별도 단축키 생성
+   - automator 이용
+   - https://kokone.co.kr/63
+   - automator 리서치 필요
+
+
+## 참고
+- https://velog.io/@gillog/IDE-VSCode-Mac-OS-%EB%8B%A8%EC%B6%95%ED%82%A4-%EC%A0%95%EB%A6%AC
