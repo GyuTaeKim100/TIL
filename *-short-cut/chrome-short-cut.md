@@ -1,6 +1,8 @@
 ## 공식 링크
 https://support.google.com/chrome/answer/157179?hl=ko&co=GENIE.Platform%3DDesktop#zippy=%2C%ED%83%AD-%EB%B0%8F-%EC%B0%BD-%EB%8B%A8%EC%B6%95%ED%82%A4
 
+## 대상 운영체제는 mac
+
 ## 자주 쓰는 mac 단축키
 ### 탭 및 창 단축키
 1. 새 창 열기           
@@ -47,5 +49,8 @@ https://support.google.com/chrome/answer/157179?hl=ko&co=GENIE.Platform%3DDeskto
    - 스페이스바
 4. 웹페이지와 화면을 한 번에 위로 스크롤
    - Shift + 스페이스바
-
+5. 이전 히스토리 이동
+   - ⌘ + 왼쪽 화살표 버튼
+6. 다음 히스토리 이동
+   - ⌘ + 오른쪽 화살표 버튼 
 ### 위 명령어 적응되면 추가 명령어 익힐 예정

@@ -11,9 +11,12 @@
  - 새 윈도우창 생성 : ctrl + shift +n
 
 ## tab
-- Ctrl + 숫자  editor tab으로 이동
+- Ctrl + 숫자   editor tab으로 이동
+- Command + 숫자     editor group
+- 전체 검색 : ⌘⇧f
 
-
+## file
+- ctrl + p : 빠른 파일 열기
 ## Integrated termianl
 - ⌃`	통합 터미널 보기
 - ⌃⇧`	새 터미널 생성
@@ -24,6 +27,25 @@
 - ⌘W	창/인스턴스 닫기
 - ⌘,	사용자 설정
 - ⌘K ⌘S	키보드 바로가기 키
+
+## Editor/Window Management
+- ⇧⌘N	새창	workbench.action.newWindow
+- ⇧⌘W	창 닫기	workbench.action.closeWindow
+- ⌘W	편집기 닫기	workbench.action.closeActiveEditor
+- ⌘KF	폴더 닫기	workbench.action.closeFolder
+unassigned	편집기 그룹 사이주기	workbench.action.navigateEditorGroups
+- ⌘\	스플릿 편집기	workbench.action.splitEditor
+- ⌘1	첫 번째 편집기 그룹에 초점 맞추기	workbench.action.focusFirstEditorGroup
+- ⌘2	두 번째 편집기 그룹에 초점 맞추기	workbench.action.focusSecondEditorGroup
+- ⌘3	세 번째 편집기 그룹에 초점 맞추기	workbench.action.focusThirdEditorGroup
+- ⌘K ⌘←	왼쪽의 편집기 그룹에 초점 맞추기	workbench.action.focusPreviousGroup
+- ⌘K ⌘→	오른쪽 편집기 그룹에 초점 맞추기	workbench.action.focusNextGroup
+- ⌘K ⇧⌘←	왼쪽으로 편집기 이동	workbench.action.moveEditorLeftInGroup
+- ⌘K ⇧⌘→	편집기 오른쪽으로 이동	workbench.action.moveEditorRightInGroup
+- ⌘K ←	활성 편집기 그룹을 왼쪽으로 이동	workbench.action.moveActiveEditorGroupLeft
+- ⌘K →	활성 편집기 그룹을 오른쪽으로 이동하십시오.	workbench.action.moveActiveEditorGroupRight
+- ^⌘→	편집기를 다음 그룹으로 이동	workbench.action.moveEditorToNextGroup
+- ^⌘←	편집기를 이전 그룹으로 이동	workbench.action.moveEditorToPre
 
 ## Multi-cursor and selection
 - ⌥ + click	커서 삽입
