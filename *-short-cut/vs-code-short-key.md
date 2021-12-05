@@ -10,6 +10,10 @@
 ## 프로젝트 관련 단축키
  - 새 윈도우창 생성 : ctrl + shift +n
 
+## tab
+- Ctrl + 숫자  editor tab으로 이동
+
+
 ## Integrated termianl
 - ⌃`	통합 터미널 보기
 - ⌃⇧`	새 터미널 생성
@@ -99,3 +103,4 @@
 
 ## 참고
 - https://velog.io/@gillog/IDE-VSCode-Mac-OS-%EB%8B%A8%EC%B6%95%ED%82%A4-%EC%A0%95%EB%A6%AC
+- https://velog.io/@ash/VSCode%EC%97%90%EC%84%9C-editor-terminal%EA%B0%84-%EC%BB%A4%EC%84%9C-%EC%9D%B4%EB%8F%99-%EB%8B%A8%EC%B6%95%ED%82%A4-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0
