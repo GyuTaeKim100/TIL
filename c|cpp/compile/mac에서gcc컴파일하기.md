@@ -37,16 +37,15 @@
 
 ## cmake 명렁어
     ```
-        make build
+        mkdir build
         cd build
-        cmake ../
+        cmake ../ or cmake ../ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
     ```
 
 ## make 명렁어
     ```
         cd build
-        sudo make install
-        sudo ldconfig
+        sudo make all
+            (make install + make check + make package)
     ```
-
 ## 필요한 경우 bear 설정
