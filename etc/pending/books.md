@@ -26,6 +26,15 @@
 
 9. 네트워킹과 웹 성능 최적화 기법
     - http://www.yes24.com/Product/Goods/22884121
+
+10. 자바스크립트 정규 표현식
+  - http://www.yes24.com/Product/Goods/3803603
+
+11. 한 권에 끝내는 정규 표현식
+  - http://www.yes24.com/Product/Goods/4224748
+
+12. 손에 잡히는 10분 정규 표현식
+   - http://www.yes24.com/Product/Goods/75454395
 ## 프로그래밍
 1. 프로그래밍 언어 만들기
     - http://www.yes24.com/Product/Goods/74031333
@@ -110,3 +119,5 @@
 
 2. 판교의 젊은 기획자들
  - http://www.yes24.com/Product/Goods/99102779
+ 
+ 
