@@ -92,3 +92,21 @@
    - http://www.yes24.com/Product/Goods/8596327
 7. UI 테스트 자동화
    - http://www.yes24.com/Product/Goods/89431438
+
+
+## 디자인
+1. UI/UX 디자이너를 위한 실무 피그마
+ - http://www.yes24.com/Product/Goods/104734674
+2. 피그마 완벽 활용서
+ - http://www.yes24.com/Product/Goods/102591441
+3. 처음 만나는 피그마
+ - http://www.yes24.com/Product/Goods/95887435
+4. figma 가이드북
+ - http://www.yes24.com/Product/Goods/95715427
+
+## 기획자
+1. 프로덕트 오너
+ - http://www.yes24.com/Product/Goods/89553345
+
+2. 판교의 젊은 기획자들
+ - http://www.yes24.com/Product/Goods/99102779
