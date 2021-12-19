@@ -1,0 +1,44 @@
+/* common */
+.todo-item {
+    display:flex;
+    flex-direction: row;
+    border-bottom: 1px solid gray;
+}
+
+/* view mode */
+.todo-item .check-done-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:40px;
+    min-width:40px;
+    max-width:40px;
+    height: inherit;
+}
+
+.todo-item .detail-items {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.detail-item .detail-label {
+    color:gray;
+}
+
+.detail-item .detail-content {
+    
+    width:100%;
+    word-break: break-all;
+}
+
+.detail-content.todo-done {
+    text-decoration:line-through;
+}
+
+.todo-item .edit-todo-form {
+    display: flex;
+    flex-direction: row;
+    padding:10px;
+    width:100%;
+}

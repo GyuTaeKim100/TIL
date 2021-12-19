@@ -1,0 +1,22 @@
+
+.filter-todos .multi-select-chips {
+    display: flex;
+    flex-direction: row;
+    padding:5px;
+}
+
+.multi-select-chips .chip {
+    border: 1px solid black;
+    background: white;
+    padding:10px;
+    cursor: pointer;
+}
+
+.chip + .chip {
+    margin-left:10px;
+}
+
+
+.chip.toggled {
+    background: orange;
+}
