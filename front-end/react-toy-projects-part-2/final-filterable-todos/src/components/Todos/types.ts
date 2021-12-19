@@ -1,19 +1,41 @@
-import { todoStatusEnum, todoPriorityEnum } from '../Todos/enums'
+import { Status, Priority } from './enums'
 
-export type TTodoData = {
-  todoStatus: todoStatusEnum
+// todo 관련 목록
+export type TTodo = {
+  status: Status
   content: string
-  priority: todoPriorityEnum
-  upsertDate?: any // TODO : dayjs Type으로 재정의 필요
+  priority: Priority
+  createdAt: any // TODO : dayjs Type으로 재정의 필요
+  updatedAt: any // TODO : dayjs Type으로 재정의 필요
   id: number
 }
 
-export type TInsertFormFieldsValue = {
-  priority: todoPriorityEnum
+export type TTodos = Array<TTodo>
+
+//filter options 관련  목록
+export type TCheckTypeItem = {
+  key: Status | Priority
+  content: any
+  active: boolean
+}
+
+export type TCheckTypeItems = Array<TCheckTypeItem>
+
+export type TTodosFilterOptions = {
+  priorities: TCheckTypeItems
+  statuses: TCheckTypeItems
+}
+
+// event props 관련 목록
+export type THandleInsertProps = {
+  priority: Priority
   content: string
 }
 
-export type TFilterTodosRules = {
-  prioritySet: Set<todoPriorityEnum>
-  statusSet: Set<todoStatusEnum>
+export type THandleFilterProps = {
+  type: string | number
+  payload: {
+    filterOptionName: string
+    key?: string | number
+  }
 }

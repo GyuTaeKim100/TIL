@@ -53,7 +53,7 @@ input[type="checkbox"] {background:none;padding:0px;display:inline-block;margin:
 
 /* 사용자 지정 */
 /* like Tailwind CSS*/
-.mb-10{
+.mb-10px{
     margin-bottom:10px;
 }
 

@@ -1,0 +1,9 @@
+
+.chips {
+    display: flex;
+    flex-direction: row;
+}
+
+.chips + .chips {
+    margin-left:10px;
+}

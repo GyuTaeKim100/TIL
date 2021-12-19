@@ -1,0 +1,15 @@
+.chip {
+    border: 1px solid black;
+    background: white;
+    padding:10px;
+    cursor: pointer;
+}
+
+.chip + .chip {
+    margin-left:10px;
+}
+
+
+.chip.active {
+    background: orange;
+}
