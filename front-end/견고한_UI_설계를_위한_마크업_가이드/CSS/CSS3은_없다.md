@@ -120,8 +120,8 @@
       - 다양한 언어를 지원시 (다국어)
     - 최신 브라우저에서 지원
 
-### 선택자 Selector
-  - 예
+### css 구조 정리
+  - 예시
     ```
       h1, h2, div{
         background-color:blue;
@@ -133,5 +133,91 @@
     - 속성 property : backgorund-color, font-size
     - 값 value : blue, 12px;
     - 선언 declaration : background-color:blue, font-size: 12px
+    - 선언 블록 declaration block : { background-color: blue; font-size:12px; }
 
+### 선택자 Selector
+ - CSS Selector : 문서 트리의 엘리먼트를 찾는 패턴 표준
+ - 엘리먼트 선택자 Element selectors
+   - 타입 선택자 : HTML 태그 이름
+     - 예: div, span, input, ...
+   - 수도 엘리먼트 pseudo element : 문서 트리에 직접 존재 않지만 엘리먼트처럼 취급
+     - 예: ::after, ::before, ::selection, ::placeholder, ...
+   - 유니버설 선택자 : 모든 HTML 태그를 선택
+     - 예: *
+ - 속성 선택자 Attribute selectors
+   - 아이디 선택자 id : 엘리먼트의 id 속성
+     - 예: #main, #section-id
+   - 클래스 선택자 class: 엘리먼트의 class 속성
+     - 예: .header, .sidebar, .main-menu, ...
+   - 수도 클래스 pseudo: 특정 정보나 상황에 의해 적용
+     - 예: :hover, :visited, :focus, :is(), :not(), :lang(), ...
+   - 속성 선택자 attribute: 엘리먼트의 모든 속성 
+     - 예: `[href]`, `[class="example"]`, `[attr~="str]`, ... 
 
+### 특정성 Specificity
+ - 선택자가 얼마나 구체적인지 나타내는 정도. 더 구체적일수록 우선순위가 높다.
+ - 우선순위
+   - 인라인 스타일
+   - 아이디 선택자
+   - 클래스 선택자, 수도 클래스 선택자, 속성 선택자
+   - 타입 선택자, 수도 엘리먼트 선택자
+ - 유니버셜 선택자는 제외
+ - 같은 속성을 바꿀 시 우선순위
+ - 예
+    ```
+      div.class = 0 0 1 1
+      div.class > * = 0 0 1 1
+      div.class > * [title]:hover  = 0 0 3 1
+      div.class > * [title]:hover #hello = 0 1 3 1
+      div.class > * [title]:hover #hello = 0 1 3 1
+      <div class="class" style="color:blue"> = 1 0 0 0
+      <div class="class" style="color: !important blue"> = 1 1 0 0 0 // inline style 이김
+    ```
+  - !important 건드리지말자. 제거하고 특정성을 높이자.
+  - 특정성 규칙을 엄격히 하자
+    - BEM 그리고 SMACSS
+    - BEM 
+      ```
+        .block {}
+        .block__element {}
+        .block--modifier {}
+        .block__element--modifier {}
+      ```
+        - 단점 
+          - 보기 길어짐
+          - 널리 사용 안됨.
+    - SMACSS의 state 표현 방식
+      ```
+        .button {
+          background: silver;
+          color:black;
+        }
+
+        .button.is-primary {
+          background: blue;
+          color:white;
+        }
+      ```
+        - 단점
+          - 규칙 복잡
+          - BEM에 비해 널리 사용 안됨.
+    - JS 안의 CSS
+      - 공유하지 않으면 충돌도 없다.
+        - class 이름을 랜덤하게 만듬
+      - js 내 css 선언
+      - 단점
+        - js 코드가 약간 지저분해진다(?)
+
+### 마진 병합 Margin collapsing
+ - 수직 인접한 두 마진이 더 큰 쪽으로 병합되는 현상
+ - 경우
+   - 인접 형제 노드의 수직 마진은 병합된다.
+     - 나중에 나타난 엘리먼트가 clear 되어야 하는 경우 제외
+   - 부모와 자식의 인접한 수직 마진은 병합된다.
+     - 단, 마진 사이에 다른 컨텐츠가 없어야 함
+     - 예) 패딩, 보더 등
+   - 빈 블럭의 수직 마진은 병합된다.
+     - 한 블럭의 margin-top과 margin-bottom도 병합된다.
+     - 두 마진을 분리할 높이, 패딩, 보더, 인라인, 컨텐츠가 없을 때 발생
+ - 예
+   - child margin이 parent 보다 큰 경우 child margin에 parent margin이 통합
