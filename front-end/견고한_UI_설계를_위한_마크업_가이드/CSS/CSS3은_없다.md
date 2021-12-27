@@ -76,3 +76,62 @@
        - flex item의 순서를 fix
        - html 상 순서와 상관없이 함
        - 접근성은 html의 순서가 중요
+
+
+### Grid Layout
+ - 1차원적인 flex box와 달리 2차원적인 구성
+ - 성배 레이아웃은 필연적으로 중첩(x, y)이 필요하다.
+ - 갤러리, 게시판 레이아웃은 격자무늬를 원해서 보통 table 형식을 사용함. flex는 한축만 독립적(다른 축에 영향을 받지 않음)으로 작동하여서 격자무늬에 적합하지 않음. => 그래서 Grid 사용
+ - 표준이 계속 바뀌고 브라우저마다 명세가 다른 경우가 많다.
+
+### 레이아웃 공부
+ - flexbox froggy 
+ - runlayout.com CSS레이아웃을 배웁시다.
+   - 과거 방식 레이아웃.  
+
+### 논리적 프로퍼티와 값 Logical properties and values
+ - CSS Logical Properties and values module
+   - 물리적인(physical) 프로퍼티나 값이 아닌 논리적인 프로퍼티와 값을 레이아웃을 다룰 수 있게 하는 표준
+   - inline 과 block
+     - inline : 텍스트 쓰기 방향
+     - block : 텍스트 쓰기 방향에 수직
+    - 용어의 변화
+      - size : width나 height 대신 사용
+      - start : 텍스트 흐름의 시작 위치
+      - end : 텍스트 흐름의 끝 위치
+  - 참고
+    - W3C CSS Logical Properties and Values Level 1 문서 
+  - 예
+    ```
+      .container {
+        background: #ffa;
+        margin: 10px;
+      }
+
+      .text {
+        display: inline-block;
+        background: red;
+        color: #fff;
+        margin-block-start: 20px;
+      }
+    ```
+
+    - 사용 이유
+      - 다양한 언어를 지원시 (다국어)
+    - 최신 브라우저에서 지원
+
+### 선택자 Selector
+  - 예
+    ```
+      h1, h2, div{
+        background-color:blue;
+        font-size: 12px;
+      }
+    ```
+    - 규칙 Rule : 위 코드 전체
+    - 선택자 : h1, h2, div
+    - 속성 property : backgorund-color, font-size
+    - 값 value : blue, 12px;
+    - 선언 declaration : background-color:blue, font-size: 12px
+
+
