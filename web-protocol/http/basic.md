@@ -1,9 +1,9 @@
 # HTTP Summary
 
 ## HTTP
- 1. 정의
+ 1. **정의**
       - HyperText Transfer Protocol
- 2. 용도
+ 2. **용도**
       1. HTTP 메시지에 모든 것을 전송
          - 예시
             1. HTML, TEXT
@@ -15,7 +15,7 @@
             5. 서버간 데이터 송수신시 대부분 HTTP 사용
                 - 의문
                   - 어떤 서버 간?
-  3. 역사
+  3. **역사**
        1. HTTP/0.9
             - 1991년
             - GET 메서드만 지원
@@ -35,70 +35,70 @@
             - 개발 진행 중
             - TCP 대신 UDP 사용
             - 성능 개선 초점
-    4. 기반 프로토콜
-         1. TCP
-              -  HTTP/1.1
-              -  HTTP/2
-         2. UDP
-              - HTTP/3
-              - 애플리케이션 레벨에서 성능 개선
+  4. **기반 프로토콜**
+      1. TCP
+           -  HTTP/1.1
+           -  HTTP/2
+      2. UDP
+           - HTTP/3
+           - 애플리케이션 레벨에서 성능 개선
 
-    5. 확인
-        1. Chrome browser 개발자 도구
-        2. google에 hello 검색
-        3. Network - protocol
+  5. **확인 방법**
+     1. Chrome browser 개발자 도구
+     2. google에 hello 검색
+     3. Network - protocol
 
-    6. 특징
-        1. 클라이언트 - 서버 구조
-        2. 무상태 프로토콜(state-less)
-        3. 비연결성
-        4. HTTP 메시지
-        5. 단순함
-        6. 확장 가능
+  6. **요약**
+     1. 클라이언트 - 서버 구조
+     2. 무상태 프로토콜(state-less)
+     3. 비연결성
+     4. HTTP 메시지
+     5. 단순함
+     6. 확장 가능
 
 ## Clinet - Server 구조
-  1. 특징
+  1. **특징**
        1. Request 및 Response 구조
-  2. 과정
+  2. **과정**
        1. 클라이언트는 서버에 요청을 보내고, 요청에 대한 응답을 대기
        2. 서버가 요청을 수신 
        3. 수신한 요청의 결과를 생성해서 응답
 
 ## Statefull, Stateless 차이
- - 상태 유지 : Statefull
+ - **상태 유지 : Statefull**
      - 예시
          ```
-              고객: 이 노트북 얼마?
-              점원: 100만원
+          고객: 이 노트북 얼마?
+          점원: 100만원
 
-              고객 2개 구매
-              점원: 총 200만원. 결제 수단은 신용카드 또는 현금?
+          고객 2개 구매
+          점원: 총 200만원. 결제 수단은 신용카드 또는 현금?
 
-              고객: 신용카드 선택
-              점원: 200만원 결제 완료
+          고객: 신용카드 선택
+          점원: 200만원 결제 완료
          ```
-     - 예시2
+     - 예시 2
          ```
-              고객: 이 노트북 얼마?
-              점원: 100만원 (노트북 상태 유지)
+          고객: 이 노트북 얼마?
+          점원: 100만원 (노트북 상태 유지)
 
-              고객 2개 구매
-              점원: 총 200만원. 결제 수단은 신용카드 또는 현금? (노트북, 2개 상태 유지)
+          고객 2개 구매
+          점원: 총 200만원. 결제 수단은 신용카드 또는 현금? (노트북, 2개 상태 유지)
 
 
-              고객: 신용카드 선택
-              점원: 200만원 결제 완료 (노트북, 2개, 신용카드 상태 유지)
+          고객: 신용카드 선택
+          점원: 200만원 결제 완료 (노트북, 2개, 신용카드 상태 유지)
          ```
-     - 예시3 : 점원이 중간에 바뀌면?
+     - 예시 3 : 점원이 중간에 바뀌면?
          ```
-               고객: 이 노트북 얼마?
-               점원A: 100만원
+          고객: 이 노트북 얼마?
+          점원A: 100만원
 
-               고객: 노트북 2개 구매
-               점원B: 무엇을 2개는 200만원. 결제 수단은 신용카드 또는 현금?
+          고객: 노트북 2개 구매
+          점원B: 무엇을 2개는 200만원. 결제 수단은 신용카드 또는 현금?
 
-               고객: 노트북 2개를 신용카드로 구매
-               점원C: 200만원 결제 완료
+          고객: 노트북 2개를 신용카드로 구매
+          점원C: 200만원 결제 완료
          ```
          - 문제 발생
            - (점원A, B, C가 문맥 공유 안하는 경우) 문맥이 사라짐
@@ -107,12 +107,13 @@
                - 중간에 다른 점원으로 바뀔 때 상태 정보를 다른 점원에게 미리 알려줘야 한다
      - 규칙
           1. 항상 같은 서버가 유지되어야 한다.
-               - 같은 기능을 하는 서버군 중 1개만이 지속적인 요청에 대한 응답 가능
+               - 장점
+                   - 같은 기능을 하는 서버군 중 1개만이 지속적인 요청에 대한 응답 가능
                - 단점
                    1. 서버 늘리기 어렵다
                    2. 서버 장애 시 클라이언트의 상태는 사라짐(서버 내에서 상태를 관리하는 경우)
   
-  - 상태 없음 : Stateless
+  - **상태 없음 : Stateless**
       - 기본 예시 : 점원이 중간에 바뀌면?
          ```
           고객: 이 노트북 얼마?
@@ -151,8 +152,8 @@
            - 확장성(무한증식)
        - 결론
          - 중간에 다른 점원(서버)으로 바뀌어도 된다
-             - 갑자기 고객이 증가해도 점원을 대거 투입할 수 있다
-             - 갑자기 클라이언트 요청이 증가해도 서버를 대거 투입 할 수 있다.
+             1. 갑자기 고객이 증가해도 점원을 대거 투입할 수 있다
+             2. 갑자기 클라이언트 요청이 증가해도 서버를 대거 투입 할 수 있다.
          - 무상태는 응답 서버를 쉽게 바꿀 수 있다.
              - 무한한 서버 증설 가능
        - 규칙
@@ -172,7 +173,7 @@
          7. 상태(문맥)를 클라이언트에서 관리 및 요청에 상태를 전달 시 복잡해진다(?)
 
 ## 무상태 프로토콜
-   1. 특징
+   1. **특징**
       1. stateless
       2. 서버가 클라이언트의 상태를 보존 안함
       3. 장점
@@ -182,34 +183,34 @@
 
 
 ## 연결을 유지하는 모델
-  1. 클라이언트 : 서버 = n : 1 
+  1. **클라이언트 : 서버 = n : 1**
      - n 갯수가 많은 경우, 서버 자원 소모량이 크다
      - 클라이언트가 놀고 있어도 서버가 연결 유지를 위한 서버 자원 소모를 해야 한다
 
 ## 비연결성 (connectionless)
-   - 예시 
+   - **예시** 
        - HTTP
           1. 서버는 최소한의 자원 유지 (효율적인 서버 자원 활용)
           2. 기본적으로 비연결 모델
           3. 일반적으로 초 단위의 이하의 빠른 속도로 응답
           4. 수천명의 클라이언트가 존재해도 실제 서버에서 동시에 처리하는 요청은 수십개 이하로 매우 적음
               - 예시) HTML은 대체로 문서 보기 위주로 사용자와 상호작용 
-   - 한계
+   - **한계**
         1. 클라이언트 요청 당 3 way handshake 진행
-               - 느린 반응성
-               - 사용자 입장에서 느린 사용성
+            - 느린 반응성
+            - 사용자 입장에서 느린 사용성
         2. 웹 브라우저가 사이트 요청 시 HTML+자바스크립트+CSS+ 추가 이미지 등등 수많은 자원이 함께 다운로드
-               - 자원당 3 way handshake 시 더더욱 느린 반응성, 사용성
-   - 극복
+           - 자원당 3 way handshake 시 더더욱 느린 반응성, 사용성
+   - **극복**
         1. HTTP 지속연결(Persistent Connections)
         2. HTTP/2, HTTP/3에서 지속연결 최적화 개선
-   - HTTP 초기 모델
+   - **HTTP 초기 모델**
         - 매 요청마다 연결, 요청, 응답, 종료 진행
-   - HTTP 지속 연결
+   - **HTTP 지속 연결**
         - 연결 - 요청 응답 반복 - 종료
 
 ## stateless - 서버 개발자들이 어려워하는 업무
-  1. 특정 시간에 발생하는 대용량 트래픽
+  1. **특정 시간에 발생하는 대용량 트래픽**
      - 예
           1. 선착순 이벤트
           2. 명절 KTX 예약
@@ -220,121 +221,119 @@
           2. 첫 페이지는 로그인도 없는 정적 페이지(무상태, 순수 HTML), 사용자가 동시에 요청하지 못하게 관심을 끄는 작업 삽입 
 
 ## HTTP 메시지
-  - 구조 (높은 단계의 추상화)
+  - **구조 (높은 단계의 추상화)**
      1. start-line : 시작 라인
      2. header : 헤더
      3. empty line : 공백라인 CRLF
      4. message body
-  - HTTP 요청 메시지 (높은 단계의 추상화)
+  - **HTTP 요청 메시지 (높은 단계의 추상화)**
      1. GET /search?q=hello&hl=ko HTTP/1.1
      2. Host: www.google.com
      3. empty line
-  - HTTP 응답 메시지 (높은 단계의 추상화)
+  - **HTTP 응답 메시지 (높은 단계의 추상화)**
      1. HTTP/1.1 200 OK
-     2. ```
+        ```
           Content-Type:text/html;charset=UTF-8
           Content-Length:3423
         ```
      3. empty line
-     4. ```
+        ```
           <html>
                <body>...</body>
           </html> 
         ```
-   - HTTP 응답 메시지 공식 스펙
-        ```
-          HTTP-message = start-line
-                         * ( header-field CRLF)
-                         CRLF
-                         [ message-body ] 
-        ```
-          - 참고
-            -  https://tools.ietf.org/html/rfc7230#section-3
-   - 시작 라인
-         - 요청 메시지
-               ```
-                    GET /search?q=hello&hl=ko HTTP/1.1
-                    Host:www.google.com
-               ```
-               - start-line
-                   - 분류
-                     - request-line
-                         - 분류
-                             - method SP(공백)
-                                 - 종류
-                                       - GET : 리소스 조회
-                                       - POST : 요청 내역 처리
-                                       - PUT
-                                       - DELETE
-                                       - ...etc
-                                  - 서버가 수행해야 할 동작 지정  
-                             - request-target SP
-                                  - 요청 대상
-                                  - 포맷
-                                      - `absolute-path[?query] (절대경로[?쿼리]`
-                                  - absoute-path는 "/"로 시작
-                             - HTTP-version CRLF(엔터) 
-                                  - HTTP version 
-                     - status-line
-               - HTTP 메시드 (GET: 조회)
-               - 요청 대상 (/search?q=hello&hl=ko)
-               - HTTP Version
-         - 응답 메시지 
-               ```
-                    HTTP/1.1 200 OK
-                    Content-Type:text/html;charset=UTF-8
-                    Content-Length:3423
+   - **HTTP 응답 메시지 공식 스펙**
+     ```
+     HTTP-message = start-line
+                    * ( header-field CRLF)
+                    CRLF
+                    [ message-body ] 
+     ```
+      - 참고
+        -  https://tools.ietf.org/html/rfc7230#section-3
+   - **시작 라인**
+       - **요청 메시지**
+          ```
+          GET /search?q=hello&hl=ko HTTP/1.1
+          Host:www.google.com
+          ```
+           - start-line
+               - 분류
+                 1. request-line
+                     - 분류
+                         1. method SP(공백)
+                             - 종류
+                                   1. GET : 리소스 조회
+                                   2. POST : 요청 내역 처리
+                                   3. PUT
+                                   4. DELETE
+                                   5. ...etc
+                              - 서버가 수행해야 할 동작 지정  
+                         2. request-target SP
+                              - 요청 대상
+                              - 포맷
+                                  - `absolute-path[?query] (절대경로[?쿼리]`
+                              - absoute-path는 "/"로 시작
+                         3. HTTP-version CRLF(엔터) 
+                              - HTTP version 
+                 2. status-line
+           - HTTP 메시드 (GET: 조회)
+           - 요청 대상 (/search?q=hello&hl=ko)
+           - HTTP Version
+       - **응답 메시지**
+         ```
+          HTTP/1.1 200 OK
+          Content-Type:text/html;charset=UTF-8
+          Content-Length:3423
 
-                    <html>
-                         <body>...</body>
-                    </html>
-               ```  
-               - start-line
-                   - 분류
-                       - request-line
-                           - 분류
-                               -  HTTP-version SP
-                                   - HTTP 버전
-                               -  status-code SP
-                                   - 요청 성공, 실패 표시
-                                   - 종류
-                                       - 200 : 성공
-                                       - 400 : 클라이언트 요청 오류
-                                       - 500 : 서버 내부 오류
-                               -  reason-phrase CRLF
-                                   - 이유 문구는 사람이 이해할 수 있는 짧은 상태 코드 설명 글 
-    - HTTP 헤더
-         - header-field = field-name":" OWS field-value OWS  (OWS:띄어쓰기 허용)
-         - field-name은 대소문자 구분 없음
-         - value는 대소문자 구분
-         - 예시
-               1. Host: www.google.com
-               2. Content-Type: text/html;charset=UTF-8
-               3. Content-Length: 3423 
-         - 용도
-               1. HTTP 전송에 필요한 모든 부가 정보 (메타 데이터)
-                   - 예시
-                      1. 메시지 바디의 (내용, 크기, 압축)
-                      2. 인증, 요청 클라이언트(브라우저) 장버
-                      3. (응답 시) 서버 애플리케이션 정보, 캐시 관리 정보
-                      4. ...etc
-               2. 표준 헤더가 너무 많음
-                    - 참고
-                         - https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
-               3. 필요 시 임의의 헤더 추가 가능
-                    - 예시
-                         - helloworld: hihi
-                    - 주의
-                         - 서버 - 클라이언트 간 사전 약속 필요
+             <html>
+                  <body>...</body>
+             </html>
+         ```  
+         - start-line
+             - 분류
+                 1.  HTTP-version SP
+                     - HTTP 버전
+                 2.  status-code SP
+                     - 요청 성공, 실패 표시
+                     - 종류
+                         1. 200 : 성공
+                         2. 400 : 클라이언트 요청 오류
+                         3. 500 : 서버 내부 오류
+                 3.  reason-phrase CRLF
+                     - 이유 문구는 사람이 이해할 수 있는 짧은 상태 코드 설명 글 
+   - **HTTP 헤더**
+       - header-field = field-name":" OWS field-value OWS  (OWS:띄어쓰기 허용)
+       - field-name은 대소문자 구분 없음
+       - value는 대소문자 구분
+       - 예시
+           1. Host: www.google.com
+           2. Content-Type: text/html;charset=UTF-8
+           3. Content-Length: 3423 
+       - 용도
+           1. HTTP 전송에 필요한 모든 부가 정보 (메타 데이터)
+               - 예시
+                  1. 메시지 바디의 (내용, 크기, 압축)
+                  2. 인증, 요청 클라이언트(브라우저) 장버
+                  3. (응답 시) 서버 애플리케이션 정보, 캐시 관리 정보
+                  4. ...etc
+           2. 표준 헤더가 너무 많음
+                - 참고
+                     - https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+           3. 필요 시 임의의 헤더 추가 가능
+                - 예시
+                     - helloworld: hihi
+                - 주의
+                     - 서버 - 클라이언트 간 사전 약속 필요
    
-    - HTTP 메시지 바디
-          - 실제 전송할 데이터
-          - 종류
-               1. HTML 문서
-               2. 이미지
-               3. 영상
-               4. JSON
-               5. byte로 표현 할 수 있는 모든 데이터 전송 가능
+   - **HTTP 메시지 바디**
+        - 실제 전송할 데이터
+        - 종류
+             1. HTML 문서
+             2. 이미지
+             3. 영상
+             4. JSON
+             5. byte로 표현 할 수 있는 모든 데이터 전송 가능
 
 
 ## HTTP TIP
