@@ -10,15 +10,15 @@
     3. Identifier
          - 다른 항목과 구분하는 데 필요한 정보
    - 분류
-    1. URL
-         - Uniform Resource Locator
-         - 리소스의 위치
-    2. URN
-         - Resource Name
-         - 리소스에 이름을 부여
-         - 이름은 불변
-         - 예시
-           -  urn:isbn:8960777331 (어떤 책의 isbn URN)
+      1. URL
+           - Uniform Resource Locator
+           - 리소스의 위치
+      2. URN
+           - Resource Name
+           - 리소스에 이름을 부여
+           - 이름은 불변
+           - 예시
+             -  urn:isbn:8960777331 (어떤 책의 isbn URN)
    - 예시
     ![1.png](./img/1.png)
      - URN
