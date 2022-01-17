@@ -91,6 +91,46 @@
      3. ftp
      4. ...etc
 
+## 웹 브라우저 요청 흐름
+ - 경로 예시:  https://www.google.com/search?q=hello&hl=ko
+ - 과정
+    1. DNS 조회
+        - www.google.com:443의 IP 주소 조회 (200.200.200.2로 가정) 
+    2. HTTP 요청 메시지 생성
+        - 포멧
+             ``` 
+               GET /search?q=hello&hl=ko HTTP/1.1 Host:www.google.com
+             ```
+    3. http 메시지 전송 (애플리케이션 To 네트워크 인터페이스)
+         - 과정
+             1. 웹 브라우저에서 HTTP 메시지 생성
+             2. SOCKET 라이브러리를 통해 OS에게 전달
+                   - A: TCP/IP 연결(IP, PORT)
+                       - 3 way handshake 과정
+                   - B: 데이터 전달
+             3. TCP/IP 패킷 생성
+                   - HTTP 요청 메시지 포함
+    4. Client To Server
+    5. 요청 패킷 도착(To 서버)
+    6. 서버에서 요청 수신
+    7. HTTP 응답 메시지 생성
+        - 포멧 (높은 추상화 레벨 예시)
+          ```
+            HTTP/1.1 200 OK
+            Content-Type:text/html;charset=UTF-8
+            Content-Length:3423
+
+            <html>
+              <body> ... </body>
+            </html>
+          ```
+            - 200 OK: 응답 메시지, 정상 
+            - Content-Type : content 형식
+            - Content-Length : content 길이
+    8. HTTP 응답 메시지를 Client에게 전달
+    9. Client에서 응답 수신
+    10. HTML 랜더링
+
 ## 참고 
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61357?tab=curriculum&volume=0.12&quality=auto
   
