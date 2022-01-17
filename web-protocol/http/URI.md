@@ -27,8 +27,8 @@
      - URL
        - 실제로 많이 쓰임
    - 참고
-    - https://www.ietf.org/rfc/rfc3986.txt
-      - 1.1.3 URI, URL, and URN
+      - https://www.ietf.org/rfc/rfc3986.txt
+        - 1.1.3 URI, URL, and URN
 
 ## URL 전체 문법
  1. 포맷
@@ -37,21 +37,21 @@
       - https://www.google.com:443/search?q=hello&hl=ko 
  2. 상세 정보
      1. scheme
-       - 주로 프로토콜에 사용
+          - 주로 프로토콜에 사용
      2. userInfo
-       - URL에 상요자정보를 포함해서 인증
+          - URL에 상요자정보를 포함해서 인증
      3. host 
           - 호스트명
           - 도메인명 또는 IP 주소를 직접 입력
      4. port 
-       - 접속 포트
+          - 접속 포트
      5. path
-       - 리소스가 있는 경로
-       - 계층적 구조
-           - 의문
-             - 장점?
-             - 단점?
-             - 필수?
+          - 리소스가 있는 경로
+          - 계층적 구조
+              - 의문
+                - 장점?
+                - 단점?
+                - 필수?
        - 예시
            - /home/file1.jpg
            - /members
