@@ -218,5 +218,131 @@
      - 대응
           1. 서버 scale out
           2. 첫 페이지는 로그인도 없는 정적 페이지(무상태, 순수 HTML), 사용자가 동시에 요청하지 못하게 관심을 끄는 작업 삽입 
+
+## HTTP 메시지
+  - 구조 (높은 단계의 추상화)
+     1. start-line : 시작 라인
+     2. header : 헤더
+     3. empty line : 공백라인 CRLF
+     4. message body
+  - HTTP 요청 메시지 (높은 단계의 추상화)
+     1. GET /search?q=hello&hl=ko HTTP/1.1
+     2. Host: www.google.com
+     3. empty line
+  - HTTP 응답 메시지 (높은 단계의 추상화)
+     1. HTTP/1.1 200 OK
+     2. ```
+          Content-Type:text/html;charset=UTF-8
+          Content-Length:3423
+        ```
+     3. empty line
+     4. ```
+          <html>
+               <body>...</body>
+          </html> 
+        ```
+   - HTTP 응답 메시지 공식 스펙
+        ```
+          HTTP-message = start-line
+                         * ( header-field CRLF)
+                         CRLF
+                         [ message-body ] 
+        ```
+          - 참고
+            -  https://tools.ietf.org/html/rfc7230#section-3
+   - 시작 라인
+         - 요청 메시지
+               ```
+                    GET /search?q=hello&hl=ko HTTP/1.1
+                    Host:www.google.com
+               ```
+               - start-line
+                   - 분류
+                     - request-line
+                         - 분류
+                             - method SP(공백)
+                                 - 종류
+                                       - GET : 리소스 조회
+                                       - POST : 요청 내역 처리
+                                       - PUT
+                                       - DELETE
+                                       - ...etc
+                                  - 서버가 수행해야 할 동작 지정  
+                             - request-target SP
+                                  - 요청 대상
+                                  - 포맷
+                                      - `absolute-path[?query] (절대경로[?쿼리]`
+                                  - absoute-path는 "/"로 시작
+                             - HTTP-version CRLF(엔터) 
+                                  - HTTP version 
+                     - status-line
+               - HTTP 메시드 (GET: 조회)
+               - 요청 대상 (/search?q=hello&hl=ko)
+               - HTTP Version
+         - 응답 메시지 
+               ```
+                    HTTP/1.1 200 OK
+                    Content-Type:text/html;charset=UTF-8
+                    Content-Length:3423
+
+                    <html>
+                         <body>...</body>
+                    </html>
+               ```  
+               - start-line
+                   - 분류
+                       - request-line
+                           - 분류
+                               -  HTTP-version SP
+                                   - HTTP 버전
+                               -  status-code SP
+                                   - 요청 성공, 실패 표시
+                                   - 종류
+                                       - 200 : 성공
+                                       - 400 : 클라이언트 요청 오류
+                                       - 500 : 서버 내부 오류
+                               -  reason-phrase CRLF
+                                   - 이유 문구는 사람이 이해할 수 있는 짧은 상태 코드 설명 글 
+    - HTTP 헤더
+         - header-field = field-name":" OWS field-value OWS  (OWS:띄어쓰기 허용)
+         - field-name은 대소문자 구분 없음
+         - value는 대소문자 구분
+         - 예시
+               1. Host: www.google.com
+               2. Content-Type: text/html;charset=UTF-8
+               3. Content-Length: 3423 
+         - 용도
+               1. HTTP 전송에 필요한 모든 부가 정보 (메타 데이터)
+                   - 예시
+                      1. 메시지 바디의 (내용, 크기, 압축)
+                      2. 인증, 요청 클라이언트(브라우저) 장버
+                      3. (응답 시) 서버 애플리케이션 정보, 캐시 관리 정보
+                      4. ...etc
+               2. 표준 헤더가 너무 많음
+                    - 참고
+                         - https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+               3. 필요 시 임의의 헤더 추가 가능
+                    - 예시
+                         - helloworld: hihi
+                    - 주의
+                         - 서버 - 클라이언트 간 사전 약속 필요
+   
+    - HTTP 메시지 바디
+          - 실제 전송할 데이터
+          - 종류
+               1. HTML 문서
+               2. 이미지
+               3. 영상
+               4. JSON
+               5. byte로 표현 할 수 있는 모든 데이터 전송 가능
+
+
+## HTTP TIP
+ 1. 단순함
+    - 스펙 읽어볼만함
+    - 메시지도 매우 단순
+ 2. 확장 가능
+ 3. 결론 : 크게 성공하는 표준 기술은 단순하지만 확장 가능한 기술 
+
 ## 참고
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61361?tab=curriculum&volume=0.12&quality=auto
