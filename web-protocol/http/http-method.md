@@ -111,8 +111,50 @@
     - 해당 리소스 URI에 대한 POST 요청을 수신한 *서버*는 요청 데이터를 어떻게 처리할 것인지에 대해서 리소스마다 별도 처리 필요
  6. 주석
     - https://tools.ietf.org/html/rfc7231#section-4.3.3
-  
 
+## PUT
+ - ```
+    PUT /members/100 HTTP/1.1
+    Content-Type: application/json
+
+    {
+        "username": "hello",
+        "age": 20
+    }
+   ```
+ - 리소스를 (덮어쓰기 형식의) 대체
+    1. 리소스가 있으면 대체 (덮어쓰기)
+        - ![7.png](./img/7.png)
+        - ![8.png](./img/8.png)
+        - ![11.png](./img/11.png)
+            - 100번 회원의 age만 변경하려는 경우 (잘못된 접근 방식)
+        - ![12.png](./img/12.png)
+            - username 필드가 삭제됨 (의도치 않은 결과)
+            - 결론
+                - PUT은 기존 리소스의 특정 값만 변경하는 게 아닌, 새 요청의 data 값으로 완벽하게 교체함
+    2. 리소스가 없으면 생성
+        - ![9.png](./img/9.png)
+        - ![10.png](./img/10.png)
+ - 클라이언트가 리소스를 식별한 상태에서 사용
+    1. 클라이언트가 리소스 위치를 URI에 명시
+    2. POST와 차이점
+
+
+## PATCH
+ - 리소스 부분 변경
+    - ![13.png](./img/13.png) 
+    - ![14.png](./img/14.png) 
+ - PATCH 비지원 서버인 경우는 POST로 대체
+
+## DELETE
+ - 리소스 제거
+ - (인터페이스 관점)
+    - ```
+        DELETE /members/100 HTTP/1.1
+        Host:localhost:8080
+      ```
+
+## 
 ## API URI 설계 - 완료
  1. **회원** 목록 조회
       - /members
