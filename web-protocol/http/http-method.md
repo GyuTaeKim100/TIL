@@ -190,15 +190,15 @@
             - PATCH, POST는 BODY의 데이터까지 체크가 필요해서 캐시 구현하기 까다롭다.) 
 ## API URI 설계 - 완료
  1. **회원** 목록 조회
-      - /members
+      - GET /members
  2. **회원** 조회
-      - /members/{id}
+      - GET /members/{id}
  3. **회원** 등록
-      - /members/{id}
+      - POST /members/{id}
  4. **회원** 수정
-      - /members/{id}
+      - PATCH /members/{id}
  5. **회원** 삭제
-      - /members/{id}
+      - DELETE /members/{id}
      - 참고
        - 계층 구조상 상위를 컬렉션으로 가정하고 복수단어 사용 권한
        - 예시
