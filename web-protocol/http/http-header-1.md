@@ -247,5 +247,14 @@
         1. Retry-After: Fri, 31 Dec 1999 23:59:59 GMT (날짜 표기)
         2. Retry-After: 120 (초단위 표기)
 
+## 인증 
+  1. Authorization : 클라이언트 인증 정보를 서버에 전달
+    - 예
+       - Authorization: Basic xxxxxxxx....xxxxx (인증 방식마다 포멧이 다름)
+  2. WWW-Authenticate : 리소스 접근시 필요한 인증 방법 정의
+    - 리소스 접근 시 필요한 인증 방법 정의 (서버가 클라이언트에게 전달)
+    - 401 Unauthorized 응답과 함께 사용
+    - 예: WWW-Authenticate: Newauth realm="apps",type=1,title="Login to \"apps\"",Basic realm="simple"
+
 ## 참고
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61375?tab=note&volume=0.10&quality=auto 인프런 - 모든 개발자를 위한 HTTP 기본 지식
