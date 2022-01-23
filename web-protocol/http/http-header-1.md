@@ -37,19 +37,19 @@
  - ![29.png](./img/29.png)
  - 헤더 분류
   1. General 헤더
-    - 메시지 전체(요청, 응답 구분 없이)에 적용되는 정보
-    - 예) Connection: close
+       - 메시지 전체(요청, 응답 구분 없이)에 적용되는 정보
+       - 예) Connection: close
   3. Request 헤더
-    - 요청 정보
-    - 예) User-Agent: Mozilla/5.0 (Macintosh; ..)
+       - 요청 정보
+       - 예) User-Agent: Mozilla/5.0 (Macintosh; ..)
   4. Response 헤더
-    - 응답 정보
-    - 예) Server: Apache
+       - 응답 정보
+       - 예) Server: Apache
   5. Entity 헤더
-    - 엔티티 바디 정보
-    - 예
-      - Content-Type: text/html
-      - Content-Length: 3423
+       - 엔티티 바디 정보
+       - 예
+         - Content-Type: text/html
+         - Content-Length: 3423
 
 ## HTTP BODY - message body - RFC2616(과거)
  - ![30.png](./img/30.png)
@@ -91,34 +91,34 @@
     2. 응답
  -  종류
     1. Content-Type
-      - ![33.png](./img/33.png)
-      - 표현 데이터의 형식
-        > 미디어 타입, 문자 인코딩 
-      - 종류
-        1. text/html; charset=utf-8
-        2. appliation/json
-        3. image/png 
+         - ![33.png](./img/33.png)
+         - 표현 데이터의 형식
+           > 미디어 타입, 문자 인코딩 
+         - 종류
+           1. text/html; charset=utf-8
+           2. appliation/json
+           3. image/png 
     2. Content-Encoding
-      - ![34.png](./img/34.png)
-      - 표현 데이터를 압축하기 위해 사용
-      - 데이터를 전달하는 곳에서 압축 후 인코딩 헤더 추가
-      - 데이터를 읽는 쪽에서 인코딩 헤더의 정보로 압축 해제
-      - 종류
-        1. gzip
-        2. deflate
-        3. identity : 압축 안함
+         - ![34.png](./img/34.png)
+         - 표현 데이터를 압축하기 위해 사용
+         - 데이터를 전달하는 곳에서 압축 후 인코딩 헤더 추가
+         - 데이터를 읽는 쪽에서 인코딩 헤더의 정보로 압축 해제
+         - 종류
+           1. gzip
+           2. deflate
+           3. identity : 압축 안함
     3. Content-Language
-      - ![35.png](./img/35.png)
-      - 표현 데이터의 자연 언어
-      - 큰 공식 사이트의 경우 다국어 지원 시 클라이언트에서 원하는 언어 요청 가능
-      - 예) 한국어, 영어 등
-    1. Content-Length
-       - ![36.png](./img/36.png)
-       - 바이트 단위
-       - 표현 데이터의 길이
-       - Transfer-Encoding(전송 코딩)을 사용하면 Content-Length를 사용하면 안됨
-         - Transfer-Encoding에 content-Length 관련 정보 포함함, 추후 자세히 설명
-       - *명확히는 표현 헤더가 아닌 페이로드 헤더이다*
+         - ![35.png](./img/35.png)
+         - 표현 데이터의 자연 언어
+         - 큰 공식 사이트의 경우 다국어 지원 시 클라이언트에서 원하는 언어 요청 가능
+         - 예) 한국어, 영어 등
+    4. Content-Length
+          - ![36.png](./img/36.png)
+          - 바이트 단위
+          - 표현 데이터의 길이
+          - Transfer-Encoding(전송 코딩)을 사용하면 Content-Length를 사용하면 안됨
+            - Transfer-Encoding에 content-Length 관련 정보 포함함, 추후 자세히 설명
+          - *명확히는 표현 헤더가 아닌 페이로드 헤더이다*
 
 ## 협상(콘텐츠 네고시에이션)
  - 클라이언트가 선호하는 표현 요청
@@ -153,13 +153,13 @@
       4. en:q=0.7
 
 ## 협상과 우선순위2 - Quality Values(q)
- - ![42.png](./img/42.png용
+ - ![42.png](./img/42.png)
  - 구체적인 것이 우선한다.
  - 예) `Accept:text/*, text/plain, text/plain;format=flowed,*/*`
     1. text/plain;format=flowed
     2. text/plain
     3. text/*
-    4. */*
+    4. `*/*`
 
 ## 협상과 우선순위3 - Quality Values(q)
  - 구체적인 것을 기준으로 미디어 타입을 맞춘다.
@@ -205,7 +205,7 @@
      - 요청
  - Server
    - 요청을 처리하는 오리진 서버의 소프트웨어 정보
-    > 오리진 서버: 요청 시 여러 프록시 서버(캐시 서버 포함)를 거치게 되는 데, 실제 요청을 위한 서버를 의미함
+        > 오리진 서버: 요청 시 여러 프록시 서버(캐시 서버 포함)를 거치게 되는 데, 실제 요청을 위한 서버를 의미함
    - 사용 범위
       - 응답 
    - 예
