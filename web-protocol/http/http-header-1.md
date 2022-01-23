@@ -166,5 +166,19 @@
  - 예) `Accept:text/*;q=0.3,text/html;q=0.7,text/html;level=1,text/html;level=2;q=0.4,*/*,q=0.5`
    - ![43.png](./img/43.png)
 
+## 전송 방식
+ 1. 단순 전송
+  - ![44.png](./img/44.png)
+ 2. 압축 전송
+  - ![45.png](./img/45.png) 
+ 3. 분할 전송
+  - [46.png](./img/46.png) 
+  - [47.png](./img/47.png)
+  - 용량이 큰 경우, 바로바로 보여주기를 원하는 경우
+  - 주의, content-length를 넣으면 안됨 
+ 4. 범위 전송
+  - [48.png](./img/48.png)
+  - 예시: 부족한 부분에 대해서 재요청 시
+
 ## 참고
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61375?tab=note&volume=0.10&quality=auto 인프런 - 모든 개발자를 위한 HTTP 기본 지식
