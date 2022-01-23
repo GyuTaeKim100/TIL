@@ -84,3 +84,41 @@
 ## 왜 Entity에서 표현으로 변경되었을까?
  - 리소스를 HTML 또는 json으로 표현으로 명확하게 구체화 
 
+## 표현 헤더
+ -  ![32.png](./img/32.png)
+ -  사용 범위
+    1. 전송
+    2. 응답
+ -  종류
+    1. Content-Type
+      - ![33.png](./img/33.png)
+      - 표현 데이터의 형식
+        > 미디어 타입, 문자 인코딩 
+      - 종류
+        1. text/html; charset=utf-8
+        2. appliation/json
+        3. image/png 
+    2. Content-Encoding
+      - ![34.png](./img/34.png)
+      - 표현 데이터를 압축하기 위해 사용
+      - 데이터를 전달하는 곳에서 압축 후 인코딩 헤더 추가
+      - 데이터를 읽는 쪽에서 인코딩 헤더의 정보로 압축 해제
+      - 종류
+        1. gzip
+        2. deflate
+        3. identity : 압축 안함
+    3. Content-Language
+      - ![35.png](./img/35.png)
+      - 표현 데이터의 자연 언어
+      - 큰 공식 사이트의 경우 다국어 지원 시 클라이언트에서 원하는 언어 요청 가능
+      - 예) 한국어, 영어 등
+    1. Content-Length
+       - ![36.png](./img/36.png)
+       - 바이트 단위
+       - 표현 데이터의 길이
+       - Transfer-Encoding(전송 코딩)을 사용하면 Content-Length를 사용하면 안됨
+         - Transfer-Encoding에 content-Length 관련 정보 포함함, 추후 자세히 설명
+       - *명확히는 표현 헤더가 아닌 페이로드 헤더이다*
+
+## 참고
+ - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61375?tab=note&volume=0.10&quality=auto 인프런 - 모든 개발자를 위한 HTTP 기본 지식
