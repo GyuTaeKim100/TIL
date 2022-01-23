@@ -120,5 +120,51 @@
          - Transfer-Encoding에 content-Length 관련 정보 포함함, 추후 자세히 설명
        - *명확히는 표현 헤더가 아닌 페이로드 헤더이다*
 
+## 협상(콘텐츠 네고시에이션)
+ - 클라이언트가 선호하는 표현 요청
+ - 서버는 클라이언트가 원하는 우선순위에 최대한 맞춰서 표현 제공
+ - 사용 범위
+   - 요청 시
+ - 종류
+    1. Accept
+        - 클라이언트가 선호하는(가능하다면) 미디어 타입 전달
+    2. Aceept-Charset
+        - 클라이언트가 선호하는(가능하다면) 문자 인코딩
+    3. Accept-Encoding
+        - 클라이언트가 선호하는(가능하다면) 압축 인코딩
+    4. Accept-Language
+        - 클라이언트가 선호하는(가능하다면) 자연 언어
+        - ![37.png](./img/37.png)
+        - ![38.png](./img/38.png)
+        - ![39.png](./img/39.png)
+        - ![41.png](./img/41.png)
+          - *협상과 우선순위1 - Quality Values(q) 섹션 참고*
+
+## 협상과 우선순위1 - Quality Values(q)
+  - ![40.png](./img/40.png)
+  - Quality Values(q) 값 사용
+  - 0~1, 클수록 높은 우선순위
+  - 생략 시 1
+  - Accept-Language: ko-KR;ko;q=0.9,en-US;q=0.8;en;q=0.7
+    - 해석
+      1. ko-KR;q=1 (q생략)
+      2. ko;q=0.9
+      3. en-US;q=0.8
+      4. en:q=0.7
+
+## 협상과 우선순위2 - Quality Values(q)
+ - ![42.png](./img/42.png)
+ - 구체적인 것이 우선한다.
+ - 예) `Accept:text/*, text/plain, text/plain;format=flowed,*/*`
+    1. text/plain;format=flowed
+    2. text/plain
+    3. text/*
+    4. */*
+
+## 협상과 우선순위3 - Quality Values(q)
+ - 구체적인 것을 기준으로 미디어 타입을 맞춘다.
+ - 예) `Accept:text/*;q=0.3,text/html;q=0.7,text/html;level=1,text/html;level=2;q=0.4,*/*,q=0.5`
+   - ![43.png](./img/43.png)
+
 ## 참고
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61375?tab=note&volume=0.10&quality=auto 인프런 - 모든 개발자를 위한 HTTP 기본 지식
