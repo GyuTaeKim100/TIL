@@ -153,7 +153,7 @@
       4. en:q=0.7
 
 ## 협상과 우선순위2 - Quality Values(q)
- - ![42.png](./img/42.png)
+ - ![42.png](./img/42.png용
  - 구체적인 것이 우선한다.
  - 예) `Accept:text/*, text/plain, text/plain;format=flowed,*/*`
     1. text/plain;format=flowed
@@ -179,6 +179,44 @@
  4. 범위 전송
   - [48.png](./img/48.png)
   - 예시: 부족한 부분에 대해서 재요청 시
+
+## 일반 정보
+ - From
+   - 유저 에이전트의 이메일 정보
+   - 사용 범위
+     - 요청
+   - 예) 검색 엔진 같은곳에서 크롤링 시 유저 에이전트의 이메일 정보에 사용
+ - Referer
+   - 이전 웹 페이지 주소
+   - 현재 요청된 페이지의 이전 웹 페이지 주소
+   - A -> B로 이동하는 경우 B를 요청할 때 Referer: A를 포함해서 요청
+   - Referer를 사용해서 유입 경로 분석 가능
+   - 사용 범위
+     - 요청
+   - 참고
+     - referer는 단어 referrer의 오타   
+ - User-Agent
+   - 유저 에이전트 애플리케이션 정보
+   - [49.png](./img/49.png)
+   - 클라이언트의 애플리케이션 정보(웹 브라우저 정보, 등등)
+   - 통계 정보
+   - 어떤 종류의 브라우저에서 장애가 발생하는지 파악 가능
+   - 사용 범위
+     - 요청
+ - Server
+   - 요청을 처리하는 오리진 서버의 소프트웨어 정보
+    > 오리진 서버: 요청 시 여러 프록시 서버(캐시 서버 포함)를 거치게 되는 데, 실제 요청을 위한 서버를 의미함
+   - 사용 범위
+      - 응답 
+   - 예
+      1. Server: Apache/2.2.22 (Debian)
+      2. server: nginx
+
+ - Date
+   - 메시지가 생성된 날짜
+   - 사용 범위
+       - 응답
+   - 예) Date: Tue, 15 Nov 1994 08:12:31 GMT
 
 ## 참고
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61375?tab=note&volume=0.10&quality=auto 인프런 - 모든 개발자를 위한 HTTP 기본 지식
