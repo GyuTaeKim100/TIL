@@ -72,5 +72,32 @@
      - example.org 에서만 쿠키 접근
      - dev.example.org는 쿠키 미접근
 
+## 쿠키 - 경로 (path)
+ - 이 경로를 포함한 하위 경로 페이지만 쿠키 접근
+ - 일반적으로 path=/ 루트로 지정 (모두 접근하고 싶은 니즈 존재)
+ - 예) path=/home
+   - /home -> 접근 가능
+   - /home/level1 -> 접근 가능
+   - /home/level1/level2 -> 접근 가능
+   - /hello -> 불가능
+
+## HTTP - 보안 (Secure, HttpOnly, SameSite)
+ - Secure
+   1. 기본적으로 http, https를 구분하지 않고 쿠키 전송
+   2. Secure 적용시 https인 경우에만 쿠키 전송
+ - HttpOnly
+   1. XSS 공격 방지
+     - 의문 
+        - XSS 공격?
+          - 자바스크립트에서 쿠키 접근 불가능하게 함. 전송시만 사용하게 함
+        - XSS 쿠키는 무슨 원리로 자바스크립트에서 접근 불가능하게 할까? 브라우저에서 보안을 통해서 브라우저 외부에서 쿠키값 변경을 못하게 할까?
+   2. 자바스크립트에서 접근 불가 (document.cookie)
+   3. HTTP 전송에만 사용
+ - SameSite
+   1. XSRF 공격 방지
+       - 의문
+         -  XSRF 공격이란?
+   2. 요청 도메인과 쿠키에 설정된 도메인이 같은 경우만 쿠키 전송
+
 ## 참고
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61382?tab=note&volume=0.10 인프런 - 모든 개발자를 위한 HTTP 웹 기본 지식
