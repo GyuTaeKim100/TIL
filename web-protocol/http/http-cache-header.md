@@ -117,7 +117,46 @@
   1. 서버는 베타 오픈 기간인 3일 동안 파일이 변경되어도 ETag를 동일하게 유지 (억지 예시)
   2. 애플리케이션 배포 주기에 맞추어 ETag 모두 갱신 (충분히 가능한 예시)
          
- 
+## 캐시 제어 헤더
+ - Cache-Control : 캐시 제어
+ - Pragma: 캐시 제어(하위 호환)
+ - Expires: 캐시 유효 기간(하위 호환)
+
+## Cache-Control
+ - 캐시 지시어(directives)
+ - Pragma 및 Expires 상위 호환(굳이 Pragma, Expires 사용할 필요가 없음)
+ - Cache-Control: max-age
+     - 캐시 유효 시간, 초 단위
+ - Cache-Control: no-cache
+     - 데이터는 캐시해도 되지만, 항상 원(Origin, cache 또는 프록시 등 경유 서버가 아닌) 서버에 검증하고 사용
+          - If-Modified-Since, If-Not-Match을 통한 조건부 요청을 클라이언트가 서버에게 검증 요청 해야만 한다.
+ - Cache-Control: no-store
+   - 데이터에 민감한 정보가 있으므로 저장하면 안됨 (하드 디스크에서 저장 하지 않고, 메모리에서만 사용하고 최대한 빨리 삭제)
+
+## Pragma
+ - 캐시 제어(하위 호환)
+ - Pragma: no-cache
+ - HTTP 1.0 하위 호환
+
+## Expires
+ - 캐시 만료일 지정(하위 호환)
+ - expires: Mon, Jan 1990 00:00:00 GMT
+ - 캐시 만료일을 정확한 날짜로 지정
+ - HTTP 1.0 부터 사용
+ - 지금은 더 유연한 Cache-Control: max 권장
+ - Cache-Control: max와 함께 사용 시, Expires는 무시됨
+ - 의문
+   - 직접 expires로 만료일 명시하는 게 좋지 않은가? 왜 굳이 cache-control을 초단위로 할까?
+     - 답: cache-control이 더 쉬운 사용성
+
+## 검증 헤더 (Validator)
+ - 종류
+  1. ETag
+  2. Last-Modified
+
+ - 조건부 요청 헤더
+  1. If-Match, If-None-Match: Etag 값 사용
+  2. If-Modified, If-Unmodified-Since : Last-Modified 값 사용
 
 ## 참고
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61383?tab=curriculum&volume=0.07
