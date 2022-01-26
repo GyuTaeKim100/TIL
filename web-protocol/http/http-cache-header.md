@@ -132,6 +132,20 @@
           - If-Modified-Since, If-Not-Match을 통한 조건부 요청을 클라이언트가 서버에게 검증 요청 해야만 한다.
  - Cache-Control: no-store
    - 데이터에 민감한 정보가 있으므로 저장하면 안됨 (하드 디스크에서 저장 하지 않고, 메모리에서만 사용하고 최대한 빨리 삭제)
+ - Cache-Control: public
+   - 응답이 public 캐시에 저장되어도 됨
+   - 의문
+     - public에 데이터 캐시 처리하는 과정은? 서버에서 프록시 서버로 캐시 대상 데이터를 밀어 넣은 후 redirect 응답을 통해 프록시 서버의 캐시 데이터를 재 다운로드 처리를 할까? 근데 데이터를 밀어넣는 시간이 오래 걸리면 클라이언트 요청에 대한 응답이 느려질 수도 있다.
+ - Cache-Control: private
+   - 응답이 해당 사용자만을 위함. private 캐시에 저장해야 함(기본 값)
+ - Cache-Control: s-maxage
+   - 프록시 캐시에만 적용되는 max-age
+   - 의문
+     - 프록시 캐시 서버의 cache된 데이터가 여러 유저에 대한 값인경우 한 클라이언트의 max-age에 대해서 어떻게 처리할까? (프록시 서버에 대한 개념이 아직 제대로 안 잡힌듯) 
+ - Age: 60 (HTTP 헤더)
+   - 오리진 서버에서 응답 후 프록시 캐시 내에 머문 시간(초) 
+
+## 
 
 ## Pragma
  - 캐시 제어(하위 호환)
@@ -151,12 +165,25 @@
 
 ## 검증 헤더 (Validator)
  - 종류
-  1. ETag
-  2. Last-Modified
+    1. ETag
+    2. Last-Modified
 
  - 조건부 요청 헤더
-  1. If-Match, If-None-Match: Etag 값 사용
-  2. If-Modified, If-Unmodified-Since : Last-Modified 값 사용
+    1. If-Match, If-None-Match: Etag 값 사용
+    2. If-Modified, If-Unmodified-Since : Last-Modified 값 사용
 
+## 프록시 캐시 
+ - ![84.png](./img/84.png)
+ - 주석
+     - 빛도 1초에 지구를 7바퀴 정도 왕복함
+ - ![85.png](./img/85.png)
+   - 참고
+     - cloud front
+     - CDN 서비스
+ - ![86.png](./img/86.png)
+   - 최초의 유저는 cache가 없어서 느릴 수 있다.
+   - 또는 원 서버에서 프록시 캐시에 데이터를 cache 처리하는 경우도 있다.
+ - 의문
+   - 어떻게 원 서버 주소를 통해 데이터 요청 시 프록시 서버를 먼저 거치는 과정을 만들 수 있을까? 
 ## 참고
  - https://www.inflearn.com/course/http-%EC%9B%B9-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC/lecture/61383?tab=curriculum&volume=0.07
