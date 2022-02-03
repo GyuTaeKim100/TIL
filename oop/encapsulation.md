@@ -365,7 +365,7 @@
  - 만약 체인에 속한 객체 중 한 객체의 여러 클라이언트가 나머지 객체들에 왕래한다면 여러 클라이언트가 왕래하는 한 객체 부분을 별도 메서드로 추출하면 된다
 
 ## 객체지향 생활 체조
- - 규칙 4. 한 줄에 한 점만 상요
+ - 규칙 4. 한 줄에 한 점만 사용 할 것!
  - 종종 하나의 동작에 대해 어떤 오브젝트가 맡고 있는지 구분하기 어려울 때가 있다.
  - 여러 개의 점이 들어 있는 코드 몇 줄을 들여다보기 시작하면, 책임 소재의 오률 많이 발견하기 시작한다.
  - 어떠한 코드 한줄이라도 점이 하나 이상 있으면 그른 곳(?)에서 동작이 일어난다는 의미이다.
@@ -380,7 +380,115 @@
  2. else 예약어(keyword)를 쓰지 않는다
  3. 모든 원시값과 문자열을 포장(wrap)한다.
     - 의문
-      - 무슨 포장?
+      - 원시값 포장?
+        - 답
+          - 출처는 객체지향 생활 체조
+          - Primitive Obsession Anti Pattern (도메인의 객체를 나타내기 위해 primitive 타입을 쓰는 나쁜 습관)을 피하기 위해서 필요
+          - 원시점 포장은 원시 유형의 값(변수)를 이용해 의미를 나타내지 않고, 의미 있는 객체로 포장함.
+          - 예시
+          - ```
+             // Foo는 bettingMoney에 대한 의문이 존재한다. 의문은 int인가? 음수인가 양수인가 등 
+             public class Foo {
+                 private int bettingMoney;
+                 public void addMoney (final int money) {
+                     this.bettingMoney += money;
+                 }
+             } 
+
+             // Foo 개선
+             public class Foo {
+                 private BettingMoney bettingMoney;
+
+                 public void addMoney(final int money) {
+                     this.bettingMoney = bettingMoney.addMoney(money)
+                 }
+             }
+
+             // 유효성 검사, 동등성 검사, 불변을 BettingMoney 객체 내부에서 관리할 수 있다.
+             public class BettingMoney {
+                 private final int bettingMoney;
+
+                 public BettingMoney (final int bettingMoney) {
+                     validatePositiveBettingMoney(bettingMoney);
+                     this.bettingMoney = bettingMoney
+                 }
+
+                 public BettingMoney addMoney(final int money) {
+                     return new BettingMoney(bettingMoney + money)
+                 }
+
+                 private void validatePositiveBettingMoney(int bettingMoney) {
+                     if(bettingMoney <= 0) {
+                         throw new IllegalArgumentException(String.format(NOT_POSITIVE_MONEY_EXCEPTION_MESSAGE))
+                     }
+                 }
+
+             }
+            ```
+             - 효과
+               - 원시값으로 도메인의 의미를 나타내는 경우 도메인을 사용하는 곳에서 믿고 사용이 불가능 (유효성, 동등성, 불변을 사용하는 곳에서 관리해야 하기 때문에)
+               - 결국 원시값 포장을 통해 사용하려는 도메인의 의미를 더 정확하게 드러낼 수 있다.
+         - 원시값 포장이랑 VO는 같은 것일까?
+             - 아니다. 위 예제는 원시값 포장하여 VO를 만든 것은 맞다.
+             - 원시값 포장과 동시에 VO로 만들 수 있으나, 원시값 포장이 VO다라고 할 수는 없다.
+             - 예시로 원시값 포장을 하고 불변이 아니길 원하는 경우도 존재할 수 있다.
+         - VO (값 객체)
+             - Immutablility(불변성) - 수정자에게 setter가 없음
+             - value equality (값 동등성) - 내부 값 동등성 검사
+             - self validation (자가 유효성 검사) - 생성자에서 validation
+             - 예시
+             - ```
+                // 원시값을 포장해서 VO 성립하는 경우
+                public class BettingMoney { 
+                     private final int bettingMoney;
+                     
+                    public BettingMoney(final int bettingMoney) {   
+                        validatePositiveBettingMoney(bettingMoney); 
+                        this.bettingMoney = bettingMoney;
+                    } 
+                }
+
+                // 원시값을 포장했으나 VO는 아닌 경우
+                public class BettingMoney {
+                    private int bettingMoney;
+
+                    public BettingMoney (final int bettingMoney) {
+                        validatiePositiveBettingMoney(bettingMoney);
+                        this.bettingMoney = bettingMoney
+                    }
+
+                    public void setMoney(int money) {
+                        this.bettingMoney = money
+                    }
+                }
+
+                // BigDecimal을 포장해서 VO 성립하는 경우
+                public class bettingMoney {
+                    private final BigDecimal bettingMoney;
+
+                    public BettingMoney(final BigDecimal bettingMoney) {
+                        validatePositiveBettingMoney(bettingMoney);
+                        this.bettingMoney = bettingMoney;
+                    }
+                }
+
+                // BigDecimal을 포장헀지만 VO는 아닌 경우
+                public class BettingMoney {
+                    private BigDecimal bettingMoney;
+
+                    public BettingMoney (final BigDecimal bettingMoney) {
+                        validatePositiveBettingMoney(bettingMoney);
+                        this.bettingMoney = bettingMoney;
+                    }
+
+                    public void setMoney(BigDecimal money) {
+                        this.bettingMoney = money;
+                    }
+                }
+
+               ``` 
+             - 결론 : 원시값 포장은 말 그대로 primitive type을 포장함을 의미.
+             - BigDecimal은 BigDecimal 포장이다. 원시값 포장이 아니다.
  4. 한 줄에 점을 하나만 찍는다.
  5. 줄여쓰지 않는다(축약 금지)
  6. 모든 엔티티(Entity)를 작게 유지한다.
