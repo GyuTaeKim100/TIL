@@ -327,6 +327,103 @@
         }
       ```
 
+## 캡슐화 연습 3
+ - 개선 전 예제 
+    - ```
+        Timer t = new Timer();
+        t.startTime = System.currentTimeMillis();
+
+        ...
+
+        t.stopTime = System.currentTimeMillis();
+
+        long elaspedTime = t.stopTime - t.startTime;
+
+        public class Timer {
+            public long startTime;
+            public long stopTime;
+        }
+      ```
+  - 개선 후 예제
+    - ```
+        Timer t = new Timer();
+        t.start();
+
+        ...
+
+        t.end();
+
+        long time = t.elapsedTime(MILLISECOND);
+
+        public class Timer { 
+            private long startTime;
+            private long stopTime;
+
+            public void start() {
+                this.startTime = System.currentTimeMillis();
+            }
+
+            public void stop() {
+                this.stopTime = System.currentTimeMillis();
+            }
+
+            public long elapsedTime(TimeUnit unit) {
+                switch(unit) {
+                    case MILLISECOND:
+                        return stopTime - startTime;
+                    ...
+                }
+            }
+        }
+      ```
+
+## 캡슐화 연습 4
+ - 개선 전 예제
+    - ```
+        public void verifyEmail(String token) {
+            Member mem = findByToken(token);
+            if(mem == null) throw new BadTokenException();
+
+            if(mem.getVerificationEmailStatus() ==2) {
+                throw new AlreadyVerifiedException();
+            } else {
+                mem.setVerificationEmailStatus(2);
+            }
+
+            // ... 수정사항 DB 반영
+        }
+      ```
+ - 개선 후 예제
+    - ```
+        public void verifyEmail(String token) {
+            Member mem = findByToken(token);
+            if(mem == null) {
+                throw new BadTokenException();
+            }
+
+            mem.verifyEmail();
+
+            // ... 수정사항 DB 반영
+        }
+
+        public class Member {
+            private int verificationEmailStatus;
+
+            public void verifyEmail() {
+                if (isEmailVerified()) {
+                    throw new AlreadyVerifiedException();
+                } else {
+                    this.verificationEmailStatus = 2;
+                }
+            }
+
+            public boolean isEmailVerified() {
+                return verificationEmailStatus == 2;
+            }
+        }
+      ```
+
+
 ## From : 오브젝트
  - 객체들의 협력 경로를 제한하면 결합도를 효과적으로 낮출 수 있다.
 
