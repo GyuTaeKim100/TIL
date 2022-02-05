@@ -237,7 +237,7 @@
                 return AuthResult.SUCCESS;
             }
 
-            return AuthResult.NO_MATCH;
+            return AuthResult.NO_MATCH제
         }
       ```
         - Tell, Don't ask 적용 필요
@@ -259,11 +259,73 @@
                 return AuthResult.NO_EMAIL_VERIFIED;
             }
 
-            if
+            if(passwordEncoder.isPasswordValid(mem.getPassword(), pw, mem.getId())) {
+                return AuthResult.SUCCESS;
+            }
+
+            return AuthResult.NO_MATCH제
         }
       ```
 
+## 캡슐화 연습 2
+ - 개선 전 예제
+    - ```
+        public class Rental {
+            private Movie movie;
+            private int daysRented;
 
+            public int getFrequentRenterPoints () {
+                if(movie.getPriceCode() === Movie.NEW_RELEASE && daysRented > 1) {
+                    return 2;
+                } else {
+                    return 1;
+                }
+            }
+
+            ...
+        }
+
+        public class Movie {
+            public static int REGULAR = 0;
+            public static int NEW_RELEASE = 1;
+            private int priceCode;
+
+            public int getPriceCode() {
+                return priceCode;
+            }
+
+            ...
+        }
+      ```
+ - 개선 후 예제
+    - ```
+        public class Rental {
+            private Movie movie;
+            private int daysRented;
+
+            public int getFrequentRenterPoints () {
+                return movie.getFrequendRenterPoints(daysRented);
+            }
+
+            ...
+        }
+
+        public class Movie {
+            public static int REGULAR = 0;
+            public static int NEW_RELEASE = 1;
+            private int priceCode;
+
+            public int getFrequentRenterPoints(int daysRented) {
+                if(priceCode == NEW_RELEASE && daysRented > 1) {
+                    return 2;
+                } else {
+                    return 1;
+                }
+            }
+
+            ...
+        }
+      ```
 
 ## From : 오브젝트
  - 객체들의 협력 경로를 제한하면 결합도를 효과적으로 낮출 수 있다.
