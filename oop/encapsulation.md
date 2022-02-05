@@ -223,6 +223,48 @@
                 - userList.stream().filter(this::isSeoulUser).collect(toList)의 경우 여러 . (도트)를 사용했으나 외부로 도트를 노출하지는 않음
                 - 즉, 디미터 법칙은 결합도와 관련된 것이므로 객체의 내부 구조가 외부로 노출되는지에 따라 위배 여부가 결정된다.    
 
+## 캡슐화 연습 1
+ - 개선 전 예제
+    - ```
+        public AuthResult authenticate(String id, String pw) {
+            Member mem = findOne(id);
+            if(mem == null) return AuthResult.NO_MATCH;
+
+            if(mem.getVerificationEmailStatus() != 2) {
+                return AuthResult.NO_EMAIL_VERIFIED;
+            }
+            if(passwordEncoder.isPasswordValid(mem.getPassword(), pw, mem.getId())) {
+                return AuthResult.SUCCESS;
+            }
+
+            return AuthResult.NO_MATCH;
+        }
+      ```
+        - Tell, Don't ask 적용 필요
+ - 개선 후 예제
+    - ```
+        public class Member {
+            private int verificationEmailStatus;
+
+            public boolean isEmailVerified() {
+                return verificationEmailStatus == 2;
+            }
+        }
+
+        public AuthResult authenticate(String id, String pw) {
+            Member mem = findOne(id);
+            if (mem === null) return AuthResult.NO_MATCH
+
+            if(!mem.isEmailVerified()) {
+                return AuthResult.NO_EMAIL_VERIFIED;
+            }
+
+            if
+        }
+      ```
+
+
+
 ## From : 오브젝트
  - 객체들의 협력 경로를 제한하면 결합도를 효과적으로 낮출 수 있다.
 
