@@ -697,9 +697,47 @@
  8. 제일 클래스(First-class) 콜렉션을 쓴다.
  9. getter/setter/property를 쓰지 않는다.  
 
-## 후기
- - 참고 내용을 주로 타이핑을 통해 정리함
- - 잘 이해가 안되고 난해하고 모호한 부분이 많음.. 언젠가 이해되겠지?
+## 질문
+ - 1. ```
+       주소 : https://www.inflearn.com/questions/435092
+
+       질문 : 캡슐화 연습4 질문 있습니다.
+       {
+            개선 후 예제에서 mem.verifyEmail() 시도 후 수정사항을 DB에 반영하고 있습니다. 
+
+            궁금한 점은 DB 반영 완료 후 verifyEmail() 내부의 this.verificationEmailStatus = 2를 하는 게 맞지 않는가 궁금합니다.
+
+            이유는 DB 반영 전에 this.verificationEmailStatus = 2를 진행 후 DB 반영을 한다면, 만약 DB 반영 실패 시 다시 verificationEmailStatus를 2가 아닌 값으로 바꿔주는 작업이 필요로 해 보입니다.
+
+            만약 DB 반영 실패를 검출하지 못한 경우 this.verificationEmailStatus를 이전 값으로 바꿔주지 못하고 DB 혹은 서버가 죽은 경우, 다음 verifyEmail을 시도 시  this.verificationEmailStatus는 2가 된 상태인데 DB에는 반영이 되지 않은 상태가 존재할 수 있다고 생각이 듭니다.
+
+            혹시 이 경우 좋은 해답이 존재하는 지 궁금합니다.
+
+            이상입니다.
+            감사합니다.
+        }
+
+        답변 (by 최범균)
+        {
+            코드를 다시 보죠.
+
+            public void verifyEmail(String token) {
+            Member mem = findByToken(token);
+            if (mem == null) 
+                throw new BadTokenException();
+
+            mem.verifyEmail();
+
+            // … 수정사항 DB 반영
+            }
+
+            이 코드에서 DB 연동에 문제가 있으면 verifyEmail(String token) 메서드는 트랜잭션을 롤백할 겁니다. 재시도를 하는 단위도 mem.verifyEmail()이 아니고, verifyEmail(String token) 메서드가 되구요.
+
+            설사 DB 연동 실패를 제대로 처리하지 못하더라도 verifyEmail(String token) 메서드를 다음에 다시 실행하면 findByToken()은 DB에 저장된 데이터를 기준으로 Member를 조회하게 됩니다. 즉 verificationEmailStatus는 이메일 인증 전 상태를 의미하는 값을 갖고 있죠.
+
+            그래서 수정사항을 DB에 반영할 때 실패했을 때 다시 Member 객체의 verificationEmailStatus 필드 값을 되돌리는 작업은 필요하지 않습니다.
+        }
+    ```
 ## 참고
  - https://dl.acm.org/doi/10.1145/62084.62113 디미터의 법칙
  - https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13429?tab=community&volume=0.15&q=380856
