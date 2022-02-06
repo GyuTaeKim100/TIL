@@ -221,6 +221,98 @@
   - ![11.png](./img/11.png)
       - 공통점이 무엇인가?
       - 공통점은 Notifier 또는 Messenger
- 
+
+## 질문
+ - ```
+    다른 사람 질문
+    주소: https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13432?tab=community&volume=0.20
+    제목: 콘크리트 클래스를 직접 사용하는 경우 & NotifierFactory 관련 질문드립니다
+
+    내용 = {
+        안녕하세요 강의 듣던중 궁금한게 생겨서 질문드립니다.
+
+        Q1. 9분 9초 경 요구사항이 변경되면서
+            if(pushable){
+            kakao.send();
+            }else{
+            sms.send();
+            }
+
+            mail.send()
+        이렇게 pushable 하면 카카오알림, 불가능하면 문자알림 을 한 후에
+        무조건 메일을 통해 push를 한번 더 하고있는데요..
+
+        이를 추상화해서 notify 라는 인터페이스를 만들고, 3개(카카오,문자,메일)의 콘크리트 클래스를 구현하면
+
+        Notify notify = getNotify(...) // 여기서 카카오 or 문자 or 이메일 결정
+        notify.send()
+        이렇게 구현이 될거라고 생각이 들었습니다.
+
+        근데 만약 notify가 카카오알림이였다면.. 이메일을 통한 send는 못하게 되지 않나요? 아니면 다른 구현 방법이 있을까요
+
+        
+        Q2. 강의 11분 50초 쯤 추상화를 한번 더 진행해주셨는데요..
+
+        이전 질문글을 읽어봐도 NotifierFactory 의 역할이 사실 잘 와닿지가 않습니다
+
+        그냥 DefaultNotifierFactory 만 구현하면 될 것 같다는 생각이 사라지지가 않는 것 같은데 혹시 더 설명해주실 수 있으신가요?
+
+        감사합니다.
+    }
+
+    답변 (최범균) = {
+        1번 답변.
+
+        여러 푸시 메시지를 발송할 수 있는 CompositeNotify를 만들어서 해결해 볼 수 있을 것 같습니다.
+
+        public class CompositeNotify implements Notify {
+            private List<Notify> notifiers;
+
+            // 생성자
+            ...
+
+            public void send() {
+                notifiers.forEach(n -> n.notify());
+            }
+        }
+        getNotify() 메서드는 파라미터로 받은 값에 따라 여러 Notify를 가진 CompositeNotify를 생성하구요.
+
+        private Notify getNotify(...) {
+            List<Notify> list = new ArrayList<>();
+            if (조건) {
+                list.add(kakaoNotify);
+            } else {
+                list.add(smsNotify);
+            }
+            list.add(emailNotify);
+            return new CompositeNotify(list);
+        }
+        
+
+        2번 답변.
+
+        가입 코드가 아래와 같다고 할 때,
+
+        public class PlaceOrderService {
+
+            public void order(OrderRequest orderReq) {
+                ... 주문 처리
+                Notify notify = getNotify(...);
+                notify.send();
+            }
+
+            private Notify getNotify(...) {
+                ... 실제 구현을 사용하는 Notify를 리턴
+            }
+        }
+
+        우선 발송 방식은 주문 프로세스 자체와 상관이 없는데 발송 방식이 바뀌면 주문 서비스의 코드가 바뀌게 되는데 이는 책임이 섞여 있음을 의미합니다.
+
+        Notify를 제공하는 역할을 별도 팩토리로 분리하면 주문 프로세스 처리와 발송 방식 선택 로직이 명확하게 구분되어 책임이 잘 나눠지게 됩니다.
+
+        또한 주문 서비스에 대한 단위 테스트도 수월해지는 이점이 있습니다.
+    }
+   ```
+
  ## 참고 
   - https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13432?tab=note&volume=0.20
