@@ -1,8 +1,8 @@
 # 기능과 책임을 분리
 
 ## 기능 분해
- - 기능은 하위 기능으로 분해
  - ![24.png](./img/24.png)
+ - 기능은 하위 기능으로 분해
  - 기능은 여러 하위 기능의 모임에 의해 구현됨
 
 ## 기능을 누가 제공할 것인가?
@@ -10,7 +10,7 @@
      - 분리한 각 기능을 알맞게 분배
      - ![25.png](./img/25.png)
          - 주석
-             - chagePasswordService => changePasswordService
+             - 오타 정정, chagePasswordService => changePasswordService
      - 의문
          1. member와 memberRepository의 차이는?
              - 답변
@@ -32,7 +32,7 @@
 
                 try {
                     mem.changePassword(oldPw, newPw);
-                    return Result.Success
+                    return Result.Success;
                 } catch (BadPasswordException ex) {
                     return Result.BAD_PASSWORD;
                 }
@@ -64,7 +64,7 @@
      - AOP
          - Aspect(공통 기능)
      - GoF
-         - 팩토리, 빌더, 전략, 템플릿 메서드, 프록시/데코레이터 등
+         - 팩토리, 빌더, 전략, 템플릿 메서드, 프록시, 데코레이터 등
 
 ## 계산 분리
  - 개선 전 예제
@@ -77,51 +77,52 @@
             // 아래 코드 주의!
             double pointRate = 0.01;
             if (mem.getMembership() == GOLD) {
-                pointRate =0.03;
+                pointRate = 0.03;
             } else if (mem.getMembership() == SILVER) {
                 pointRate = 0.02;
             }
 
             if (isDoublePointTarget(prod)) {
-                pointRate *=2;
+                pointRate *= 2;
             }
 
             int point = (int) (payAmount * pointRate);
 
             ...
-        ```  
-    - 개선 후 예제
-        - ```
-            Member mem = memberRepository,findOne(id);
-            Product prod = productRepository.findOne(prodId);
+        ``` 
 
-            int payAmount = prod.price() * orderReq.getAmount();
-            PointCalculator cal = new PointCalculator(
-                payAmount,
-                mem.getMembership(),
-                prod.getId()
-            );
-            int point = cal.calculate()
-          ```
-        - ```
-            public class PointCalculator {
-                ...membership, payAmount, prodId 필드/생성자
+  - 개선 후 예제
+      - ```
+          Member mem = memberRepository,findOne(id);
+          Product prod = productRepository.findOne(prodId);
 
-                public int calulate() {
-                    double pointRate = 0.01;
-                    if (membership == GOLD) {
-                        pointRate = 0.03;
-                    } else if (membership == SILVER) {
-                        pointRate = 0.02;
-                    }
+          int payAmount = prod.price() * orderReq.getAmount();
+          PointCalculator cal = new PointCalculator(
+              payAmount,
+              mem.getMembership(),
+              prod.getId()
+          );
+          int point = cal.calculate()
+        ```
+      - ```
+          public class PointCalculator {
+              ...membership, payAmount, prodId 필드/생성자
 
-                    if (isDoublePointTarget(prodId)) {
-                        pointRate *=2;
-                    }
-                    return (int) (payAmount * pointRate);
-                }
-            }
-          ```
+              public int calulate() {
+                  double pointRate = 0.01;
+                  if (membership == GOLD) {
+                      pointRate = 0.03;
+                  } else if (membership == SILVER) {
+                      pointRate = 0.02;
+                  }
+
+                  if (isDoublePointTarget(prodId)) {
+                      pointRate *=2;
+                  }
+                  return (int) (payAmount * pointRate);
+              }
+          }
+        ```
 
 ## 연동 분리
  - 네트워크, 메시징, 파일 등 연동 처리 코드 분리
@@ -151,14 +152,16 @@
         }
       ```
  - 개선 후 예제
-     - ```
+    - ```
         FileInfo fileInfo = FileInfo.getFileInfo(fileUrl);
         String fileUrl = fileInfo.getUrl(); 
-       ```   
+      ```   
     - ```
         public interface fileInfo {
             String getUrl();
-            static FileInfo getFile(...) {...}
+            static FileInfo getFile(...) {
+                // 경우에 따라 local file info 또는 ss file info를 반환
+            }
         } 
 
         public class SSFileInfo implements FileInfo {
@@ -223,7 +226,167 @@
             - PointCalculator는 독립된 모듈이므로, 별도 테스트 가능
 
 ## 분리 연습1
- - pending, 돌아와서 할 예정
+ - 개선 전
+     - ```
+        public class CashClient {
+            private SecretKeySpec keySpec;
+            private IvParameterSpec ivSpec;
 
+            private Res post(Req req) {
+                String reqBody = toJson(req);
+
+                // 암호화 진행
+                Cipher cipher = Cipher.getInstance(DEFAULT_TRANSFORM);
+                cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+                String encReqBody = new String(Base64.getEncoder().encode(cipher.doFinal(reqBody)));
+
+                // 암화화 후 전달
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(api, encReqBody, String.class);
+
+                // 수신
+                String encRespBody = responseEntity.getBody();
+
+                //복호화
+                Cipher cipher2 = Cipher.getInstance(DEFAULT_TRANSFORM);
+                cipher2.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+                String respBody = new String(cipher.doFinal(Base64.getDecoder().decoder(encRespBody)));
+
+                // 복호화 리턴
+                return jsonToObj(respBody);
+            }
+        }
+       ```
+         - 분리 포인트
+             - 암복호화에 사용하는 객체
+                 -  keySpec, ivSpec
+             - 계산 기능 (암복호화)
+             - 외부 연동
+    - 개선 후
+      -  ```
+            public class CashClient {
+                private Cryptor cryptor;
+
+                private Res post(Req req) {
+                    String reqBody = toJson(req);
+
+                    String encReqBody = cryptor.encrypt(reqBody);
+
+                    ResponseEntity<String> responseEntity = restTemplate.postForEntity(api, encReqBody, String.class);
+
+                    String respBody = cryptor.decrypt(endRespBody);
+
+                    return jsonToObj(respBody);
+                }
+            }
+
+            public class Cryptor {
+                private SecretKeySpec keySpec;
+                private IvParameterSpec ivSpec;
+
+                public String encrypt(String plain) {
+                    Cipher cipher = Cipher.getInstance(DEFAULT_TRANSFORM);
+                    cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+                    return new String(
+                        base64.getEncoder().encode(cipher.doFinal(plain))
+                    );
+                }
+
+                public String decrypt(String encrypted) {
+                    Cipher cipher2 = Cipher.getInstance(DEFAULT_TRANSFORM);
+                    cipher2.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+                    return new String(
+                        cipher.doFinal(Base64.getDecoder().decode(encrypted));
+                    )
+                }
+
+                ...
+
+            }
+         ``` 
+    - 주석
+        - cipher 해석 : 암호
+
+## 분리 연습2
+ - 개선 전 예제
+     - ```
+        public class Rental {
+            private Movie movie;
+            private int daysRented;
+
+            public int getFrequentRenterPoints () {
+                if (movie.getPriceCode() == Movie.NEW_RELEASE && daysRented > 1) {
+                    return 2;
+                } else {
+                    return 1;
+                }
+            }
+
+            ...
+        } 
+
+        public class Movie {
+            public static int REGULAR = 0;
+            public static int NEW_RELEASE = 1;
+            private int priceCode;
+
+            public int getPriceCode() {
+                return priceCode;
+            }
+
+            ...
+        }
+       ```
+  - 개선 후 예제
+      - ```
+           public class Rental {
+               private Movie movie;
+               private int daysRented;
+
+               public int getFrequentRenterPoints() {
+                   return movie.getFrequentRenterPoints(daysRented);
+               }
+
+               ...
+           } 
+
+           public abstract class Movie {
+               public abstract int getFrequentRenterPoints(
+                   int daysRented);
+                
+               ...
+           }
+
+           public class NewReleaseMovie extends Movie {
+               public int getFrequentRenterPoints(int daysRented) {
+                   return daysRented > 1 ? return 2 : 1;
+               }
+           }
+
+           public class RegularMovie extends Movie {
+               public int getFrequentRenterPoints(int daysRented) {
+                   return 1;
+               }
+           }
+        ``` 
+  - 주석
+      -  Frequent 해석 : 잦은
+
+## 분리 연습 3
+ - 기능 : 회원 가입
+     - 사용자는 이메일, 이름, 암호 입력
+         -  모두 필수 값
+     - 암호가 다음 규칙을 통과하지 않으면 다시 입력
+         - 규칙1, 규칙2, 규칙3, ...
+     - 같은 이메일로 가입한 회원이 있으면 다시 입력
+     - 이메일 인증 위한 메일 발송
+         - 유효성 검증 위해 암호화 된 토큰을 사용
+     - 회원 가입 완료 
+ - ![27.png](./img/27.png)
+     - 분리에 대한 답은 없다.
+         - 예시
+             - 토큰 생성과 토큰 저장을 회원 가입 1 depth 레벨로 이동
+ - ![28.png](./img/28.png)
+    - RegistCommandValidator와 PasswordPolicy는 계산으로 분리한다.
+    - 토큰 저장은 TokenStore 또는 TokenRepogitory
 ## 참고 
  - https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13437?tab=note&volume=0.20
