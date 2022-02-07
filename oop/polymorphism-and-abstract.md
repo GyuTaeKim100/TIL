@@ -52,11 +52,13 @@
          - Money 클래스 : 통화, 금액
      - 공통 성질
          - 프린터 : HP MXXX, 삼성 SL-M2XXX
-         - GPU : 지포스, 라데온 
+         - GPU : 지포스, 라데온
+ - 참고
+     - 추상화는 인터페이스와 다르게 date 또한 가능! 
 
 ## 서로 다른 구현 추상화
  - ![8.png](./img/8.png)
-   - SCP로 파일 업로드, HTTP로 데이터 전송, DB 테이블에 삽입, 3가지 동작이 모두 푸시 발송 요청을 공통으로 한 경우 
+   - SCP로 파일 업로드, HTTP로 데이터 전송, DB 테이블에 삽입, 3가지 동작이 모두 푸시 발송 요청을 위한 기능인 경우
 
 ## 타입 추상화
  - 여러 구현 클래스를 대표하는 (공통화 된)상위 타입 도출
@@ -122,7 +124,7 @@
       - SMS 전송, 카카오톡 보냄, 이메일 발송은 추상화 시 통지가 된다.
   - 도출한 추상 타입 사용
       - 단계1 예제
-        - ```
+          - ```
             public void cancel(String ono) {
                 ...주문 취소 처리
 
@@ -137,9 +139,9 @@
                     return new SmsNotifier();
                 }
             }
-         ```
+            ```
      - 단계2 예제
-       - 사용할 대상 접근도 추상화
+       - 사용할 대상 접근도 추상화 (팩토리를 통한)
        - ```
            // 만약 새 notifier가 추가된 경우 cancel 코드는 수정 되지 않고 아래 DefaultNotifierFactory 코드에서만 기능 추가가 됨 
            public void cancel (String ono) {
@@ -223,7 +225,7 @@
       - 공통점은 Notifier 또는 Messenger
 
 ## 질문
- - ```
+ 1. ```
     다른 사람 질문
     주소: https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13432?tab=community&volume=0.20
     제목: 콘크리트 클래스를 직접 사용하는 경우 & NotifierFactory 관련 질문드립니다
@@ -313,6 +315,25 @@
         또한 주문 서비스에 대한 단위 테스트도 수월해지는 이점이 있습니다.
     }
    ```
+ 2. ```
+        다른 사람 질문
+        주소: https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13432?tab=community&volume=1.00&q=381353
+
+        질문 제목: NotifierFactory 를 또 추상화 한 이유가 궁금합니다
+
+        질문 내용 : {
+            어떠한 이점으로 NotifierFactory을 또 추상화 작업 한 것인가요?
+        }
+
+        답변 (최범균) : {
+            사실 팩토리는 상황에 따라 다른 객체를 생성할 수 있는 이점이 있다고 생각합니다. 물론 팩토리가 매번 동일한 객체를 생성하고 그 객체가 항상 같게 동작한다면 팩토리가 아닌 뒤에서 설명하는 의존 주입을 사용하면 될 겁니다. 
+        }
+   ```
+
+## 중요
+- 팩토리 패턴과 DIP, DP의 트레이드 오프
+    - 답변
+        - 사실 팩토리는 상황에 따라 다른 객체를 생성할 수 있는 이점이 있다고 생각합니다. 물론 팩토리가 매번 동일한 객체를 생성하고 그 객체가 항상 같게 동작한다면 팩토리가 아닌 뒤에서 설명하는 의존 주입을 사용하면 될 겁니다.  
 
  ## 참고 
   - https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13432?tab=note&volume=0.20
