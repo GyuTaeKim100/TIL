@@ -59,7 +59,6 @@
  - 예제
    -  ```
         // CloudFileManager의 메소드
-
         public void download(FileInfo file, File localTarget) {
             if(file.getCloudId() == CloudId.DROPBOX) {
                 DropboxClient dc = ...;
@@ -76,7 +75,8 @@
       ``` 
 ## 추상화 하지 않은 구현 : 기타 기능 추가
  - ![12.png](./img/12.png)
-    - // CloudFileManager의 메소드
+    - 참고
+        - CloudFileManager의 메소드
 
 ## 추상화하지 않은 구현: 이어지는 추가
  - 클라우드 추가
@@ -88,7 +88,6 @@
  - 예제
    -  ```
         // CloudFileManager의 메소드  
-
         public List<FileInfo> getFileInfos(CloudId cloudId) {
             if(cloudId == CloudId.DROPBOX) {
                 ...
@@ -101,7 +100,7 @@
             }
         }  
       ```
-        - download(), upload(), delete(), search()도 유사한 else-if 블록 추가
+        - download(), upload(), delete(), search()도 구현 시 위와 유사한 else-if 블록 추가 된다.
 
 ## 추상화하지 않은 구현 : 클라우드 간 복사
  - 예제
@@ -135,11 +134,11 @@
 
 ## 개발 시간 증가 이유
  - 코드 구조가 길어지고 복잡해짐
-     -  새로운 클라우드 추가시 모든 메서드에 새로운 if 블록 추가
-         - 중첩 if-else는 복잡도 배로 증가
+     -  새로운 클라우드 추가시 모든 메서드에 새로운 if 블록 추가 (객체 다형성이 없으므로 클라우드 종류 별 별도 조건식을 통해 구분 필요)
+         - 중첩 if-else의 깊이는 복잡도의 배로 증가
          - if-else가 많을수록 진척 더딤 (신중 모드)
   - 관련 코드가 여러 곳에 분산됨
-      - 한 클라우드 처리와 관련된 코드가 여러 메서드에 흩어짐
+      - 한 클라우드 처리와 관련된 코드가 여러 메서드에 흩어짐 (캡슐화를 통해 개선 필요!)
   - 결과적으로, 코드 가독성과 분석 속도 저하
       - 코드 추가에 따른 노동 시간 증가
       - 실수하기 쉽고 이로 인한 불필요한 디버깅 시간 증가
@@ -313,7 +312,7 @@
                 ...
             }  
         ``` 
-            - CloudFile, CloudFileSystem, CloudFileSystemFactory 등을 통한 추상화한 타입으로만 핵심 기능 구현 가능
+           - CloudFile, CloudFileSystem, CloudFileSystemFactory 등을 통한 추상화한 타입으로만 핵심 기능 구현 가능
   - ![16.png](./img/16.png)
 
 ## 이것이 바로 OCP (Open-Closed Priciple) 개방 폐쇠 원칙
