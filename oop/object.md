@@ -116,7 +116,7 @@
        ```
 
 ## 용어: 메시지
-  - (메시지는) 객체와 객체 상호 작용로 이해하자
+  - (메시지는) 객체와 객체 상호 작용으로 이해하자
       - 메시지를 주고 받는다고 표현
       - 종류
         - 메서드를 호출하는 메시지
@@ -125,34 +125,38 @@
         - ... etc 
   - ![5.png](./img/5.png)
       - 주석
-          - UML - 시퀀스 다이어그램
+          - UML 중 시퀀스 다이어그램 이다.
 
 ## 객체?
 ```
     public class Member {
         private String name;
         private String id;
-    }
+    
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        public void setName(String name) {
+            this.name = name;
+        }
 
-    public string getName() {
-        return name;
-    }
+        public string getName() {
+            return name;
+        }
 
-    public void setId(string id) {
-        this.id
-    }
+        public void setId(string id) {
+            this.id
+        }
 
-    public String getId() {
-        return id;
+        public String getId() {
+            return id;
+        }
     }
 ```
- - getter, setter 만 존재하는 클래스는 객체보다 데이터에 더 가깝다. (데이터 클래스로 표현, 또는 구조체-자바에는 구조체가 없다)
+ - *getter, setter 만 존재하는 클래스는 객체보다 데이터에 더 가깝다.*
+ - 데이터 클래스로 표현
+ - 참고
+     - 자바에는 구조체가 없다
  - 결론
-     - 객체는 기능으로 정의된다.
+     - 객체는 데이터가 아닌 기능으로 정의된다.
 
 ## 질문
  - ```
@@ -178,9 +182,8 @@
 
             이런 상황일 때 DIP를 검토해 보면 좋을 것 같아요. 이 강의 부록에 DIP에 대한 내용이 나오는데 DIP를 적용하면 X --> A에 의존하던 방식을 다른 구조로 변경해서 A의 변경이 X에 영향을 덜 주도록 만들 수 있습니다.
         }
-        
-
    ```
+      -  **DIP 꼭 참고 해야 함**
 ## 참고
  - https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13428?tab=note&volume=0.17
  - https://velog.io/@sezeom/Getter-Setter-%EC%A7%80%EC%96%91%ED%95%98%EA%B8%B0 - **getter, setter 지양하기**
