@@ -184,6 +184,7 @@
         }
    ```
       -  **DIP 꼭 참고 해야 함**
+        -  X가 고수준 모듈이고 A, B, ..., F가 저수준 모듈인 경우 DPI 의존 관계 역전을 통해 A, B, ..., F가 X를 의존하게 만들어서 해결 가능
 ## 참고
  - https://www.inflearn.com/course/%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-%EC%9E%85%EB%AC%B8/lecture/13428?tab=note&volume=0.17
  - https://velog.io/@sezeom/Getter-Setter-%EC%A7%80%EC%96%91%ED%95%98%EA%B8%B0 - **getter, setter 지양하기**
