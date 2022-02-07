@@ -112,6 +112,7 @@
       ```  
         - 의문
           -  왜 userRepo는 생성자를 통해 삽입했는데 cal은 setCalculator를 통해 setter를 사용하는가? (자주 바뀔 수 있어서? 근데 setter는 지양하라고 하지 않았나?)
+             -  답은 아래 질문 참고
 
 
 ## 조립기 (Assembler)
@@ -157,49 +158,49 @@
  - 예제
    - 설명: 상위 타입을 사용할 경우, 의존 대상이 바뀌면 조립기(설정)만 변경하면 됨
    - 부분1
-         -  ```
-              public class OrderService {
-                  private Notifier notifier;
+       -  ```
+            public class OrderService {
+                private Notifier notifier;
 
-                  public OrderService(Notifier notifier) {
-                      ...
-                      notifier.notify(..);
-                  }
-              }  
-            ```
+                public OrderService(Notifier notifier) {
+                    ...
+                    notifier.notify(..);
+                }
+            }  
+          ```
     - 부분2
-          - ```
-              @Configuration
-              public class Config {
-                  @Bean
-                  public Notifier notifier() {
-                      return new EmailNotifier();
-                  }
+        - ```
+            @Configuration
+            public class Config {
+                @Bean
+                public Notifier notifier() {
+                    return new EmailNotifier();
+                }
 
-                  @Bean
-                  public OrderService orderService() {
-                      return new OrderService(notifier());
-                  }
-              } 
-            ```
+                @Bean
+                public OrderService orderService() {
+                    return new OrderService(notifier());
+                }
+            } 
+          ```
     - 부분3
-          - ```
-              @Configuration
-              public class Config {
-                  @Bean
-                  public Notifier notifier() {
-                      return new Composite능otifier(
-                          new EmailNotifier(),
-                          new KakaoNotifier()
-                      );
-                  }
-              }
+        - ```
+            @Configuration
+            public class Config {
+                @Bean
+                public Notifier notifier() {
+                    return new Composite능otifier(
+                        new EmailNotifier(),
+                        new KakaoNotifier()
+                    );
+                }
+            }
 
-              @Bean
-              public OrderService orderService() {
-                  return new orderService(notifier());
-              } 
-            ``` 
+            @Bean
+            public OrderService orderService() {
+                return new orderService(notifier());
+            } 
+          ``` 
 
 ## DI 장점 2
  - 의존하는 객체 없이 대역 객체를 사용해서 테스트 가능
