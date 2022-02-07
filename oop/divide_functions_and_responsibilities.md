@@ -11,6 +11,7 @@
      - ![25.png](./img/25.png)
          - 주석
              - 오타 정정, chagePasswordService => changePasswordService
+             - memberRepostory, Member 네이밍은 회원이란 어휘와 관련이 있다.
      - 의문
          1. member와 memberRepository의 차이는?
              - 답변
@@ -38,7 +39,9 @@
                 }
             }
         }  
-      ```  
+      ```
+        - 주석
+            - 하위 기능은 memberRepository를 의미 
 
 ## 큰 클래스, 큰 메서드
  - 클래스나 메서드가 커지면 절차 지향의 문제 발생
@@ -123,6 +126,8 @@
               }
           }
         ```
+          - 주석
+              - PointCalculator 생성 시 생성자의 프로퍼티를 통해 필요 값을 넣는 것과 calculate 메서드의 프로퍼티로 전달하는 방식이 존재하는데 각 방식 별로 트레이드 오프가 존재한다. (자세한 것은 dependency_and_DI 질문 파트 참고)
 
 ## 연동 분리
  - 네트워크, 메시징, 파일 등 연동 처리 코드 분리
@@ -202,28 +207,28 @@
 
             ... 
         ```
-            - memberRepository와 productRepository를 실행 해야만 아래 포인트 관련된 코드를 실행 가능하다. (의존성 존재)
+          - memberRepository와 productRepository를 실행 해야만 아래 포인트 관련된 코드를 실행 가능하다. (실행 시 다른 객체에 대한 의존성 존재)
   - 예제 2 (좋은)
-          - ```
-            public class PointCalculator {
-            ...membership, payAmount, prodId 필드/생성자
+      - ```
+        public class PointCalculator {
+        ...membership, payAmount, prodId 필드/생성자
 
-            public int calulate() {
-                double pointRate = 0.01;
-                if (membership == GOLD) {
-                    pointRate = 0.03;
-                } else if (membership == SILVER) {
-                    pointRate = 0.02;
-                }
+        public int calulate() {
+            double pointRate = 0.01;
+            if (membership == GOLD) {
+                pointRate = 0.03;
+            } else if (membership == SILVER) {
+                pointRate = 0.02;
+            }
 
-                if (isDoublePointTarget(prodId)) {
-                    pointRate *=2;
-                }
-                return (int) (payAmount * pointRate);
-                }
-            }   
-            ```
-            - PointCalculator는 독립된 모듈이므로, 별도 테스트 가능
+            if (isDoublePointTarget(prodId)) {
+                pointRate *=2;
+            }
+            return (int) (payAmount * pointRate);
+            }
+        }   
+        ```
+           - PointCalculator는 독립된 모듈이므로, 별도 테스트 가능
 
 ## 분리 연습1
  - 개선 전
@@ -240,7 +245,7 @@
                 cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
                 String encReqBody = new String(Base64.getEncoder().encode(cipher.doFinal(reqBody)));
 
-                // 암화화 후 전달
+                // 암호화 후 전달
                 ResponseEntity<String> responseEntity = restTemplate.postForEntity(api, encReqBody, String.class);
 
                 // 수신
