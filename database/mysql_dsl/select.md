@@ -489,6 +489,351 @@
             CONVERT('01', DECIMAL) = CONVERT('1', DECIAL)는 1
 
 
+## 숫자 관련 함수들 1
+ - 종류
+    - ROUND : 반올림
+    - CEIL : 올림
+    - FLOOR : 내림
+ - 예제
+    - ```
+        SELECT ROUND(0.5), CEIL(0.4), FLOOR(0.6);
+      ```
+        - ROUND(0.5) : 1
+        - CEIL(0.4) : 1
+        - FLLOR(0.6) : 0
+    - ```
+        SELECT Price, ROUND(price), CEIL(price), FLOOR(price) FROM Products;
+      ```
+        - 생략
+
+## 숫자 관련 함수들 2
+ - 종류
+    - ABS : 절대값
+ - 예제
+    - ```
+        SELECT ABS(1), ABS(-1), ABS(3 - 10);
+      ```
+        - ABS(1) : 1
+        - ABS(-1) : -1
+        - ABS(3 - 10) : 7
+    - ```
+        SELECT * FROM OrderDetails WHERE ABS(Qunatity - 10) < 5;
+      ```
+        - Quantity - 10이 5보다 작거나, 혹은 Quantity - 10이 -5보다 크다를 의미
+        - Quantity는 6 ~ 14 사이 값이 출력된다.
+
+## 숫자 관련 함수들 3
+ - 종류
+    - GREATEST : (괄호 안에서) 가장 큰 값
+    - LEAST : (괄호 안에서) 가장 작은 값
+ - 예제
+    - ```
+        SELECT GREATEST(1,2,3),
+        LEAST(1,2,3,4,5);
+      ```
+        - GREATEST(1,2,3) : 3
+        - LEAST(1,2,3,4,5) : 1
+    - ```
+        SELECT 
+            OrderDetailId, ProductId, Qunatity,
+            GREATEST(OrderDetailId, ProductId, Quantity),
+            LEAST(OrderDetailId, ProductId, Quantity)
+            FROM OrderDetails;
+      ```
+        - 생략
+
+## 숫자 관련 함수들 4 - 그룹 함수
+ - 종류
+    - MAX : 가장 큰 값
+    - MIN : 가장 작은 값
+    - COUNT : 갯수(NULL값 제외)
+    - SUM : 총합
+    - AVG : 평균값
+- 예제
+    - ```
+        SELECT
+            MAX(Quantity),
+            MIN(Qunatity),
+            COUNT(Qunatity),
+            SUM(Quantity),
+            AVG(Quantity)
+        FROM OrderDetails
+        WHERE OrderDetailId BETWEN 20 AND 30;
+      ```
+        - OrderDetailId가 20~30 사이 로우 중
+            - MAX(Quantity) : Quantity 중 가장 큰 것
+            - MIN(Qunatity) : Quantity 중 가장 작은 것
+            - COUNT(Qunatity) : Quantity의 총 갯수
+            - SUM : Quantity들의 총 합
+            - AVG : Quantity들의 평균 값
+      ```
+
+## 숫자 관련 함수들 5
+ - 종류
+    - POW(A,B), POWER(A,B) : A를 B만큼 제곱
+    - SQRT : 제곱근
+ - 예제
+    - ```
+        SELECT 
+            POW(2,3),
+            POWER(5,2),
+            SQRT(16);
+            POWER(16, 1/2);
+      ```
+        - POW(2,3) : 8
+        - POWER(5,2) : 25
+        - SQRRT : 4
+        - POWER(16, 1/2): 4
+    - ```
+        SELECT Price, POW(Price, 1/2)
+            FROM Products
+            WHERE SQRT(Price) < 4;
+      ```
+        - Price의 제곱근이 4보다 작은 로우에 대해서
+            - 생략
+
+## 숫자 관련 함수들 6
+ - 종류
+    - TRUNCATE(N, n) : N을 소숫점 n자리까지 선택
+ - 예제
+    - ```
+        SELECT
+            TRUNCATE(1234,5678, 1),
+            TRUNCATE(1234,5678, 2),
+            TRUNCATE(1234,5678, 3),
+            TRUNCATE(1234,5678, -1),
+            TRUNCATE(1234,5678, -2),
+            TRUNCATE(1234,5678, -3),
+      ```
+        -   TRUNCATE(1234,5678, 1): 1234.5
+        -   TRUNCATE(1234,5678, 2): 1234.56
+        -   TRUNCATE(1234,5678, 3): 1234.567
+        -   TRUNCATE(1234,5678, -1): 1230
+        -   TRUNCATE(1234,5678, -2): 1200
+        -   TRUNCATE(1234,5678, -3): 1000
+    - ```
+        SELECT Price FROM Products
+            WHERE TRUNCATE(Price, 0) = 12;
+      ```
+        - Price는 12.50, 12.00, 12.75, 12.50 같은 값들이 출력됨
+
+## 문자열 관련함수들 1
+ - 종류
+    - UCASE, UPPER : 모두 대문자로
+    - LCASE, LOWER : 모두 소문자로
+ - 예제
+    - ```
+        SELECT
+            UPPER('abcDEF'),
+            LOWER(abcDEF);
+      ```
+        - UPPER('abcDEF') : ABCDEF
+        - LOWER('abcDEF') : abcdef
+    - ```
+        SELECT
+            UCASE(CustomerName),
+            LCASE(ContentName)
+        FROM Customers;
+      ```
+        - 생략
+
+## 문자열 관련함수들 2
+ - 종류
+    - CONCAT : 괄호 안의 내용 이어붙임
+    - CONCAT_WS(s, ...) : 괄호 안의 내용 S로 이어붙임 (js의 array.join과 같음)
+ - 예제
+    - ```
+        SELECT CONCAT('HELLO', ' ', 'THIS IS ', 2021);
+      ```
+        - *CONCAT 안의 숫자는 문자열로 변환됨*
+        - HELLO THIS is 2021
+    - ```
+        SELECT CONCAT_WS('-', 2021, 8, 15, 'AM');
+      ```
+        - 2021-8-12-AM
+    - ```
+        SELECT CONCAT('O-ID', OrderId) FROM Orders;
+      ```
+        - O-Id: 특정 숫자 를 가진 모든 로우들이 출력됨
+    - ```
+        SELECT
+            CONCAT_WS(' ', FirstName, LastName) As FullName
+            FROM Employees;
+      ```
+
+## 문자열 관련함수들 3
+ - 종류
+    - SUBSTR, SUBSTRING : 주어진 값에 따라 문자열 자름
+    - LEFT : 왼쪽부터 N글자
+    - RIGHT : 오른쪽부터 N글자
+ - 예제
+    - ```
+        SELECT
+            SUBSTR('ABCDEFG', 3),
+            SUBSTR('ABCDEFG', 3, 2),
+            SUBSTR('ABCDEFG', -4),
+            SUBSTR('ABCDEFG', -4, 2);
+      ```
+        -  SUBSTR('ABCDEFG', 3): CDEFG
+        -  SUBSTR('ABCDEFG', 3, 2): CD
+        -  SUBSTR('ABCDEFG', -4): DEFG
+        -  SUBSTR('ABCDEFG', -4, 2): DE
+    - ```
+        SELECT
+            LEFT('ABCDEFG', 3),
+            RIGHT('ABCDEFG', 3);
+      ```
+        - LEFT('ABCDEFG', 3) : ABC
+        - RIGHT('ABCDEFG', 3) :
+    - ```
+        SELECT
+            OrderDate,
+            LEFT(OrderDate, 4) AS Year,
+            SUBSTR(OrderDate, 6, 2) AS Month,
+            RIGHT(OrderDate, 2) AS Day
+        FROM Orders;
+      ```
+        - *OrderDate는 1996-07-04 형식으로 값이 존재함*
+        - Year는 YYYY
+        - Month는 MM
+        - Day는 dd
+
+## 문자열 관련 함수 4
+ - 종류
+    - LENGTH: 문자열의 바이트 길이
+    - CHAR_LENGTH, CHARACTER_LENGTH: 문자열의 문자 길이
+ - 예제
+    - ```
+        SELECT
+            LENGTH('ABCDEF'),
+            CHAR_LENGTH('ABCDE'),
+            CHARACTER_LENGTH('ABCDE');
+      ```
+        -  LENGTH('ABCDEF') : 5
+        -  CHAR_LENGTH('ABCDE') : 5
+        -  CHARACTER_LENGTH('ABCDE') : 5
+    - ```
+        SELECT
+            LENGTH('안녕하세요'),
+            CHAR_LENGTH('안녕하세요'),
+            CHARACTER_LENGTH('안녕하세요');
+      ```
+        - *사이트에서 사용하는 문자열 셋에 따라 결과가 달라질 수 있음을 알 수 있다*
+        -  LENGTH('안녕하세요') : 15 (3byte * 5)
+        -  CHAR_LENGTH('안녕하세요') : 5
+        -  CHARACTER_LENGTH('안녕하세요') : 5
+## 문자열 관련 함수 5
+ - 종류
+    - TRIM : 양쪽 공백 제거
+    - LTRIM : 왼쪽 공백 제거
+    - RTRIM : 오른쪽 공백 제거
+ - 예제
+    - ```
+        SELECT
+            CONCAT('|', ' HELLO ', '|'),
+            CONCAT('|', LTRIM(' HELLO ', '|')),
+            CONCAT('|', RTRIM(' HELLO ', '|')),
+            CONCAT('|', TRIM(' HELLO ', '|'));
+      ```
+        -   CONCAT('|', ' HELLO ', '|') : | HELLO |
+        -   CONCAT('|', LTRIM(' HELLO ', '|')) : |HELLO |
+        -   CONCAT('|', RTRIM(' HELLO ', '|')) : | HELLO|
+        -   CONCAT('|', TRIM(' HELLO ', '|')) :  |HELLO|
+    - ```
+        SELECT * FROM Categories
+        WHERE CategoryName = ' Beverages ';
+      ```
+        - 아무 값도 안나옴 (공백을 함께 저장하지 않은 경우에는)
+    - ```
+        SELECT * FROM Categories
+        WHERE CategoryName = TRIM(' Beverages ');
+      ```
+        - 값 출력됨
+
+## 문자열 관련 함수 6
+ - 종류
+    - LPAD(S,N,P) : S가 N글자가 될 떄 까지 P를 이어붙임
+    - RPAD(S,N,P) : S가 N글자가 될 때 까지 P를 이어붙임
+ - 예제
+    - ```
+        SELECT
+            LPAD('ABC', 5, '-'),
+            RPAD('ABC', 5, '-');
+      ```
+        - LPAD('ABC', 5, '-') : --ABC
+        - RPAD('ABC', 5, '-') : ABC--
+
+    - ```
+        SELECT
+            LPAD(SupplierId, 5, 0),
+            RPAD(Price, 6, 0)
+        FROM Products;
+      ```
+        - LPAD(SupplierId, 5, 0) : SupplierId가 1인 경우 00001이 된다
+        - RPAD(Price, 6, 0) : Price가 19.00인 경우 19.000이 된다
+
+## 문자열 관련 함수 7
+ - 종류
+    - REPLACE(S,A,B) : S 중 A를 B로 변경
+ - 예제
+    - ```
+        SELECT REPLACE('맥도날드에서 맥도날드 햄버거를 먹었다.', '맥도날드', '버거킹');
+      ```
+        - 버거킹에서 버거킹 햄버거를 먹었다.
+    - ```
+        SELECT
+            REPLACE(Description, ', ', ' and ')
+        FROM Categories;
+      ```
+        -  생략
+    - ```
+        SELECT
+            Description,
+            REPLACE(Description, ', and', ','),
+            REPLACE(REPLACE(Description, ', and', ',', ' and')
+      ```
+        -  REPLACE(Description, ', and', ','): 기존 ', and'를 ','로 대체
+        -  REPLACE(REPLACE(Description, ', and', ','), ',', ' and') :  기존 ', and'를 ','로 대체 후, 대체 된 문자열의 ','을 ' and'로 대체
+
+## 문자열 관련 함수 8
+ - 종류
+    - INSTR(S, s) : S중 s의 첫 위치 반환, 없을 시 0
+ - 예제
+    - ```
+        SELECT
+            INSTR('ABCDE', 'ABC'),
+            INSTR('ABCDE', 'BCDE'),
+            INSTR('ABCDE', 'C'),
+            INSTR('ABCDE', 'EF'),
+            INSTR('ABCDE', 'F');
+      ```
+       - INSTR('ABCDE', 'ABC') : 1
+       - INSTR('ABCDE', 'BCDE') : 2
+       - INSTR('ABCDE', 'C') : 3
+       - INSTR('ABCDE', 'EF') : 4
+       - INSTR('ABCDE', 'F') : 0
+    - ```
+        SELECT * FROM Customers 
+            WHERE INSTR(CustomerName, ' ') BETWEEN 1 AND 6;
+      ```
+        - CustomerName의 ' '가 1~6 사이에 있는 CustomerName을 출력
+        - * 만약 INSTR(CustomerName, ' ') < 6;*인 경우 0도 포함되므로 의도치 않은 값도 출력된다.
+
+## 문자열 관련 함수 9
+ - 종류
+    - CAST(A, T) : A를 T 자료형으로 변환
+ - 예제
+    - ```
+        SELECT
+            '01' = '1',
+            CONVERT('01', DECIMAL) = CONVERT('1', DECIMAL);
+      ```
+        - *'01'과 '1'은 숫자가 아니다.* '01' = '1'은 0이 출력된다.
+        - CONVERT('01', DECIAL) = CONVERT('1', DECIMAL)는 CONVERT로 DECIMAL가 되므로 둘다 1이 되고 1이 출력된다.
+
+
+
+
 ## 참고 
     - https://www.inflearn.com/course/%EC%96%84%EC%BD%94-%EB%A7%88%EC%9D%B4%EC%97%90%EC%8A%A4%ED%81%90%EC%97%98/lecture/86844?tab=note&volume=0.05&speed=1
     - https://dev.mysql.com/doc/refman/8.0/en/non-typed-operators.html
