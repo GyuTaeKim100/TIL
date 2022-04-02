@@ -1,7 +1,7 @@
 # TIL
 
 
-## 3월 5주차 기술 질문 리스트
+## 3월 5주차  질문 리스트
 
 ## webpack
   - 부트스트랩 매커니즘
@@ -64,9 +64,26 @@
   - module fedration, packageName? requiredVersion?
   - 원격 형제 컨테이너간 참조하지 못하는 이유는 정책상 이유?
   - config.context?
-  - manifest 애셋? 
+  - manifest 애셋?
+  - dependency graph 보는법?
+  - 에셋 모듈? 모듈과 차이점?
+  - css loader와 style loader 차이점?
+  - webpack fallback?
+  - index.html 자동 생성? htmlWebpackPlugin
+  - manifest 데이터 보는 방법? 
+  - webpack-manifest-plugin
+    - assethook?
+  - manifest file description?
+  - source map 목적?
+  - webpack watch 모드, dev-server 차이점
+  - dev middleware 목적?
+  - npx?
+  - webpack.common.js?
+  - splitChunkPlugin?
+  - orphan module? 왜 생김?
+  - 
 
-- 네트워크
+## 네트워크
   - 청크
   - 대용량 용량을 청크로 나누는 네트워크와 관련된 이유
   - JSON과 JSONP 차이
@@ -75,6 +92,7 @@
   - XHR?
   - Non Credental
   - 라운드 트립?
+  - zero config network? -bongjour?
 
 ## 클라우드
   - 프로비저닝
@@ -89,6 +107,14 @@
   - 온 프레미스, 가상화된 배포, 컨테이너 배포의 트레이드 오프
   - CloudFront? 온 디맨드 이미지 리사이징?
   - 애샛?
+  - 온 디멘드 청크와 원격 모듈 청크의 관계?
+  - shared 청크도 여러 청크로 나눌 수 있을까?
+  - splitchunk.hidepathinfo 의 목적?
+  - splitchunk.enforceSizeThreshold 왜 존재?
+  - splitchunk cache group은 왜 존재?
+  - splitchunk.minRemainingSize는 왜 존재?
+    - 크기가 0인 모듈이 존재? 어떤 상황에 존재?
+  - webpack splitchunk 플러그인은 클라이언트별로 청크 분할이 다르게 될 수 있을까?
 
 ## 데이터 베이스
   - 이중화?
@@ -103,17 +129,12 @@
   - ESM?
   - IIFEs? Immediately invoke function expressions
   - 프리패칭?
+  - `<script defer="defer" >` 용도?
+  - threshold? 임계값?
 
 ## 컴퓨터 공학
   - 디코딩?
   - 인코딩?
-## 금융 질문 리스트
- - 금리?
- - 주식?
- - 채권?
- - IPO?
- - 채권 트레이더?
-
 ## 프로그래밍 언어
  - 함수형과 OOP 조화?
  - 보일러 플레이트?
@@ -124,6 +145,7 @@
  - LLVM
  - 러스트 소유권 개념 
  - 정규 표현식
+
 ## 노드 라이브러리
  - lerna
  - node 패키지 만드는 방법
@@ -131,17 +153,60 @@
 ## node
  - 모듈의 순환의존성 처리 방법
 
-## 전공 기타
+## 개발론
  - 하드 코딩 장점?
+
+## 개발 기타
  - 인터리빙?
- - 최적의 인터리빙율?
+ - 최적의 인터리빙율
 ## 전공 자격증
  - SQLP
  - SQLD
 
-## 기타 도전
+## 교양 
  - 트레바리로 독서토론 참석
  - 경매 참석
+
+## 차후 목적
+ - 영어로 질문올리기!
+ - mdn 으로 웹 공부
+
+## 의학 팁
+ - 위암과 대장암 검사는 수면으로 동시에 진행 가능
+
+## 금융 질문 리스트
+ - 금리?
+ - 주식?
+ - 채권?
+ - IPO?
+ - 채권 트레이더?
+ - 유상 증자?
+ - 무상 증자?
+
+## 진행 중인 금융 공부
+ - 멘큐의 경제학 스터디 2그룹 진행
+## 음악
+ - 음악 미싱 전 미싱 후 차이점 느껴보기
+ - 음악 공부 목적?
+   - 편협한 음악 듣기
+   - 그냥 유행따라 듣는 느낌
+   - 음악에 대한 이해도를 바탕으로 나의 음악적 취향 찾기
+ - 로우파이 장르?
+ - 로우파이 재즈?
+ - 로우파이 장르는 장르가 아니고, 다른 장르와 믹스할 수 있는 요소?
+ - 블루스?
+ - 파생장르?
+ - EDM?
+ - 드럼스텝?
+ - 서브베이스?
+ - 드럼앤 베이스?
+ - 그로울베이스?
+ - 워블베이스?
+ - 덥스텝?
+ - 하프타임?
+ - 하프타임 드럼앤 베이스?
+ - DNB?
+
 
 ## 개발 구루 사이트
  - www.martinfouler.com
