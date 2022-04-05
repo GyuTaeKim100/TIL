@@ -81,7 +81,7 @@
   - webpack.common.js?
   - splitChunkPlugin?
   - orphan module? 왜 생김?
-  - 
+  - webpack product 시 console.log 제거 가능? (바벨 등 써서?)
 
 ## 네트워크
   - 청크
@@ -132,6 +132,13 @@
   - `<script defer="defer" >` 용도?
   - threshold? 임계값?
 
+## 프론트엔드
+ - stylelint?
+
+## 리액트
+ - Hoc?
+ - 고차 컴포넌트?
+
 ## 컴퓨터 공학
   - 디코딩?
   - 인코딩?
@@ -146,9 +153,25 @@
  - 러스트 소유권 개념 
  - 정규 표현식
 
+## 자바스크립트 기반 함수형 프로그래밍
+ - 함수형 iterator를 통한 lazy 처리?
+ - for 문은 관심사 분리 필요?
+ - typescript readonly?
+ - ADT 대수 자료구조?
+ - type 가드? isSome?
+ - if문의 트레이드오프
+ - 함수형 고수준 모듈과 저수준 모듈의 차이점?
+ - 고수준 모듈은 비즈니스 로직 단위간 공유 최소화? 또는 안함?
+ - 합성이 고수준일 수록 함수 사용 표기가 더 단순?
+ - fuction의 map 구조를 분해?
+ - fuctor? 구조를 분해하는 자료 구조?
+ - functor 제약?
+ - try, generate, observable? fuctor의 일종?
+
 ## 노드 라이브러리
  - lerna
  - node 패키지 만드는 방법
+ - npm audit fix?
  
 ## node
  - 모듈의 순환의존성 처리 방법
@@ -184,7 +207,7 @@
  - 무상 증자?
 
 ## 진행 중인 금융 공부
- - 멘큐의 경제학 스터디 2그룹 진행
+ - 멘큐의 경제학 스터디 결성!
 ## 음악
  - 음악 미싱 전 미싱 후 차이점 느껴보기
  - 음악 공부 목적?
