@@ -5,7 +5,7 @@
 	},
 	"scripts": {
 		"start": "node index.js",
-		"test": ""
+		"test": "mocha index.spec.js"
 	},
 	"devDependencies": {
 		"mocha": "^9.2.2",
