@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -18,6 +19,8 @@ function errormw(err, req, res, next) {
 app.use(commonmw);
 app.use(errormw);
 app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extends: true }));
 
 app.get('/', function (req, res) {
 	res.send('hello world');
@@ -65,6 +68,14 @@ app.delete('/users/:id', (req, res) => {
 
 	users = users.filter((user) => user.id !== id);
 	res.status(204).end();
+});
+
+app.post('/users', (req, res) => {
+	const name = req.body.name;
+	const id = Date.now();
+	const user = { id, name };
+	users.push(user);
+	res.status(201).json(user);
 });
 
 app.listen(5000, function () {
