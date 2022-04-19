@@ -42,6 +42,12 @@ app.get('/users', function (req, res) {
 	res.json(users.slice(0, limit));
 });
 
+app.get('/users/:id', function (req, res) {
+	const id = parseInt(req.params.id, 10);
+	const user = users.filter((user) => user.id === id)[0];
+	res.json(user);
+});
+
 app.listen(5000, function () {
 	console.log('server is running on port 5000');
 });
