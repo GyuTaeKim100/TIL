@@ -38,6 +38,16 @@
 2. 테스트 수트: 테스트 환경으로 모카에서는 describe()으로 구현한다.
 3. 테스트 케이스: 실제 테스트를 말하며 모카에서는 it()으로 구현한다.
 
+### node Assert
+
+-   ?
+
+## Should
+
+1. 노드 assert 말고 서드파티 라이브러리를 사용하라
+2. 슈드는 검증(assertion) 라이브러리이다.
+3. 가독성 높은 테스트 코드를 만들 수 있다.
+
 ## 참고
 
 -   (인프런 테스트주도 개발) https://www.inflearn.com/course/%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%A3%BC%EB%8F%84%EA%B0%9C%EB%B0%9C-tdd-nodejs-api/lecture/6184?tab=note&volume=0.17
