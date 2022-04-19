@@ -23,6 +23,18 @@ app.get('/', function (req, res) {
 	res.send('hello world');
 });
 
+const users = [
+	{ id: 1, name: '1' },
+	{ id: 2, name: '2' },
+	{ id: 3, name: '3' },
+	{ id: 4, name: '4' },
+	{ id: 5, name: '5' },
+];
+
+app.get('/users', function (req, res) {
+	res.json(users);
+});
+
 app.listen(5000, function () {
 	console.log('server is running on port 5000');
 });
