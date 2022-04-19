@@ -32,6 +32,12 @@
 2. http 모듈의 response 객체를 래핑한 것이다.
 3. res.sent(), res.status(), res.json() 메소드를 주로 사용한다.
 
+### Mocha
+
+1. 모카는 테스트 코드를 돌려주는 테스트 러너
+2. 테스트 수트: 테스트 환경으로 모카에서는 describe()으로 구현한다.
+3. 테스트 케이스: 실제 테스트를 말하며 모카에서는 it()으로 구현한다.
+
 ## 참고
 
 -   (인프런 테스트주도 개발) https://www.inflearn.com/course/%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%A3%BC%EB%8F%84%EA%B0%9C%EB%B0%9C-tdd-nodejs-api/lecture/6184?tab=note&volume=0.17

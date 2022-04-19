@@ -1,6 +1,13 @@
 {
-  "dependencies": {
-    "express": "^4.17.3",
-    "morgan": "^1.10.0"
-  }
+	"dependencies": {
+		"express": "^4.17.3",
+		"morgan": "^1.10.0"
+	},
+	"scripts": {
+		"start": "node index.js",
+		"test": ""
+	},
+	"devDependencies": {
+		"mocha": "^9.2.2"
+	}
 }
