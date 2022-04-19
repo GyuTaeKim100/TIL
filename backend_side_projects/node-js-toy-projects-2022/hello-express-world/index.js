@@ -3,22 +3,26 @@ const morgan = require('morgan');
 
 const app = express();
 
-// 로거 미들웨어
-function logger(req, res, next) {
-	// console.log('i am logger');
+// 공통 미들웨어
+function commonmw(req, res, next) {
+	console.log('commonmw');
+	next(new Error('error ouccered'));
+}
+
+// 에러 미들웨어
+function errormw(err, req, res, next) {
+	console.log(err.message);
 	next();
 }
 
-// 로거2 미들웨어
-function logger2(req, res, next) {
-	// console.log('i am logger2');
-	next();
-}
-
-app.use(logger);
-app.use(logger2);
+app.use(commonmw);
+app.use(errormw);
 app.use(morgan('dev'));
 
+app.get('/', function (req, res) {
+	res.send('hello world');
+});
+
 app.listen(5000, function () {
-	console.log('server is running');
+	console.log('server is running on port 5000');
 });
