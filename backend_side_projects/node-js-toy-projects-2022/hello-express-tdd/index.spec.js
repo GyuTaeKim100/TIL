@@ -32,6 +32,8 @@ describe('GET /users는', () => {
 					done();
 				});
 		});
+
+		// @todo : limit이 최대 갯수 이상인 경우에 대한 테스트 코드 추가 필요
 	});
 });
 
@@ -66,7 +68,7 @@ describe('DELETE /users/1', () => {
 	});
 
 	describe('실패시', () => {
-		it('id가ㅣ 숫자가 아닐 경우 400으로 응답한다.', (done) => {
+		it('id가 숫자가 아닐 경우 400으로 응답한다.', (done) => {
 			request(app).delete('/users/one').expect(400).end(done);
 		});
 	});
@@ -88,7 +90,6 @@ describe('POST /users', () => {
 		});
 
 		it('생성된 유저 객체를 반환한다.', () => {
-			console.log('body', body);
 			body.should.have.property('id');
 		});
 

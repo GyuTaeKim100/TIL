@@ -64,6 +64,14 @@
     1. limit이 숫자형이 아니면 400을 응답한다.
     2. offset이 숫자형이 아니면 400을 응답한다.
 
+## 코드 정리
+
+-   역할에 따라 파일로 분리하자.
+    1. api/user/index.js
+    2. api/user/user.ctrl.js
+        > ctrl은 컨트롤러 약자
+    3. api/user/user.spec.js
+
 ## 참고
 
 -   (인프런 테스트주도 개발) https://www.inflearn.com/course/%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%A3%BC%EB%8F%84%EA%B0%9C%EB%B0%9C-tdd-nodejs-api/lecture/6184?tab=note&volume=0.17
