@@ -108,7 +108,7 @@ describe('DELETE /users/:id는', () => {
 	});
 });
 
-describe.only('POST /users', () => {
+describe('POST /users', () => {
 	const users = [
 		{ name: '1' },
 		{ name: '2' },
@@ -159,13 +159,24 @@ describe.only('POST /users', () => {
 });
 
 describe('PUT /users/:id', () => {
+	const users = [
+		{ name: '1' },
+		{ name: '2' },
+		{ name: '3' },
+		{ name: '4' },
+		{ name: '5' },
+	];
+
+	before(() => models.sequelize.sync({ force: true }));
+	before(() => models.User.bulkCreate(users));
+
 	describe('성공시', () => {
 		it('변경된 name에 응답한다.', (done) => {
 			request(app)
 				.put('/users/4')
-				.send({ name: '1' })
+				.send({ name: '4-1' })
 				.end((err, res) => {
-					res.body.should.have.property('name', '1');
+					res.body.should.have.property('name', '4-1');
 					done();
 				});
 		});
