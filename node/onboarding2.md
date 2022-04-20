@@ -64,6 +64,59 @@
     1. limit이 숫자형이 아니면 400을 응답한다.
     2. offset이 숫자형이 아니면 400을 응답한다.
 
+## 코드 정리
+
+-   역할에 따라 파일로 분리하자.
+    1. api/user/index.js
+    2. api/user/user.ctrl.js
+        > ctrl은 컨트롤러 약자
+    3. api/user/user.spec.js
+
+## 데이터베이스
+
+-   SQL
+
+    > 테이블 형식의 SQL
+
+    -   MySQL, postgreSQL, Aurora, Sqlite
+
+-   NoSQL
+
+    > 도큐먼트 형식의 SQL
+
+    -   MongoDB, DynamoDB
+
+-   In Memory DB
+    > 인증토큰, 세션 등 자주 사용하는 데이터가 대상
+    -   Redis, Memcashed
+
+## SQL 쿼리 기초
+
+-   insert users ('name') values ('alice');
+-   select \* from users;
+-   update users set name ='bek' where id = 1;
+-   delete from users where id = 1;
+
+## ORM
+
+-   데이터베이스를 객체로 추상화해 논것을 ORM(Object Relational Mapping)이라고 한다.
+-   쿼리를 직접 작성하는 대신 ORM의 메소드로 데이터 관리할 수 있는 것이 장점이다.
+-   노드에서 SQL ORM은 시퀄라이져(Sequelize)가 있다.
+
+## 시퀄라이져
+
+-   `insert users ('name') values ('alice');` -> `User.create({name:'alice'})`
+-   `select * from users;` -> `User.findAll()`
+-   `upsdate users set name ='beck' where id = 1;` -> `User.update({name:'bek'}, {where:{id:1}})`
+-   `delete from users where id = 1;` -> `User.destory({where: {id:1}});`
+
+## 모델
+
+-   데이터베이스 테이블을 ORM으로 추상화한것을 모델이라고 한다.
+-   우리가 사용할 유저 모델을 만들어보자.
+    -   squelize.define(): 모델 정의
+    -   squelize.sync(): 데이터베이스 연동
+
 ## 참고
 
 -   (인프런 테스트주도 개발) https://www.inflearn.com/course/%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%A3%BC%EB%8F%84%EA%B0%9C%EB%B0%9C-tdd-nodejs-api/lecture/6184?tab=note&volume=0.17

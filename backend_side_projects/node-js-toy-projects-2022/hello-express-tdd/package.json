@@ -1,12 +1,16 @@
 {
 	"dependencies": {
+		"@types/sequelize": "^4.28.11",
 		"body-parser": "^1.20.0",
 		"express": "^4.17.3",
-		"morgan": "^1.10.0"
+		"morgan": "^1.10.0",
+		"sequelize": "^6.19.0",
+		"sequelize-cli": "^6.4.1",
+		"sqlite3": "^5.0.4"
 	},
 	"scripts": {
-		"start": "node index.js",
-		"test": "mocha index.spec.js"
+		"start": "node bin/www.js",
+		"test": "NODE_ENV=test mocha api/user/user.spec.js -w"
 	},
 	"devDependencies": {
 		"mocha": "^9.2.2",
