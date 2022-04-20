@@ -55,15 +55,17 @@ const create = (req, res) => {
 		return res.status(400).end();
 	}
 
-	const isConflic = users.filter((user) => user.name === name).length;
-	if (isConflic) {
-		return res.status(409).end();
-	}
+	models.User.create({ name })
+		.then((user) => {
+			return res.status(201).json(user);
+		})
+		.catch((err) => {
+			if (err.name === 'SequelizeUniqueConstraintError') {
+				return res.status(409).end();
+			}
 
-	const id = Date.now();
-	const user = { id, name };
-	users.push(user);
-	res.status(201).json(user);
+			res.status(500).end();
+		});
 };
 
 const update = (req, res) => {

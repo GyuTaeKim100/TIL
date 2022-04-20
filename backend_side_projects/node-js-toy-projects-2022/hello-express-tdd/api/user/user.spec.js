@@ -50,6 +50,17 @@ describe('GET /users는', () => {
 });
 
 describe('GET /users/:id는', () => {
+	const users = [
+		{ name: '1' },
+		{ name: '2' },
+		{ name: '3' },
+		{ name: '4' },
+		{ name: '5' },
+	];
+
+	before(() => models.sequelize.sync({ force: true }));
+	before(() => models.User.bulkCreate(users));
+
 	describe('성공시', () => {
 		it('id가 1인 유저 객체를 반환한다.', (done) => {
 			request(app)
@@ -111,7 +122,7 @@ describe.only('POST /users', () => {
 
 	describe('성공시', () => {
 		let body;
-		let name = 'new1';
+		let name = '6';
 		before((done) => {
 			request(app)
 				.post('/users')
@@ -140,7 +151,7 @@ describe.only('POST /users', () => {
 		it('name이 중복일 경우 409를 반환한다.', (done) => {
 			request(app)
 				.post('/users')
-				.send({ name: 'new1' })
+				.send({ name: '1' })
 				.expect(409)
 				.end(done);
 		});
