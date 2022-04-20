@@ -1,12 +1,5 @@
-let users = [
-	{ id: 1, name: '1' },
-	{ id: 2, name: '2' },
-	{ id: 3, name: '3' },
-	{ id: 4, name: '4' },
-	{ id: 5, name: '5' },
-];
+const models = require('../../models');
 
-// api 로직
 const index = function (req, res) {
 	req.query.limit = req.query.limit || 10;
 	const limit = parseInt(req.query.limit, 10);
@@ -15,7 +8,11 @@ const index = function (req, res) {
 		return res.status(400).end();
 	}
 
-	res.json(users.slice(0, limit));
+	models.User.findAll({
+		limit: limit,
+	}).then((users) => {
+		res.json(users);
+	});
 };
 
 const show = function (req, res) {
@@ -25,22 +22,30 @@ const show = function (req, res) {
 		return res.status(400).end();
 	}
 
-	const user = users.filter((user) => user.id === id)[0];
+	models.User.findOne({
+		where: {
+			id,
+		},
+	}).then((user) => {
+		if (!user) {
+			return res.status(404).end();
+		}
 
-	if (!user) {
-		return res.status(404).end();
-	}
-
-	res.json(user);
+		res.json(user);
+	});
 };
 
-const destory = (req, res) => {
+const destroy = async (req, res) => {
 	const id = parseInt(req.params.id, 10);
 
 	if (Number.isNaN(id)) return res.status(400).end();
 
-	users = users.filter((user) => user.id !== id);
-	res.status(204).end();
+	try {
+		const user = await models.User.findOne({ where: { id } });
+		await user.destroy().then(() => {
+			res.status(204).end();
+		});
+	} catch (e) {}
 };
 
 const create = (req, res) => {
@@ -87,7 +92,7 @@ const update = (req, res) => {
 module.exports = {
 	index,
 	show,
-	destory,
+	destroy,
 	create,
 	update,
 };
