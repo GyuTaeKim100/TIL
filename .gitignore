@@ -1,4 +1,4 @@
 .DS_Store
 
 node_modules
-backend_side_projects/node-js-toy-projects-2022/hello-express-tdd/db.sqlite
+db.sqlite
