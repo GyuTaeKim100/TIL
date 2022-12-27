@@ -8,7 +8,13 @@ const result = document.querySelector('#result')
 
 fromEvent(keyword, 'keyup').pipe(
     pluck('target', 'value'),
-    mergeMap(keyword => 
+
+    // 불필요한 요청 최소화
+    filter(typed => typed.length > 1), // 1글자 이상일 경우만
+    debounceTime(500), // 0.5초 공백 후 발행
+    distinctUntilChanged(), // 연속된 같은 문자열 생략
+    // mergeMap 대신, switchMap 사용
+    switchMap(keyword => 
         ajax(`${url}?name=${keyword}`).pipe(retry(3))        
     ),
     pluck('response')
