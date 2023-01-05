@@ -7,8 +7,9 @@ const keyword = document.querySelector('#keyword')
 const result = document.querySelector('#result')
 
 fromEvent(keyword, 'keyup').pipe(
+    // backspace 시, 요청 안함.
+    filter(event => event.code != 'Backspace'),
     pluck('target', 'value'),
-
     // 불필요한 요청 최소화
     filter(typed => typed.length > 1), // 1글자 이상일 경우만
     debounceTime(500), // 0.5초 공백 후 발행
