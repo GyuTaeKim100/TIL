@@ -1,4 +1,4 @@
-const {Subject, BehaviorSubject, fromEvent, combineLatest, from} = rxjs
+const {Subject, BehaviorSubject, fromEvent, combineLatest, from, iif, of} = rxjs
 const { ajax } = rxjs.ajax
 const { tap, switchMap, pluck, startWith, filter, timeInterval, map, scan, reduce, skip} = rxjs.operators
 
@@ -21,7 +21,6 @@ const ajaxSubject = new Subject().pipe(
 
 ajaxSubject.subscribe(word => {
     console.log('ajaxSubject subscribe - word', word)
-    wordSubject.next(null) // 단어가 도착한 순간부터 초를 재기 위함, 왜 굳이?
     wordSubject.next(word)
 })
 
@@ -30,6 +29,7 @@ fromEvent(start, 'click').subscribe(_ => {
     ajaxSubject.next()
 })
 
+
 combineLatest(
     wordSubject,
     fromEvent(input, 'keyup').pipe(
@@ -37,13 +37,12 @@ combineLatest(
             startWith(null) // 첫 단어 직전의 null과 combine 되기 위한 초기값
         )
     ).pipe(
+        // TODO: iif로 timeInterval를 효과적으로 호출하기
         filter(([keyword, typed])=> {
             console.log('keyword', keyword)
-            // console.log('typed', typed)
+            console.log('typed', typed)
 
-            
-            // TODO: null 체크를 안하게 하는 방법은?
-            return [typed, null].includes(keyword)
+            return typed  === keyword
         }),
         timeInterval() // 단어가 갓 주어졌을 때 ~ 입력 성공헀을 때    
 ).subscribe((result)=> {
