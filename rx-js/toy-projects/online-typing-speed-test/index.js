@@ -20,7 +20,8 @@ const ajaxSubject = new Subject().pipe(
     )
 
 ajaxSubject.subscribe(word => {
-    wordSubject.next(null) // 단어가 도착한 순간부터 초를 재기 위함
+    console.log('ajaxSubject subscribe - word', word)
+    wordSubject.next(null) // 단어가 도착한 순간부터 초를 재기 위함, 왜 굳이?
     wordSubject.next(word)
 })
 
@@ -37,12 +38,19 @@ combineLatest(
         )
     ).pipe(
         filter(([keyword, typed])=> {
-            console.log(keyword, typed);
+            console.log('keyword', keyword)
+            // console.log('typed', typed)
+
+            
+            // TODO: null 체크를 안하게 하는 방법은?
             return [typed, null].includes(keyword)
         }),
         timeInterval() // 단어가 갓 주어졌을 때 ~ 입력 성공헀을 때    
 ).subscribe((result)=> {
+    console.log('combineLatest subscribe result', result)
+
     if(result.value[0] !== null) {  // 받아온 이름과 타이핑이 일치할 때
+        console.log('???')
         input.value = ''
         ajaxSubject.next()
     }
@@ -56,7 +64,9 @@ const recordSubject = new BehaviorSubject({
     records: [],
     average: null
 }).pipe(
+    tap((result) => console.log('recordSubject - result', result)),
     filter(result => result.value !== null),
+    tap(()=> console.log('passed')),
     scan((acc, cur)=> {
         acc.records.push(cur)
         from(acc.records).pipe(
@@ -76,6 +86,9 @@ const recordSubject = new BehaviorSubject({
     })    
 )
 
+// rxjs docs BehaviorSubject
+//  'A variant of Subject that requires an initial value and emits its current value whenever it is subscribed to.'
+// skip(1)을 하는 이유는, BehaviorSubject의 특성 때문이다.
 recordSubject.pipe(skip(1)).subscribe(result => {
     logs.innerHTML = `<div class="average">Average: <span>${result.average}</span></div>`
     + result.records.map(record => {
@@ -84,6 +97,8 @@ recordSubject.pipe(skip(1)).subscribe(result => {
 })
 
 function printRecords (result) {
+    console.log('printRecords - result', result)
+
     recordSubject.next(result)
 }
 
