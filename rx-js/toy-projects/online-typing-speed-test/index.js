@@ -1,6 +1,6 @@
-const {Subject, BehaviorSubject, fromEvent, combineLatest, from, iif, of} = rxjs
+const {Subject, BehaviorSubject, fromEvent, combineLatest, from, iif, of, empty} = rxjs
 const { ajax } = rxjs.ajax
-const { tap, switchMap, pluck, startWith, filter, timeInterval, map, scan, reduce, skip} = rxjs.operators
+const { tap, switchMap,  pluck, startWith, filter, timeInterval, map, scan, reduce, skip} = rxjs.operators
 
 const given = document.getElementById('given')
 const input = document.getElementById('input')
@@ -29,7 +29,6 @@ fromEvent(start, 'click').subscribe(_ => {
     ajaxSubject.next()
 })
 
-
 combineLatest(
     wordSubject,
     fromEvent(input, 'keyup').pipe(
@@ -38,13 +37,20 @@ combineLatest(
         )
     ).pipe(
         // TODO: iif로 timeInterval를 효과적으로 호출하기
-        filter(([keyword, typed])=> {
-            console.log('keyword', keyword)
-            console.log('typed', typed)
+        switchMap(x => 
+            iif((el) => {
+                console.log('el', el)
+                !el?.keyword
+            },
+            empty(),
+            timeInterval(x)
+        ),
+        filter((x)=> {
+            console.log('x',x)
 
-            return typed  === keyword
-        }),
-        timeInterval() // 단어가 갓 주어졌을 때 ~ 입력 성공헀을 때    
+            return false
+        })
+    )    
 ).subscribe((result)=> {
     console.log('combineLatest subscribe result', result)
 
