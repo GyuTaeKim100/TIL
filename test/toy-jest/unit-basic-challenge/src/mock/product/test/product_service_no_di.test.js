@@ -1,5 +1,7 @@
 const ProductService = require('../product_service_no_di.js');
 const ProductClient = require('../product_client.js');
+// 내부 의존성에 대한 Mock 처리
+// Mock을 남용하는 나쁜 예제이다.
 jest.mock('../product_client')
 
 describe('ProductService', () => {
