@@ -377,7 +377,7 @@
  const promise2 = promise.then(successCallback, failureCallback);
 
  // 방법 2
- const promise2 = domSomething().then(successCallback, failureCallback);s
+ const promise2 = domSomething().then(successCallback, failureCallback);
 ```
 
 - promise2는 doSomething() 뿐 아니라, successCallback 또는 failureCallback의 완료를 의미한다.
@@ -385,7 +385,7 @@
 - 이 경우, promise2에 추가된 콜백은 successCallback 또는 failureCallback에 의해 반환된 promise 뒤에 대기한다.
   - 만약 반환값이 없으면, 콜백 함수가 이전의 Promise의 결과를 받지 못한다.
 
-- 장점2. Error propagation
+- 장점으로 Error propagation
   - 콜백 지옥 시, 개별 콜백에 대해서 failureCallback을 등록해야 한다.
   - 하지만 promise chainig에서는 단 한 번만 발생한다. (단순화)
   - 즉, promise chain은 예외가 발생하면 멈추고, chain의 아래에서 catch를 찾는다.
@@ -418,12 +418,12 @@
 ```
  async function foo(){
   try {
-   const result = await doSomething();
-   const newResult = await doSomethingElse(result);
-   const finalResult = await doThirdThing(newResult);
-   Console.log(‘God the final result: ${finalResult}`); 
+    const result = await doSomething();
+    const newResult = await doSomethingElse(result);
+    const finalResult = await doThirdThing(newResult);
+    console.log(‘God the final result: ${finalResult}`); 
   } catch(error) {
-   FailureCallback(error);
+    failureCallback(error);
   }
  }
 ```
@@ -440,7 +440,7 @@
   - 유용한 사례, Node.js로 코드 작성 시, 특정 모듈이 reject 된 프로미스를 처리하지 않는 경우가 있을 수 있다.
     - 이 경우, 노드 실행 시 콘솔에 로그가 남는다.
     - 이를 수집에서 분석하고 직접 처리할 수도 있다.
-    - 아니면 콘솔 출력을 어지럽히는 것을막을 수도 있다.
+    - 아니면 콘솔 출력을 어지럽히는 것을 막을 수도 있다.
 - callback에 promise 적용하기
   - setTimeout의 문제점
     - 콜백 함수가 실패하거나 프로그램 오류를 캐치할 수 없다. (편법이 있을 것 같음)
@@ -515,7 +515,7 @@
  console.log(1); // 1, 2
 ```
 
-예시 2
+- 예시 2
 
 ```
  const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -537,8 +537,8 @@
 ```
  doSomethingCritical()
  .then(result => doSomethingOptional(result)
-  .then(optionalResult => doSomethingExtraNice(optionalResult))
-  .catch(e=> {})) // Ignore if optional stuff fails; proceed. 
+    .then(optionalResult => doSomethingExtraNice(optionalResult))
+    .catch(e=> {})) // Ignore if optional stuff fails; proceed. 
  .then(()=> moreCriticalStuff()) // doSomethingExtraNice가 실행을 완료 되기 전까지 pending  
  .catch(e => console.log(“Critical failure: ” + e.message));
 ```
@@ -563,12 +563,12 @@
 
 - 실수 1. 제대로 체인을 연결하지 않음.
 
-- 주로 새로운 promise를 만들었지만, 그것을 반환하는 것을 잊었을 때 일어난다.
-  - return이 없으면, 결과적으로 체인이 끊어지거나, 오히려 두 개의 독립적인 체인이 경쟁하게 된다. (만약 return이 promise이면 (동기 또는 비동기) 로직을 순차적으로 이어갈 수 있으므로)
+  - 주로 새로운 promise를 만들었지만, 그것을 반환하는 것을 잊었을 때 일어난다.
+    - return이 없으면, 결과적으로 체인이 끊어지거나, 오히려 두 개의 독립적인 체인이 경쟁하게 된다. (만약 return이 promise이면 (동기 또는 비동기) 로직을 순차적으로 이어갈 수 있으므로)
   - 즉, doFourthThing()은 doSomethingElse() 또는 doThirdThing()이 완료될 때 까지 기다리지 않고, 의도와 다르게 병렬로 실행된다.
   - 또한 별도의 체인은 별도의 오류 처리 기능을 가지고 있으므로, 잡기 어려운 오류가 발생한다.
 
-- 실수 2. 불필요하게 중첩되어 실수1을 가능하게 만든다.
+- 실수 2. 불필요하게 중첩되어 실수 1을 가능하게 만든다.
   - 중첩은 내부 오류 처리기의 범위를 제한하며, 의도하지 않은 에러가 캐치되지 않는 오류가 발생할 수 있다.
   - 중첩에 의해서, 내부 오류 처리기의 범위를 제한하며, 의도하지 않은 에러가 캐치되지 않는 오류를 발생시킬 수 있다.
   - 이 변형은 promise contructor anti-pattern 이다.
@@ -587,10 +587,11 @@
   - 종료되지 않은 promise 체인은 대부분의 브라우저에서 예상하지 못한 promise rejection을 초래한다.
   - 항상 promise 체인을 반환하거나 종결해야 한다.
   - async/await 시 대부분의 문제를 해결할 수 있음.
-- promise와 작업이 충돌할 때
+- promise와 작업이 충돌할 때 ()
   - 예측할 수 없는 순서로 실행되는 promise 및 작업(예: 이벤트 또는 콜백)이 있는 상황에 직면하면 마이크로 태스크를 사용하여 상태를 확인하거나 promise가 조건부로 생성될 때 promise의 균형을 맞추는 것이 좋다.
   - 의문
-    - Promise의 균형?
+    - 마이크로 태스크를 어떻게 이용해서 상태를 확인?
+    - promise가 조건부로 생성될 때 promise의 균형?
 
 - 참고
   - <https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Using_promises>
