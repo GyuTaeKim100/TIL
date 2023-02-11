@@ -660,6 +660,7 @@
 - 생성자 함수는 function* 문법을 사용하여 작성된다.
   - 최초 호출 시, 함수 내부의 어떠한 코드도 동작하지 않고, 대신 생성자라고 불리는 반복자 타입을 반환한다.
   - 생성자의 next 메서드를 호출함으로써, 어떤 값이 소비되면, 생성자 함수는 yield 키워드를 만날 때 까지 실행된다.
+    > yield 의미는 "생산하기" 이다
 - 생성자 함수는 원하는 만큼 호출될 수 있다.
   - 매번 새로운 생성자 함수를 반환한다.
   - 단 각 생성자는 단 한번만 순회될 수 있을 것이다 (?)
@@ -763,16 +764,30 @@
     }
  }
 
- var sequence = fibonacci();
- console.log(sequence.next().value); // 0
- console.log(sequence.next(true).value) //0
+console.log(sequence.next().value);     // 0
+console.log(sequence.next().value);     // 1
+console.log(sequence.next().value);     // 1
+console.log(sequence.next().value);     // 2
+console.log(sequence.next().value);     // 3
+console.log(sequence.next().value);     // 5
+console.log(sequence.next().value);     // 8
+console.log(sequence.next(true).value); // 0
+console.log(sequence.next().value);     // 1
+console.log(sequence.next().value);     // 1
+console.log(sequence.next().value);     // 2
 ```
 
 - 제너레이터의 throw() 메서드를 호출하고, throw 해야 하는 예외 값을 전달하여 생성자가 예외를 throw 하도록 할 수 있다.
-  - 예외는 생성기의 현재 일시 중단된 컨텍스트에서 throw된다.
-  - 마치 현재 일시 중단된 yield 대신 throw value 문인 것처럼.
-  - 예외가 생성기 내에서 포착되지 않으면 throw() 호출을 통해 전파되고 이후의 next() 호출은 done 속성ㅇ이 true가 된다.
-  - 제너레이터에는 주어진 값을 반환하고 제너레이터 자체를 완료하는 return(value) 메서드가 있다.
+  - 제너레이터 throw ( <https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Generator/throw> )
+    - 예외는 생성기의 현재 일시 중단된 컨텍스트에서 throw된다.
+    - 마치 현재 일시 중단된 yield 대신 `throwvalue 문`인 것처럼.
+    - 예외가 생성기 내에서 포착되지 않으면 throw() 호출을 통해 전파되고, 이후의 next() 호출은 done 속성이 true가 된다.
+- 제너레이터에는 주어진 값을 반환하고 제너레이터 자체를 완료하는 return(value) 메서드가 있다.
+  - 제너레이터 return ( <https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Generator/return> )  
+    - 현재 중단된 위치에서 제너레이터 본체에 리턴 문이 삽입된 것 처럼 작동한다.
+      - 일반적인 흐름에서는 return(value) 호출 시, {done:true, value: value}가 반환된다.
+      - 만약 yeild 외부가 try ...finally 블록이 적용된 경우, 제어 흐름은 함수를 종료 하지 않고 finally 블록이 실행되도록 한다.
+        - 이 경우 반환되는 값이 다를 수 있으므로, finally 블록 내에 더 많은 yield 식이 있다면 done도 false 일 수 있다.
 
 #### iterator와 iterable의 차이점
 
