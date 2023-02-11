@@ -466,7 +466,7 @@
   });
 ```
 
--  예제, 고급진 JavaScript를 사용하여 순차적으로 구성하기
+- 예제, 고급진 JavaScript를 사용하여 순차적으로 구성하기
 
 ```
  [func1, func2, func3].reduce((p,f => p.then(f), Promise.resolve())
@@ -595,3 +595,283 @@
 
 - 참고
   - <https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Using_promises>
+
+### 반복기(iterator) 와 생성기(generator)
+
+#### 반복자 (Iterator)
+
+- 시퀀스를 정의하고, 종료 시의 반환값을 잠재적으로 정의하는 객체이다.
+- 반복자는 두 개의 속성( value, done )을 반환하는 next() 메소드를 사용하여, 객체의 Iterator protocol을 구현한다.
+- 만약 시퀀스의 마지막 값이 이미 산출된 경우, done 값은 true이다.
+- 반복자를 생성하면 next() 메소드로 명시적으로 반복 호출할 수 있다.
+  - 반복자를 반복시키는 것은 일반적으로 단 1번씩만 가능하므로, 반복자를 소모시키는 것이다.
+    - 의문
+      - 동일한 반복자 반복 1회 이상 할 수 있는가? 있다면 방법은?
+- 가장 일반적인 반복자는 배열 반복자이다.
+- 모든 반복자가 배열로 표현 될 수 없다.
+  - 배열은 완전히 할당되어야 하지만, 반복자는 필요한 만큼만 소모되므로 무제한 시퀀스로 표현할 수 있다. (0부터 무한대 사이의 정수 범위로)
+- 반복자 내부에 명시적으로 상태를 유지할 필요가 있다.
+- 예제, 배열이 아닌 이터레이터 만들기 (특정 정수 범위만큼 반복자 생성하기)
+
+```
+
+ // 이터레이터 정의
+ function makeRangeIterator (start = 0, end = Infinity, step = 1) {
+    var nextIndex = start;
+    var n = 0;
+
+  var rangeIterator = {
+    next: function () {
+      var result;
+      
+      if(nextIndex < end) {
+        result = {value: nextIndex, done: false }
+      } else if (nextIndex == end) {
+        result = { value: n, done: true }
+      } else {
+        result = { done: true } 
+      }
+
+      nextIndex += step;
+      n++;
+      
+      return result;
+    }
+  }  
+  return rangeIterator;
+ }
+
+ // 정의한 이터레이터 사용
+ var it = makeRangeIterator(1, 4);
+
+ var result = it.next();
+ while(!result.done) {
+  console.log(result.value); // 1, 2, 3
+ }
+ 
+ console.log(“iterated over sequence of size:”, result.value):
+```
+
+#### Generator functions
+
+- 반복자는 내부에 명시적으로 상태를 유지할 필요가 있다.
+  - 생성자 함수는 이에 대한 강력한 대안을 제공한다.
+- 실행이 연속적이지 않은 하나의 함수를 작성함으로서 개발자가 iterative alogrithm을 정의할 수 있게 한다.
+- 생성자 함수는 function* 문법을 사용하여 작성된다.
+  - 최초 호출 시, 함수 내부의 어떠한 코드도 동작하지 않고, 대신 생성자라고 불리는 반복자 타입을 반환한다.
+  - 생성자의 next 메서드를 호출함으로써, 어떤 값이 소비되면, 생성자 함수는 yield 키워드를 만날 때 까지 실행된다.
+- 생성자 함수는 원하는 만큼 호출될 수 있다.
+  - 매번 새로운 생성자 함수를 반환한다.
+  - 단 각 생성자는 단 한번만 순회될 수 있을 것이다 (?)
+
+```
+ function* makeRangeIterator (start = 0, end = Infinity, step = 1 )  {
+    let n = 0;
+    for(let i = start; i < end ; i += step) {
+      n++;
+      yield 1;
+    }
+
+    return n;
+ }
+```
+
+- 반복자보다 생성자를 사용한 코드가 보다 가독성이 높다.
+
+#### iterables
+
+- Array 또는 Map은 iterable이 기본 내장형이다.
+- 객체는Symbol.iterator 키를 갖는 경우(@@iterator 메서드 구현, 반복이 가능하다.
+  - 의문
+    - Array를 초기값 1, 2, 3으로 선언 시, 숫자 1, 2, 3은 @@iterator 로 사용하기 위해서 어떻게 관리되는가?
+      - 참고로, 재정의한 @@iterator는, 초기 선언값과 다르게 관리된다.
+- 하나의 Iterable은 단 한 번, 혹은 여러번 반복가능하다.
+  - 단 한 번 반복 가능한 iterable(e.g. Generator)은 관습적으로 자신의 @@iterator메서드로부터 this를 반환한다. (Generator 강조!)
+  - 반면, 여러 번 반복 가능한 iterable은 @@iterator 메소드가 호출되는매 회 새로운 iterable을 반드시 반환해야 한다.
+- 사용자 정의 iterable
+  - 의문
+    - 사용자 정의가 아닌 iterable은 어떻게 구현되어 있을까?
+  - 예제, 자신의 반복가능 객체를 만들기
+
+```
+ var myIterable = {
+    *[symbol.iterator]() {
+    yield 1;
+    yield 2;
+    yield 3;
+  }
+
+  for (let value of myIterable) {
+    console.log(value);
+  }
+
+  // 1
+  // 2
+  // 3
+
+  // 또는
+  […myIterable]; // [1, 2, 3]
+ }
+```
+
+- 내장 iterable
+  - String, Array, TypedArray, Map 및 Set은 모두 내장 가능 반복 객체이다.
+    - 프로토타입 객체가 모두 Symbol.iterator 메소드가 있기 때문이다.
+
+```
+ for (let value of [‘a’, ‘b’, ‘c’]) {
+    console.log(value)
+ }
+ // “a”
+ // “b”
+ // “c”
+
+ [..’abc’] // [“a”, “b”, “c”]
+
+ function* gen() {
+    yield* [‘a’, ‘b’, ‘c’] 
+ }
+
+ gen().next() // {value: “a”, done: false }
+
+ [a, b, c] = new set([‘a’, ‘b’, ‘c’])
+ A // “a”
+```
+
+#### Generator 심화
+
+- 생성자 함수는 요청에 따라 그 산출된 (yielded, yield 식으로 산출된) 값을 계산하고, 계산 비용이 높은 수열 또는 위에 설명한 대로 무한 수열이라도 효율적으로 나타낸다.
+- next() 메서드는 또한 생성기의 내부 상태를 수정하는 데 쓰일 수 있는 값을 받는다.
+  - next()에 전달되는 값은 생성기가 중단된 마지막 yield 식의 결과로 처리된다.
+- 예제, sequence(수열)을 재시작하기 위한 피보나치 수열
+
+```
+ function* fibonacci() {
+    var fn1 = 0;
+    var fn2 = 1;
+
+    while( true ) {
+      var current = fn1;
+      fn1 = fn2;
+      Fn2 = current + fn1;
+      var reset = yield current;
+
+      if (reset) {
+        fn1 = 0;
+        fn2 = 1;
+      }
+    }
+ }
+
+ var sequence = fibonacci();
+ console.log(sequence.next().value); // 0
+ console.log(sequence.next(true).value) //0
+```
+
+- 제너레이터의 throw() 메서드를 호출하고, throw 해야 하는 예외 값을 전달하여 생성자가 예외를 throw 하도록 할 수 있다.
+  - 예외는 생성기의 현재 일시 중단된 컨텍스트에서 throw된다.
+  - 마치 현재 일시 중단된 yield 대신 throw value 문인 것처럼.
+  - 예외가 생성기 내에서 포착되지 않으면 throw() 호출을 통해 전파되고 이후의 next() 호출은 done 속성ㅇ이 true가 된다.
+  - 제너레이터에는 주어진 값을 반환하고 제너레이터 자체를 완료하는 return(value) 메서드가 있다.
+
+#### iterator와 iterable의 차이점
+
+- iterable
+  - 랜덤 Access 가능
+  - 내장 기능이 많음. (Heavyweight)
+    - 즉 메모리 사용량이 상대적으로 많음.
+- iterator
+  - .next() 메소드를 통해서, 바로 앞/뒤 값만 접근 가능
+  - iterable 보다 기능이 상대적으로 적음 (lightweight)
+    - 즉 메모리 사용량이 상대적으로 적음.
+
+#### 참고
+
+- 반복 프로토콜
+- for …of
+- function* 및 Generator
+- yield 및 yield*
+- 참고
+  - <https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Iterators_and_generators>
+
+### Iteration protocols
+
+- 이 protocols (표현법)은 일정 규칙만 충족한다면 어떠한 객체에 의해서도 구현될 수 있다.
+  - 종류는 iterable.protocol과 iterator.protocl이 있다.
+    - 의문
+      - 무슨 차이?
+- The iterable protocol
+  - JS 객체들이 for..of 구조에서 어떠한 value들이 loop되는 것과 같은, iteration 동작을 정의하거나 사용자 정의를 허용한다.
+  - Array 또는 Map은 default iteration 동작으로 built-in iterables이다.
+  - Iterable 하기 위해서는, 객체 내 @@iterator 메소드를 구현해야 한다.
+    - 이는 객체가 Symbol.iterator key의 속성을 가져야 함을 의미함.
+￼ - ![1.png](./imgs/1.png)
+  - 어떠한 객체가 반복(iterate)되어야 한다면, 이 객체는 @@iterator 메소드가 인수없이 호출되고, 반환된 iterator는 반복을 통해서 획득할 값들을 얻을 때 사용한다.
+
+- The iterator protocol
+  - value (finite 또는 infinite) 들의 sequence를 만드는 표준 방법을 정의한다.
+  - 객체가 next() 메소드를 가지고 있고, 아래의 규칙에 따라 구현되었다면 그 객체는 iterator이다.
+￼
+- ![2.png](./imgs/2.png)
+- 몇몇 iterator들은 iterable(반복 가능)이다:
+
+```
+ var someArray = [1, 5, 7];
+ var someArrayEntries = someArray.entries();
+
+ someArrayEntries.toString(); // “[object Array Iterator]”
+ someArrayEntries === someArrayEntries[Symbol.iterator](); // true
+```
+
+- Iteration protocols 사용 예시
+  - 예시, String은 Built-in iterable 객체의 한 예시이다.
+
+```
+ var someString = “hi“;
+ typeof someString[Symbol.iterator]; / “function”
+```
+
+- 예제, String의 기본 iterator는 string의 문자를 하나씩 반환한다.
+
+```
+ var iterator = someString[Symbol.iterator]();
+ iterator + “”; // “[object string Iterator]”
+
+ iterator.next(); // { value: “h”, done: false}
+ iterator.next(); // { value: “i”, done: false}
+ iterator.next(); // { value: undefined, done: true }
+```
+
+- 예제, spread operator와 같은 특정 내장 구조(built-in constructs)들은 실제로는 동일한 iteration protocol을 사용한다.
+
+```
+ […someString]. //[“h”, “i”]
+```
+
+- 예제, 사용자만의 @@iterator를 특정함으로써 원하는 반복 행위(iteration behavior)를 설정할 수 있다.
+
+```
+ var someString = new String(“hi”); // need to construct a String object explicitly to avoid auto-boxing
+
+ someString[Symbol.iterator] = function() {
+  Return {
+   // this is the iterator object, returning a single element, the string “bye”
+   next : function() {
+    If(this._first) {
+     this._first = false;
+     return { value: “bye”, done :false }
+    } else {
+     Return { done: true };
+    }
+   },
+   _first: true
+  }
+ }
+
+ // 재설정된 @@iterator가 어떻게 내장 구조(built-in constructs)의 반복 행위에 영향을 주는지 확인
+ […someString]; // [“bye”]
+ SomeString + “”; // “hi”
+```
+
+- 참고
+  - <https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Iteration_protocols>
