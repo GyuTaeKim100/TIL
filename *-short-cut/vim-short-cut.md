@@ -13,3 +13,15 @@
 ### vim 커서 이동
 
 - <https://gmlwjd9405.github.io/2019/05/14/vim-shortkey.html>
+
+### mac scode 단축키
+
+- <https://juntcom.tistory.com/65>
+
+### explain
+
+### example explain eval eval eval
+
+### true false true false true
+
+(hello world)
