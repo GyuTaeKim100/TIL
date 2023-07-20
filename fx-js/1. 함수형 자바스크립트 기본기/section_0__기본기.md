@@ -1,6 +1,6 @@
 # 평가
 
-- 코드가 계산(Evaluation) 되어 값을 만드는 것
+- 코드가 계산(Evaluation) 되어 값이 된다.
 
 # 일급
 
@@ -16,17 +16,19 @@
 
 # 고차 함수
 
-- 함수를 값으로 다루는 함수
-- 인자 또는 함수 리턴
-- 인자 케이스
+- 함수를 값으로 다루는 함수이다.
+- 함수를 인자로 받거나 또는 함수로 리턴한다.
+- 클로저를 활용한다.
 
+- 예제 1
 ```javascript
 const apply1 = (f) => f(1);
 const add2 = (a) => a + 2;
 console.log(apply1(add2)); // 3
-console.log(apply1((a) => a - 1)); // 0å
+console.log(apply1((a) => a - 1)); // 0
 ```
 
+- 예제 2
 ```javascript
     const times = (f , n) => {
         let i = -1
@@ -39,10 +41,11 @@ console.log(apply1((a) => a - 1)); // 0å
     times(a=> console.log(a+1,3))
 ```
 
-- 함수 리턴 ( 클로저를 만들어 리턴하는 함수 )
+예제3 : 함수 리턴 ( 클로저를 만들어 리턴하는 함수 )
 
 ```javascript
-const addMaker = (a) => (b) => a + b;
+// addMaker는 클로저에 의해서, b인자를 받는 함수를 실행할 때, 상위 함수인 a를 인자로 받는 고차함수의 a에 접근이 가능하다.
+const addMaker = (a) => (b) => a + b; 
 const add10 = addMaker(10);
 console.log(add10(10));
 ```
