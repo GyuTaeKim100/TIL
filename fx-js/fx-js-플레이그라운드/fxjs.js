@@ -3,7 +3,7 @@
 
 export const curry = f => (a, ..._) => _.length ? f(a, ..._) : (..._) => f(a, ..._);
 
-export const isIterable = a => a && a[Symbol.iterator];
+export const isIterable = a => !!(a && a[Symbol.iterator])
 
 export const go1 = (a, f) => a instanceof Promise ? a.then(f) : f(a);
 
@@ -148,4 +148,10 @@ console.log('minus 3' , minus(10)(5)) // 5
 
 // isIterable 사용하기
 console.log('isIterable 1', isIterable(1)) // false
-console.log('isIterable 1', isIterable([1,2,3])) // true
+console.log('isIterable 2', isIterable([1,2,3])) // true
+// console.clear()
+
+// go1 사용하기
+console.log('go1 1', go1(10, a => a * a)) // 100
+console.log('go1 2', go1(Promise.resolve(10), a => a * a)) // Promose<pending>
+console.log('go1 2', go1(Promise.reject('error'))) // Promose<pending> with Uncaught (in promise) error
