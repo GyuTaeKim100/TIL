@@ -5,7 +5,10 @@ export const curry = f =>
 
 export const isIterable = a => a && a[Symbol.iterator];
 
-export const go1 = (a, f) => a instanceof Promise ? a.then(f) : f(a);
+export const go1 = (a, f) => 
+  a instanceof Promise ?
+    a.then(f) 
+    : f(a);
 
 const reduceF = (acc, a, f) =>
   a instanceof Promise ?
