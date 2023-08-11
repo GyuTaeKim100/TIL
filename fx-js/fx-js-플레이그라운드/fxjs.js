@@ -138,3 +138,14 @@ C.take = curry((l, iter) => take(l, catchNoop(iter)))
 C.map = curry(pipe(L.map, C.takeAll));
 
 C.filter = curry(pipe(L.filter, C.takeAll))
+
+// curry 사용하기
+const minus = curry((a, b) => a - b)
+console.log('minus 1', minus(10, 5)) // 5
+console.log('minus 2', minus(10)) // 함수 출력
+console.log('minus 3' , minus(10)(5)) // 5
+// console.clear()
+
+// isIterable 사용하기
+console.log('isIterable 1', isIterable(1)) // false
+console.log('isIterable 1', isIterable([1,2,3])) // true
