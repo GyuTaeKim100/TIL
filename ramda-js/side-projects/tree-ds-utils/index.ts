@@ -1,58 +1,54 @@
-import R from 'ramda';
+// @ TODO : TypeScript 적용 필용 - 1차적으로 완료
+// @ TODO : Jest 기반 Test Code 작성 필요
+// @ TODO : 보다 높은 추상화 수준의 함수 추가 예정
 
-export const removePropEachNode = (data, prop) => {
-  if (R.is(Array, data)) {
-    return R.map((item) => removePropEachNode(item, prop), data);
-  } else if (R.is(Object, data)) {
-    const newData = R.dissoc(prop, data); // Remove the specified prop from the object
-    return R.mapObjIndexed((val) => removePropEachNode(val, prop), newData);
-  }
-  return data;
-};
+const R = require('ramda');
 
-export const deepflatten = R.curry((propKey, data) =>
+interface IDeppFlatten {
+    <TNode>(propKey: string, nodes: TNode): Array<TNode>;
+}
+export const deepFlatten = R.curry((propKey, nodes): IDeppFlatten =>
   R.pipe(
       R.chain((item) =>
         R.ifElse(
             R.hasPath([propKey]),
             R.pipe(
                 R.prop(propKey),
-                deepflatten(propKey),
+                deepFlatten(propKey),
                 R.concat([item]),
             ),
             R.always([item]),
         )(item),
       ),
-  )(data));
+  )(nodes));
 
-export const extractLeafNodes= R.curry((propKey, data) =>
-  R.pipe(
-      deepflatten(propKey),
-      R.filter(
-          R.pipe(
-              R.prop(propKey),
-              R.isEmpty,
-          ),
-      ),
-  )(data),
-);
-
-export const ensureArray = R.cond([
+interface IEnsureArray {
+    <TNode>(nodes: TNode): Array<TNode>;
+}
+export const ensureArray : IEnsureArray= R.cond([
   [R.isNil, R.always([])],
   [R.is(Array), R.identity],
-  [R.is(Object), R.of],
+  [R.is(Object), R.of(Array)],
 ]);
 
-export const filterTreeNode = R.curry((predicate, childrenKey, treeNodes) =>
+// console.log('ensuerArray - 1', ensureArray({a: 1}));
+// console.log('ensuerArray - 2', ensureArray([]));
+// console.log('ensuerArray - 3', ensureArray(null));
+
+
+interface IFilterNode {
+     <TNode>(predicate: (node: TNode)=> boolean, childrenKey: string, nodes: TNode): Array<TNode>;
+}
+export const filterNode = R.curry((predicate, childrenKey, treeNodes): IFilterNode =>
   R.pipe(
       R.filter(predicate),
       R.map(
-          R.over(R.lensProp(childrenKey), filterTreeNode(predicate, childrenKey)),
+          R.over(R.lensProp(childrenKey), filterNode(predicate, childrenKey)),
       ),
   )(treeNodes),
 );
 
-// test for filterTreeNode
+// test for filter
 // const tree = [{
 //   name: 'A',
 //   children: [
@@ -69,9 +65,28 @@ export const filterTreeNode = R.curry((predicate, childrenKey, treeNodes) =>
 //     },
 //   ],
 // }];
-// console.log('filterTreeNode ', filterTreeNode((node) => !!node.children && ['A', 'B', 'D'].includes(node.name), 'children', tree));
+// console.log('filter ', filterNode((node) => !!node.children && ['A', 'B', 'D'].includes(node.name), 'children', tree));
 
-export const updateEachNode= R.curry((transformation, childrenKey, treeNodes) =>
+
+interface IExtractLeafNodes {
+    <TNode>(propKey: string, nodes: TNode[]): Array<TNode>;
+}
+export const extractLeafNodes= R.curry((propKey, nodes) : IExtractLeafNodes =>
+  R.pipe(
+      deepFlatten(propKey),
+      R.filter(
+          R.pipe(
+              R.prop(propKey),
+              R.isEmpty,
+          ),
+      ),
+  )(nodes),
+);
+
+interface IUpdateEachNode {
+    <TNode>(transformation: (node: TNode) => TNode, childrenKey: string, nodes: TNode[]): Array<TNode>;
+}
+export const updateEachNode= R.curry((transformation, childrenKey, treeNodes) : IUpdateEachNode=>
   R.pipe(
       R.ifElse(
           R.isNil,
@@ -121,18 +136,21 @@ export const updateEachNode= R.curry((transformation, childrenKey, treeNodes) =>
 // }];
 // console.log('updateEachNode ', updateEachNode(R.assoc('testValue', 1), 'children', tree2));
 
-// @TODO: 모든 노드가 동일한 형태인지 파악하는 함수 필요
+interface ICreateIncrementer {
+    next: () => number;
+  }
+const createIncrementer = (count= 0) : ICreateIncrementer => ({
+  next: ()=> ++count,
+});
 
-// @TODO 지연평가로 고차 문맥 형성하기
-export const addSequenceToTreeNodes = R.curry((start, sequenceKey, childrenKey, treeNodes) => {
+interface IAddIncreasementSequenceEachNode {
+    <TNode>(start: number, sequenceKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
+}
+export const addIncreasementSequenceEachNode = R.curry((start, sequenceKey, childrenKey, treeNodes): IAddIncreasementSequenceEachNode => {
   const incrementer=createIncrementer(start);
   return updateEachNode((el)=> R.assoc(sequenceKey, incrementer.next())(el), childrenKey, treeNodes);
 },
 );
-
-export const createIncrementer = (count= 0) => ({
-  next: ()=> ++count,
-});
 
 // // test for addSequenceToTreeNodes
 // const tree3 = [{
@@ -154,14 +172,16 @@ export const createIncrementer = (count= 0) => ({
 
 // console.log('addSequenceToTreeNodes ', addSequenceToTreeNodes(0, 'seq', 'children', tree3));
 
-export const updateNodesWithCondition= R.curry((condition, transformation, childrenKey, treeNodes) =>
-  updateEachNode((el)=>
-    R.pipe(
-        R.tap((el)=> console.log('updateNodesWithCondition 1', el)),
-        R.when(condition, transformation),
-    )(el),
-  childrenKey,
-  treeNodes,
+interface IUpdateNodeWithCondition {
+    <TNode>(condition: (node: TNode) => boolean, transformation: (node: TNode) => TNode, childrenKey: string, nodes: TNode[]): Array<TNode>;
+}
+export const updateNodesWithCondition= R.curry((condition, transformation, childrenKey, treeNodes): IUpdateNodeWithCondition =>
+  updateEachNode(
+      R.pipe(
+          R.when(condition, transformation),
+      ),
+      childrenKey,
+      treeNodes,
   ),
 );
 
@@ -184,10 +204,13 @@ export const updateNodesWithCondition= R.curry((condition, transformation, child
 // }];
 // console.log('updateNodesWithCondition', updateNodesWithCondition(R.propEq('A', 'name'), R.assoc('testValue', 1), 'children', tree4));
 
-export const removePropFromNodes = R.curry((propKey, childrenKey, treeNodes) =>
+interface IRemovePropEachNode {
+    <TNode>(propKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
+}
+export const removePropEachNode = R.curry((propKey, childrenKey, treeNodes): IRemovePropEachNode =>
   updateEachNode(R.dissoc(propKey), childrenKey, treeNodes));
 
-// test for removePropFromNodes
+// test for removePropEachNode
 // const tree5 = [{
 //   name: 'A',
 //   children: [
@@ -204,9 +227,12 @@ export const removePropFromNodes = R.curry((propKey, childrenKey, treeNodes) =>
 //     },
 //   ],
 // }];
-// console.log('removePropFromNodes', removePropFromNodes('name', 'children', tree5));
+// console.log('removePropEachNode', removePropEachNode('name', 'children', tree5));
 
-export const updatePropNameFromNodes = R.curry((propKey, newPropKey, childrenKey, treeNodes) =>
+interface IUpdatepropName {
+    <TNode>(propKey: string, newPropKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
+}
+export const updatePropName = R.curry((propKey, newPropKey, childrenKey, treeNodes): IUpdatepropName =>
   updateEachNode(
       (el)=>R.mergeAll(
           [
@@ -216,7 +242,6 @@ export const updatePropNameFromNodes = R.curry((propKey, newPropKey, childrenKey
       )
       , childrenKey, treeNodes));
 
-// test for removePropFromNodes
 // const tree6 = [{
 //   name: 'A',
 //   children: [
@@ -233,40 +258,19 @@ export const updatePropNameFromNodes = R.curry((propKey, newPropKey, childrenKey
 //     },
 //   ],
 // }];
-// console.log('updatePropNameFromNodes', updatePropNameFromNodes('name', 'name2', 'children', tree6));
+// console.log('updatePropName', updatePropName('name', 'name2', 'children', tree6));
 
-// export const isLeafNodeValid = ({node, validate, parseChildren = null}) => {
-//   const children = parseChildren ? parseChildren(node) : node.subRows;
-//   const hasChildren = children?.length > 0;
+interface IIsLeafNodeCondition {
+    <TNode>(childrenKey: string, condition: (node: TNode) => boolean, nodes: TNode[]): boolean;
+}
+export const isLeafNodeCondition = R.curry(( childrenKey: string, condition: any, treeNodes: any[]) : IIsLeafNodeCondition=>
 
-//   if (hasChildren) {
-//     return children.some((node) =>
-//       isLeafNodeValid({node, validate, parseChildren}),
-//     );
-//   } else {
-//     if (validate(node)) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
-// };
-
-
-export const isLeafNodeCondition = R.curry(( childrenKey: string, condition: any, treeNodes: any[]) =>
   R.pipe(
       R.any(
           R.cond([
-            [
-              R.pipe(
-                  R.prop(childrenKey),
-                  R.isEmpty,
-              ),
-              (node)=> condition(node),
-            ],
+            [R.complement(R.has(childrenKey)), (node)=> condition(node)],
             [R.T, (node) =>isLeafNodeCondition(childrenKey, condition, node.children)],
-          ],
-          ),
+          ]),
       ),
   )(treeNodes),
 );
@@ -288,81 +292,89 @@ export const isLeafNodeCondition = R.curry(( childrenKey: string, condition: any
 //     },
 //   ],
 // }];
-// console.log('isLeafNodeCondition', isLeafNodeCondition( 'children', (el)=> el.name ==='F', tree7));
 
-// export const deepflatten = R.curry((propKey, data) =>
-//   R.pipe(
-//       R.chain((item) =>
-//         R.ifElse(
-//             R.hasPath([propKey]),
-//             R.pipe(
-//                 R.prop(propKey),
-//                 deepflatten(propKey),
-//                 R.concat([item]),
-//             ),
-//             R.always([item]),
-//         )(item),
-//       ),
-//   )(data));
+// console.log('isLeafNodeCondition', isLeafNodeCondition( 'children', (el)=> {
+//   console.log('el_1', el);
+//   return el.name ==='F';
+// }, tree7));
 
+interface IIsSomeLeafNodeCondition{
+    <TNode>(childrenKey: string, condition: (node: TNode) => boolean, nodes: TNode[]): boolean;
+}
+export const isSomeLeafNodeCondition = R.curry(( childrenKey: string, condition: any, treeNodes: any[]) : IIsSomeLeafNodeCondition=>
+  R.any(
+      R.pipe(
+          R.ifElse(
+              R.both(
+                  R.pipe(
+                      R.prop(childrenKey),
+                      R.is(Array),
+                  ),
+                  R.has(childrenKey),
+                  R.pipe(
+                      R.prop(childrenKey),
+                      R.complement(R.empty),
+                  )),
+              R.pipe(
+                  R.prop(childrenKey),
+                  isSomeLeafNodeCondition(childrenKey, condition),
+              ),
+              (el)=>condition(el),
+          )),
+  )(treeNodes));
 
-// @TODO: 작동 안됨. 수정하면서 함수형 로직 구성 연습에 적합함.
-// export const filterLeafNodePath = R.curry((childrenKey: string, predicate: any, treeNodes: any[]) =>
-//   R.pipe(
-//       R.tap((el)=> console.log('filterLeafNodePath 1', el)),
-//       R.ifElse(
-//           R.pipe(
-//               R.view(R.lensProp(childrenKey)),
-//               R.isEmpty,
-//           ),
-//           R.filter(predicate),
-//           R.filter(
-//               R.ifElse(
-//                   R.pipe(
-//                       R.tap((el)=> console.log('filterLeafNodePath 2', el)),
-//                       R.over(
-//                           R.lensProp(childrenKey),
-//                           filterLeafNodePath(childrenKey, predicate),
-//                       ),
-//                       R.tap((el)=> console.log('filterLeafNodePath 3', el)),
-//                       R.view(R.lensProp(childrenKey)),
-//                       R.tap((el)=> console.log('filterLeafNodePath 4', el)),
-//                       R.isEmpty,
-//                   ),
-//                   R.always(false),
-//                   R.always(true),
-//               ),
-//           ),
-//       ),
-//       R.tap((el)=> console.log('filterLeafNodePath 5', el)),
-//   )(treeNodes),
-// );
-
-// test for filterLeafNodePath
-// const tree8 = [{
+// const tree7 = [{
 //   name: 'A',
 //   children: [
 //     {
 //       name: 'B',
 //       children: [
-//         {name: 'C', value: 1, children: []},
-//         {name: 'D', value: 2, children: []},
+//         {name: 'C', children: []},
+//         {name: 'D', children: []},
+//         {name: 'H'},
+//         {name: 'G' , children: undefiend}
 //       ],
 //     },
 //     {
 //       name: 'E',
-//       children: [{name: 'F', value: 3, children: []}],
+//       children: [{name: 'F'}],
 //     },
 //   ],
-// },
-// {
-//   name: 'G',
-//   children: [],
-// },
-// ];
-// console.log('_____filterLeafNodePath', filterLeafNodePath('children', R.curry((el)=> {
-//   console.log(' filterLeafNodePath predicate ', el, el.value ===1);
-//   return el.value ===1;
-// }), tree8));
+// }];
 
+// console.log('isSomeLeafNodeCondition - 1',
+//     isSomeLeafNodeCondition( 'children', (el)=> {
+//       console.log('el_xxx leaf', el);
+//       return el.name ==='H';
+//     }, tree7),
+// );
+
+
+// console.log('isSomeLeafNodeCondition - 2',
+//     isSomeLeafNodeCondition( 'children', (el)=> {
+//       return el.name ==='G';
+//     }, tree7),
+// );
+
+// @TODO: ramdaJS 기반으로 리팩토링
+export const isDescendantNodeCondition = ({
+  node,
+  validate,
+  parseChildren = null,
+}) => {
+  const children = parseChildren ? parseChildren(node) : node.subRows;
+  const hasChildren = children?.length > 0;
+
+  if (validate(node)) {
+    return true;
+  }
+
+  if (hasChildren) {
+    return children.some((node) =>
+      isDescendantNodeCondition({node, validate, parseChildren}),
+    );
+  } else {
+    return false;
+  }
+};
 
