@@ -36,14 +36,14 @@ export const ensureArray : IEnsureArray= R.cond([
 // console.log('ensuerArray - 3', ensureArray(null));
 
 
-interface IFilterNode {
+interface IFilterEachNode {
      <TNode>(predicate: (node: TNode)=> boolean, childrenKey: string, nodes: TNode): Array<TNode>;
 }
-export const filterNode = R.curry((predicate, childrenKey, treeNodes): IFilterNode =>
+export const filterEachNode = R.curry((predicate, childrenKey, treeNodes): IFilterEachNode =>
   R.pipe(
       R.filter(predicate),
       R.map(
-          R.over(R.lensProp(childrenKey), filterNode(predicate, childrenKey)),
+          R.over(R.lensProp(childrenKey), filterEachNode(predicate, childrenKey)),
       ),
   )(treeNodes),
 );
@@ -65,7 +65,7 @@ export const filterNode = R.curry((predicate, childrenKey, treeNodes): IFilterNo
 //     },
 //   ],
 // }];
-// console.log('filter ', filterNode((node) => !!node.children && ['A', 'B', 'D'].includes(node.name), 'children', tree));
+// console.log('filter ', filterEachNode((node) => !!node.children && ['A', 'B', 'D'].includes(node.name), 'children', tree));
 
 
 interface IExtractLeafNodes {
@@ -175,7 +175,7 @@ export const addIncreasementSequenceEachNode = R.curry((start, sequenceKey, chil
 interface IUpdateNodeWithCondition {
     <TNode>(condition: (node: TNode) => boolean, transformation: (node: TNode) => TNode, childrenKey: string, nodes: TNode[]): Array<TNode>;
 }
-export const updateNodesWithCondition= R.curry((condition, transformation, childrenKey, treeNodes): IUpdateNodeWithCondition =>
+export const updateNodesByCondition= R.curry((condition, transformation, childrenKey, treeNodes): IUpdateNodeWithCondition =>
   updateEachNode(
       R.pipe(
           R.when(condition, transformation),
@@ -185,7 +185,7 @@ export const updateNodesWithCondition= R.curry((condition, transformation, child
   ),
 );
 
-// test for updateNodesWithCondition
+// test for updateNodesByCondition
 // const tree4 = [{
 //   name: 'A',
 //   children: [
@@ -202,7 +202,7 @@ export const updateNodesWithCondition= R.curry((condition, transformation, child
 //     },
 //   ],
 // }];
-// console.log('updateNodesWithCondition', updateNodesWithCondition(R.propEq('A', 'name'), R.assoc('testValue', 1), 'children', tree4));
+// console.log('updateNodesByCondition', updateNodesByCondition(R.propEq('A', 'name'), R.assoc('testValue', 1), 'children', tree4));
 
 interface IRemovePropEachNode {
     <TNode>(propKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
@@ -232,7 +232,7 @@ export const removePropEachNode = R.curry((propKey, childrenKey, treeNodes): IRe
 interface IUpdatepropName {
     <TNode>(propKey: string, newPropKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
 }
-export const updatePropName = R.curry((propKey, newPropKey, childrenKey, treeNodes): IUpdatepropName =>
+export const updatePropNameEachNode = R.curry((propKey, newPropKey, childrenKey, treeNodes): IUpdatepropName =>
   updateEachNode(
       (el)=>R.mergeAll(
           [
@@ -260,22 +260,22 @@ export const updatePropName = R.curry((propKey, newPropKey, childrenKey, treeNod
 // }];
 // console.log('updatePropName', updatePropName('name', 'name2', 'children', tree6));
 
-interface IIsLeafNodeCondition {
+interface ISomeLeafNode {
     <TNode>(childrenKey: string, condition: (node: TNode) => boolean, nodes: TNode[]): boolean;
 }
-export const isLeafNodeCondition = R.curry(( childrenKey: string, condition: any, treeNodes: any[]) : IIsLeafNodeCondition=>
+export const someLeafNode = R.curry(( childrenKey: string, condition: any, treeNodes: any[]) : ISomeLeafNode=>
 
   R.pipe(
       R.any(
           R.cond([
             [R.complement(R.has(childrenKey)), (node)=> condition(node)],
-            [R.T, (node) =>isLeafNodeCondition(childrenKey, condition, node.children)],
+            [R.T, (node) =>someLeafNode(childrenKey, condition, node.children)],
           ]),
       ),
   )(treeNodes),
 );
 
-// test for isLeafNodeCondition
+// test for someLeafNode
 // const tree7 = [{
 //   name: 'A',
 //   children: [
@@ -293,15 +293,15 @@ export const isLeafNodeCondition = R.curry(( childrenKey: string, condition: any
 //   ],
 // }];
 
-// console.log('isLeafNodeCondition', isLeafNodeCondition( 'children', (el)=> {
+// console.log('someLeafNode', someLeafNode( 'children', (el)=> {
 //   console.log('el_1', el);
 //   return el.name ==='F';
 // }, tree7));
 
-interface IIsSomeLeafNodeCondition{
+interface ISomeLeafNodeV2{
     <TNode>(childrenKey: string, condition: (node: TNode) => boolean, nodes: TNode[]): boolean;
 }
-export const isSomeLeafNodeCondition = R.curry(( childrenKey: string, condition: any, treeNodes: any[]) : IIsSomeLeafNodeCondition=>
+export const someLeafNodeV2 = R.curry(( childrenKey: string, condition: any, treeNodes: any[]) : ISomeLeafNodeV2=>
   R.any(
       R.pipe(
           R.ifElse(
@@ -317,7 +317,7 @@ export const isSomeLeafNodeCondition = R.curry(( childrenKey: string, condition:
                   )),
               R.pipe(
                   R.prop(childrenKey),
-                  isSomeLeafNodeCondition(childrenKey, condition),
+                  someLeafNodeV2(childrenKey, condition),
               ),
               (el)=>condition(el),
           )),
@@ -343,7 +343,7 @@ export const isSomeLeafNodeCondition = R.curry(( childrenKey: string, condition:
 // }];
 
 // console.log('isSomeLeafNodeCondition - 1',
-//     isSomeLeafNodeCondition( 'children', (el)=> {
+//     someLeafNodeV2( 'children', (el)=> {
 //       console.log('el_xxx leaf', el);
 //       return el.name ==='H';
 //     }, tree7),
@@ -351,7 +351,7 @@ export const isSomeLeafNodeCondition = R.curry(( childrenKey: string, condition:
 
 
 // console.log('isSomeLeafNodeCondition - 2',
-//     isSomeLeafNodeCondition( 'children', (el)=> {
+//     someLeafNodeV2( 'children', (el)=> {
 //       return el.name ==='G';
 //     }, tree7),
 // );
@@ -360,7 +360,7 @@ export const isSomeLeafNodeCondition = R.curry(( childrenKey: string, condition:
 export const isDescendantNodeCondition = ({
   node,
   validate,
-  parseChildren = null,
+  parseChildren ,
 }) => {
   const children = parseChildren ? parseChildren(node) : node.subRows;
   const hasChildren = children?.length > 0;
