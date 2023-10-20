@@ -11,7 +11,7 @@ export const deepFlatten = R.curry((propKey, nodes): IDeppFlatten =>
   R.pipe(
       R.chain((item) =>
         R.ifElse(
-            R.hasPath([propKey]),
+            R.propIs(Array, propKey),
             R.pipe(
                 R.prop(propKey),
                 deepFlatten(propKey),
@@ -172,10 +172,10 @@ export const addIncreasementSequenceEachNode = R.curry((start, sequenceKey, chil
 
 // console.log('addSequenceToTreeNodes ', addSequenceToTreeNodes(0, 'seq', 'children', tree3));
 
-interface IUpdateNodeWithCondition {
+interface IUpdateNodesByCondition {
     <TNode>(condition: (node: TNode) => boolean, transformation: (node: TNode) => TNode, childrenKey: string, nodes: TNode[]): Array<TNode>;
 }
-export const updateNodesByCondition= R.curry((condition, transformation, childrenKey, treeNodes): IUpdateNodeWithCondition =>
+export const updateNodesByCondition= R.curry((condition, transformation, childrenKey, treeNodes): IUpdateNodesByCondition =>
   updateEachNode(
       R.pipe(
           R.when(condition, transformation),
@@ -229,10 +229,10 @@ export const removePropEachNode = R.curry((propKey, childrenKey, treeNodes): IRe
 // }];
 // console.log('removePropEachNode', removePropEachNode('name', 'children', tree5));
 
-interface IUpdatepropName {
+interface IUpdatePropNameEachNode {
     <TNode>(propKey: string, newPropKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
 }
-export const updatePropNameEachNode = R.curry((propKey, newPropKey, childrenKey, treeNodes): IUpdatepropName =>
+export const updatePropNameEachNode = R.curry((propKey, newPropKey, childrenKey, treeNodes): IUpdatePropNameEachNode =>
   updateEachNode(
       (el)=>R.mergeAll(
           [
