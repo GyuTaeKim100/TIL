@@ -1,24 +1,48 @@
 // @ TODO : TypeScript 적용 필용 - 1차적으로 완료
 // @ TODO : Jest 기반 Test Code 작성 필요
 // @ TODO : 보다 높은 추상화 수준의 함수 추가 예정
+// @ TODO : Add Maybe Monad 
 
 const R = require('ramda');
 
-interface IDeppFlatten {
-    <TNode>(propKey: string, nodes: TNode): Array<TNode>;
+interface IHasChildren {
+  <TNode>(childrenKey: string, node: TNode) : boolean
 }
-export const deepFlatten = R.curry((propKey, nodes): IDeppFlatten =>
+export const hasChildren = R.curry((childrenKey, node) : IHasChildren => 
+  R.both(
+    R.propIs(Array, childrenKey), 
+    R.complement(R.isEmpty)
+  )(node)
+)
+
+interface IIsLeafNode {
+  <TNode>(childrenKey: string, node: TNode) : boolean
+}
+export const isLeafNode = R.curry((childrenKey, node): IIsLeafNode => 
+  R.either(
+    R.pipe(
+      R.prop(childrenKey),
+      R.isNil
+    ),
+    R.complement(hasChildren)
+  )(node)
+)
+
+interface IDeppFlatten {
+    <TNode>(childrenKey: string, nodes: TNode): Array<TNode>;
+}
+export const deepFlatten = R.curry((childrenKey, nodes): IDeppFlatten =>
   R.pipe(
-      R.chain((item) =>
+      R.chain((node) =>
         R.ifElse(
-            R.propIs(Array, propKey),
+            hasChildren(childrenKey),
             R.pipe(
-                R.prop(propKey),
-                deepFlatten(propKey),
-                R.concat([item]),
+                R.prop(childrenKey),
+                deepFlatten(childrenKey),
+                R.concat([node]),
             ),
-            R.always([item]),
-        )(item),
+            R.always([node]),
+        )(node),
       ),
   )(nodes));
 
@@ -37,13 +61,17 @@ export const ensureArray : IEnsureArray= R.cond([
 
 
 interface IFilterEachNode {
-     <TNode>(predicate: (node: TNode)=> boolean, childrenKey: string, nodes: TNode): Array<TNode>;
+     <TNode>(childrenKey: string, predicate: (node: TNode)=> boolean,  nodes: TNode): Array<TNode>;
 }
-export const filterEachNode = R.curry((predicate, childrenKey, treeNodes): IFilterEachNode =>
+export const filterEachNode = R.curry((childrenKey , predicate,  treeNodes): IFilterEachNode =>
   R.pipe(
       R.filter(predicate),
       R.map(
-          R.over(R.lensProp(childrenKey), filterEachNode(predicate, childrenKey)),
+          R.ifElse(
+            hasChildren,
+            R.over(R.lensProp(childrenKey), filterEachNode(childrenKey, predicate)),
+            R.identity
+          )
       ),
   )(treeNodes),
 );
@@ -69,14 +97,14 @@ export const filterEachNode = R.curry((predicate, childrenKey, treeNodes): IFilt
 
 
 interface IExtractLeafNodes {
-    <TNode>(propKey: string, nodes: TNode[]): Array<TNode>;
+    <TNode>(childrenKey: string, nodes: TNode[]): Array<TNode>;
 }
-export const extractLeafNodes= R.curry((propKey, nodes) : IExtractLeafNodes =>
+export const extractLeafNodes= R.curry((childrenKey, nodes) : IExtractLeafNodes =>
   R.pipe(
-      deepFlatten(propKey),
+      deepFlatten(childrenKey),
       R.filter(
           R.pipe(
-              R.prop(propKey),
+              R.prop(childrenKey),
               R.isEmpty,
           ),
       ),
@@ -84,10 +112,11 @@ export const extractLeafNodes= R.curry((propKey, nodes) : IExtractLeafNodes =>
 );
 
 interface IUpdateEachNode {
-    <TNode>(transformation: (node: TNode) => TNode, childrenKey: string, nodes: TNode[]): Array<TNode>;
+    <TNode>(tchildrenKey: string, ransformation: (node: TNode) => TNode, nodes: TNode[]): Array<TNode>;
 }
-export const updateEachNode= R.curry((transformation, childrenKey, treeNodes) : IUpdateEachNode=>
+export const updateEachNode= R.curry((childrenKey, transformation, treeNodes) : IUpdateEachNode=>
   R.pipe(
+      // @TODO apply hasChildren, isLeafNode function
       R.ifElse(
           R.isNil,
           R.identity,
@@ -100,6 +129,7 @@ export const updateEachNode= R.curry((transformation, childrenKey, treeNodes) : 
                   ),
               ),
               R.map(
+                  // @TODO apply hasChildren, isLeafNode function 
                   R.ifElse(
                       R.both(
                           R.isNotNil,
@@ -107,7 +137,7 @@ export const updateEachNode= R.curry((transformation, childrenKey, treeNodes) : 
                       ),
                       R.over(
                           R.lensProp(childrenKey),
-                          updateEachNode(transformation, childrenKey),
+                          updateEachNode(childrenKey, transformation),
                       ),
                       R.identity,
                   ),
@@ -144,11 +174,11 @@ const createIncrementer = (count= 0) : ICreateIncrementer => ({
 });
 
 interface IAddIncreasementSequenceEachNode {
-    <TNode>(start: number, sequenceKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
+    <TNode>(childrenKey: string, start: number, sequenceKey: string,  nodes: TNode[]): Array<TNode>;
 }
-export const addIncreasementSequenceEachNode = R.curry((start, sequenceKey, childrenKey, treeNodes): IAddIncreasementSequenceEachNode => {
+export const addIncreasementSequenceEachNode = R.curry((childrenKey, start, sequenceKey, treeNodes): IAddIncreasementSequenceEachNode => {
   const incrementer=createIncrementer(start);
-  return updateEachNode((el)=> R.assoc(sequenceKey, incrementer.next())(el), childrenKey, treeNodes);
+  return updateEachNode(childrenKey, (el)=> R.assoc(sequenceKey, incrementer.next())(el),  treeNodes);
 },
 );
 
@@ -173,14 +203,15 @@ export const addIncreasementSequenceEachNode = R.curry((start, sequenceKey, chil
 // console.log('addSequenceToTreeNodes ', addSequenceToTreeNodes(0, 'seq', 'children', tree3));
 
 interface IUpdateNodesByCondition {
-    <TNode>(condition: (node: TNode) => boolean, transformation: (node: TNode) => TNode, childrenKey: string, nodes: TNode[]): Array<TNode>;
+    <TNode>( childrenKey: string, condition: (node: TNode) => boolean, transformation: (node: TNode) => TNode, nodes: TNode[]): Array<TNode>;
 }
-export const updateNodesByCondition= R.curry((condition, transformation, childrenKey, treeNodes): IUpdateNodesByCondition =>
+export const updateNodesByCondition= R.curry((childrenKey, condition, transformation, treeNodes): IUpdateNodesByCondition =>
   updateEachNode(
+      childrenKey,
       R.pipe(
           R.when(condition, transformation),
       ),
-      childrenKey,
+      
       treeNodes,
   ),
 );
@@ -205,10 +236,10 @@ export const updateNodesByCondition= R.curry((condition, transformation, childre
 // console.log('updateNodesByCondition', updateNodesByCondition(R.propEq('A', 'name'), R.assoc('testValue', 1), 'children', tree4));
 
 interface IRemovePropEachNode {
-    <TNode>(propKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
+    <TNode>(childrenKey: string, propKey: string,  nodes: TNode[]): Array<TNode>;
 }
-export const removePropEachNode = R.curry((propKey, childrenKey, treeNodes): IRemovePropEachNode =>
-  updateEachNode(R.dissoc(propKey), childrenKey, treeNodes));
+export const removePropEachNode = R.curry((childrenKey, propKey,  treeNodes): IRemovePropEachNode =>
+  updateEachNode(childrenKey, R.dissoc(propKey),  treeNodes));
 
 // test for removePropEachNode
 // const tree5 = [{
@@ -230,17 +261,20 @@ export const removePropEachNode = R.curry((propKey, childrenKey, treeNodes): IRe
 // console.log('removePropEachNode', removePropEachNode('name', 'children', tree5));
 
 interface IUpdatePropNameEachNode {
-    <TNode>(propKey: string, newPropKey: string, childrenKey: string, nodes: TNode[]): Array<TNode>;
+    <TNode>(childrenKey: string, propKey: string, newPropKey: string,  nodes: TNode[]): Array<TNode>;
 }
-export const updatePropNameEachNode = R.curry((propKey, newPropKey, childrenKey, treeNodes): IUpdatePropNameEachNode =>
+export const updatePropNameEachNode = R.curry((childrenKey, propKey, newPropKey,  treeNodes): IUpdatePropNameEachNode =>
   updateEachNode(
+      childrenKey,
       (el)=>R.mergeAll(
           [
             {[newPropKey]: R.prop(propKey)(el)},
             R.omit([propKey])(el),
           ],
       )
-      , childrenKey, treeNodes));
+      , treeNodes
+  )
+);
 
 // const tree6 = [{
 //   name: 'A',
@@ -268,8 +302,8 @@ export const someLeafNode = R.curry(( childrenKey: string, condition: any, treeN
   R.pipe(
       R.any(
           R.cond([
-            [R.complement(R.has(childrenKey)), (node)=> condition(node)],
-            [R.T, (node) =>someLeafNode(childrenKey, condition, node.children)],
+            [isLeafNode, (node)=> condition(node)],
+            [hasChildren, (node) =>someLeafNode(childrenKey, condition, node.children)],
           ]),
       ),
   )(treeNodes),
@@ -304,6 +338,7 @@ interface ISomeLeafNodeV2{
 export const someLeafNodeV2 = R.curry(( childrenKey: string, condition: any, treeNodes: any[]) : ISomeLeafNodeV2=>
   R.any(
       R.pipe(
+          // @TODO apply hasChildren, isLeafNode function 
           R.ifElse(
               R.both(
                   R.pipe(
