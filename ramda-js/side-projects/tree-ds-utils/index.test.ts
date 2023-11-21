@@ -1,47 +1,69 @@
 
-import { expect, test} from '@jest/globals';
+import { expect, it, test} from '@jest/globals';
 
-test('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3);
-});
+import { hasChildren  } from './index'
 
-const sum = (a, b) => a + b
+describe('hasChildren', ()=> {
 
-test('test ', ()=> {
-    const tree = [{
-          name: 'A',
-          children: [
-            {
-              name: 'B',
-              children: [
-                {name: 'C', children: []},
-                {name: 'D', children: []},
-              ],
-            },
-            {
-              name: 'E',
-              children: [{name: 'F', children: []}],
-            },
-          ],
-        }]; 
+  test('node의 자식이 배열이면서 길이가 1 이상인 경우, true를 반환한다.', ()=> {
+    const childrenKey = 'children'
+    const node = { [childrenKey]: [{name:'children 1'}] }
 
-        const tree2 = [{
-            name: 'A',
-            children: [
-              {
-                name: 'B',
-                children: [
-                  {name: 'C', children: []},
-                  {name: 'D', children: []},
-                ],
-              },
-              {
-                name: 'E-2',
-                children: [{name: 'F', children: []}],
-              },
-            ],
-          }]; 
-    
-        expect(tree).toMatchObject(tree2)
+    expect(hasChildren(childrenKey, node )).toEqual(true)
+  })  
 
+  test('node의 자식이 빈 배열인 경우, false를 반환한다.', ()=> {
+    const childrenKey = 'children'
+    const node = { [childrenKey]: [] }
+
+    expect(hasChildren(childrenKey, node )).toEqual(false)
+  })  
+
+  test('node가 객체 타입이 아닌 경우, error를 throw한다', () => {
+    const childrenKey = 'children'
+    const node = `Bad node type`
+
+    expect(() => hasChildren(childrenKey, node)).toThrow()
+  })
+
+  test('node의 자식 prop이 존재하지 않는 경우, error를 throw한다.', () => {
+    const node = {}
+
+    expect(() => hasChildren('Bad children key', node)).toThrow()
+  })
 })
+
+
+const tree = [{
+  name: 'A',
+  children: [
+    {
+      name: 'B',
+      children: [
+        {name: 'C', children: []},
+        {name: 'D', children: []},
+      ],
+    },
+    {
+      name: 'E',
+      children: [{name: 'F', children: []}],
+    },
+  ],
+}]; 
+
+const tree2 = [{
+    name: 'A',
+    children: [
+      {
+        name: 'B',
+        children: [
+          {name: 'C', children: []},
+          {name: 'D', children: []},
+        ],
+      },
+      {
+        name: 'E-2',
+        children: [{name: 'F', children: []}],
+      },
+    ],
+  }]; 

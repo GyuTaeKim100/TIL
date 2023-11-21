@@ -9,11 +9,27 @@ interface IHasChildren {
   <TNode>(childrenKey: string, node: TNode) : boolean
 }
 export const hasChildren = R.curry((childrenKey, node) : IHasChildren => 
-  R.both(
-    R.propIs(Array, childrenKey), 
-    R.complement(R.isEmpty)
+  R.pipe(
+    R.when(
+      R.complement(R.is(Object)),
+      () => { throw new Error('Node must be an object.'); }
+    ),
+    R.when(
+      R.complement(R.has(childrenKey)),
+      () => { throw new Error(`Node must have a children prop named "${childrenKey}".`); }
+    ),
+    R.ifElse(
+      R.propIs(Array, childrenKey),
+      R.pipe(
+        R.prop(childrenKey),
+        R.complement(R.isEmpty),
+      ),
+      R.always(false)
+    )
   )(node)
 )
+  
+
 
 interface IIsLeafNode {
   <TNode>(childrenKey: string, node: TNode) : boolean
