@@ -1,7 +1,7 @@
 
-import { expect, it, test} from '@jest/globals';
+import { describe, expect, it, test} from '@jest/globals';
 
-import { hasChildren, isLeafNode, deepFlatten  } from './index'
+import { hasChildren, isLeafNode, deepFlatten , ensureArray } from './index'
 
 describe('hasChildren', ()=> {
 
@@ -127,6 +127,44 @@ describe('deepFlatten', ()=> {
 
     expect(() => deepFlatten(childrenKey, nodes)).toThrow()
   })
-
 })
 
+describe('ensureArray', ()=> {
+  test('undefined인 경우, 빈 배열을 반환한다.', ()=> {
+    expect(ensureArray(undefined)).toEqual([])
+  })  
+
+  test('Array인 경우, 그대로 반환한다.', ()=> {
+    const nodes = [
+      {name: '1', children: [
+        {name: '1-1', children: [
+          {name: '1-1-1', children: [
+            {name: '1-1-1-1', children: []},
+            {name: '1-1-1-2', children: []},
+          ]},
+          ]},
+          {name: '1-1-2', children: []},
+        ]
+      },
+      {name: '1-2', children: [
+          {name: '1-2-1', children: [
+            {name: '1-2-1-1', children: []},
+            {name: '1-2-1-2', children: []},
+          ]},
+          {name: '1-2-2', children: []},
+        ]
+      },
+      {name: '1-3', children: []}, 
+    ]
+
+
+    expect(ensureArray(nodes)).toEqual(nodes)
+  })
+
+  test('Object 타입인 경우, Array로 래핑 후 반환한다.', ()=> {
+    const node ={name: 'something', children: []} 
+    expect(ensureArray(node)).toEqual([node])
+  })
+})
+
+describe()
