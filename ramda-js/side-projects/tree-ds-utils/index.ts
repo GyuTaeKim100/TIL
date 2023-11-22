@@ -15,7 +15,7 @@ export const hasChildren = R.curry((childrenKey, node) : IHasChildren =>
       () => { throw new Error('Node must be an object.'); }
     ),
     R.when(
-      R.complement(R.has(childrenKey)),
+    R.complement(R.has(childrenKey)),
       () => { throw new Error(`Node must have a children prop named "${childrenKey}".`); }
     ),
     R.ifElse(
@@ -41,7 +41,7 @@ export const isLeafNode = R.curry((childrenKey, node): IIsLeafNode =>
 )
 
 interface IDeppFlatten {
-    <TNode>(childrenKey: string, nodes: TNode): Array<TNode>;
+  <TNode>(childrenKey: string, nodes: TNode): Array<TNode>;
 }
 export const deepFlatten = R.curry((childrenKey, nodes): IDeppFlatten =>
   R.pipe(
