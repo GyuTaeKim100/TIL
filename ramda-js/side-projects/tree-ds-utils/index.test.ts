@@ -64,7 +64,8 @@ describe('isLeafNode', ()=> {
 })
 
 describe('deepFlatten', ()=> {
-  test('다중 root node를 가진 배열의 트리 구조에 대해서, 모든 node를 전위 순회 순서의 1depth 배열 형식으로 반환한다.', ()=> {
+  test(
+    '다중 root node를 가진 배열에 대해서, 순차적이면서, 전위순회 순서로 1depth 형식의 node의 배열을 반환한다. ', ()=> {
     const childrenKey = 'children'
 
     const nodes = [
