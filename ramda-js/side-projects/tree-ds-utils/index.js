@@ -15,7 +15,7 @@ const hasChildren = exports.hasChildren = R.curry((childrenKey, node) => R.pipe(
 }), R.when(R.complement(R.has(childrenKey)), () => {
   throw new Error(`Node must have a children prop named "${childrenKey}".`);
 }), R.ifElse(R.propIs(Array, childrenKey), R.pipe(R.prop(childrenKey), R.complement(R.isEmpty)), R.always(false)))(node));
-const isLeafNode = exports.isLeafNode = R.curry((childrenKey, node) => R.either(R.pipe(R.prop(childrenKey), R.isNil), R.complement(hasChildren))(node));
+const isLeafNode = exports.isLeafNode = R.curry((childrenKey, node) => R.pipe(hasChildren(childrenKey), R.complement(R.identity))(node));
 const deepFlatten = exports.deepFlatten = R.curry((childrenKey, nodes) => R.pipe(R.chain(node => R.ifElse(hasChildren(childrenKey), R.pipe(R.prop(childrenKey), deepFlatten(childrenKey), R.concat([node])), R.always([node]))(node)))(nodes));
 const ensureArray = exports.ensureArray = R.cond([[R.isNil, R.always([])], [R.is(Array), R.identity], [R.is(Object), R.of(Array)]]);
 

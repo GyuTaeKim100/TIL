@@ -28,19 +28,15 @@ export const hasChildren = R.curry((childrenKey, node) : IHasChildren =>
     )
   )(node)
 )
-  
 
 
 interface IIsLeafNode {
   <TNode>(childrenKey: string, node: TNode) : boolean
 }
 export const isLeafNode = R.curry((childrenKey, node): IIsLeafNode => 
-  R.either(
-    R.pipe(
-      R.prop(childrenKey),
-      R.isNil
-    ),
-    R.complement(hasChildren)
+  R.pipe(
+    hasChildren(childrenKey),
+    R.complement(R.identity),
   )(node)
 )
 
