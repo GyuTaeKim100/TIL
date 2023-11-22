@@ -75,33 +75,13 @@ export const filterEachNode = R.curry((childrenKey , predicate,  treeNodes): IFi
       R.filter(predicate),
       R.map(
           R.ifElse(
-            hasChildren,
+            hasChildren(childrenKey),
             R.over(R.lensProp(childrenKey), filterEachNode(childrenKey, predicate)),
             R.identity
           )
       ),
   )(treeNodes),
 );
-
-// test for filter
-// const tree = [{
-//   name: 'A',
-//   children: [
-//     {
-//       name: 'B',
-//       children: [
-//         {name: 'C', children: []},
-//         {name: 'D', children: []},
-//       ],
-//     },
-//     {
-//       name: 'E',
-//       children: [{name: 'F', children: []}],
-//     },
-//   ],
-// }];
-// console.log('filter ', filterEachNode((node) => !!node.children && ['A', 'B', 'D'].includes(node.name), 'children', tree));
-
 
 interface IExtractLeafNodes {
     <TNode>(childrenKey: string, nodes: TNode[]): Array<TNode>;
