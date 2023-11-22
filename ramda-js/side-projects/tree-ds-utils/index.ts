@@ -89,12 +89,7 @@ interface IExtractLeafNodes {
 export const extractLeafNodes= R.curry((childrenKey, nodes) : IExtractLeafNodes =>
   R.pipe(
       deepFlatten(childrenKey),
-      R.filter(
-          R.pipe(
-              R.prop(childrenKey),
-              R.isEmpty,
-          ),
-      ),
+      R.filter(isLeafNode(childrenKey)),
   )(nodes),
 );
 

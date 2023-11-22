@@ -19,7 +19,7 @@ const isLeafNode = exports.isLeafNode = R.curry((childrenKey, node) => R.pipe(ha
 const deepFlatten = exports.deepFlatten = R.curry((childrenKey, nodes) => R.pipe(R.chain(node => R.ifElse(hasChildren(childrenKey), R.pipe(R.prop(childrenKey), deepFlatten(childrenKey), R.concat([node])), R.always([node]))(node)))(nodes));
 const ensureArray = exports.ensureArray = R.cond([[R.isNil, R.always([])], [R.is(Array), R.identity], [R.is(Object), R.of(Array)]]);
 const filterEachNode = exports.filterEachNode = R.curry((childrenKey, predicate, treeNodes) => R.pipe(R.filter(predicate), R.map(R.ifElse(hasChildren(childrenKey), R.over(R.lensProp(childrenKey), filterEachNode(childrenKey, predicate)), R.identity)))(treeNodes));
-const extractLeafNodes = exports.extractLeafNodes = R.curry((childrenKey, nodes) => R.pipe(deepFlatten(childrenKey), R.filter(R.pipe(R.prop(childrenKey), R.isEmpty)))(nodes));
+const extractLeafNodes = exports.extractLeafNodes = R.curry((childrenKey, nodes) => R.pipe(deepFlatten(childrenKey), R.filter(isLeafNode(childrenKey)))(nodes));
 const updateEachNode = exports.updateEachNode = R.curry((childrenKey, transformation, treeNodes) => R.pipe(
 // @TODO apply hasChildren, isLeafNode function
 R.ifElse(R.isNil, R.identity, R.pipe(R.map(R.ifElse(R.isNil, R.identity, transformation)), R.map(
