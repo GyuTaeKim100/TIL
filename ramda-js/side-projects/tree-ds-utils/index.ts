@@ -67,11 +67,6 @@ export const ensureArray : IEnsureArray= R.cond([
   [R.is(Object), R.of(Array)],
 ]);
 
-// console.log('ensuerArray - 1', ensureArray({a: 1}));
-// console.log('ensuerArray - 2', ensureArray([]));
-// console.log('ensuerArray - 3', ensureArray(null));
-
-
 interface IFilterEachNode {
      <TNode>(childrenKey: string, predicate: (node: TNode)=> boolean,  nodes: TNode): Array<TNode>;
 }
