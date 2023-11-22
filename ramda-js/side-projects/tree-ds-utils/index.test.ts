@@ -3,7 +3,7 @@ import { describe, expect, test} from '@jest/globals';
 
 const R = require('ramda');
 
-import { hasChildren, isLeafNode, deepFlatten , ensureArray, filterEachNode } from './index'
+import { hasChildren, isLeafNode, deepFlatten , ensureArray, filterEachNode, extractLeafNodes } from './index'
 
 
 describe('hasChildren', ()=> {
@@ -348,5 +348,48 @@ describe('filterEachNode', ()=> {
     ]
 
     expect(filterEachNode(childrenKey, (node)=> !['1', '1-3'].includes(node.name) ,nodes)).toEqual(expected)
+  })
+})
+
+describe('extractLeafNodes', ()=> {
+  test('모든 단말 노드를 반환한다.', ()=> {
+    const childrenKey = 'children'
+    const nodes = [
+      {name: '1', children: [
+        {name: '1-1', children: [
+          {name: '1-1-1', children: [
+            {name: '1-1-1-1', children: []},
+            {name: '1-1-1-2', children: []},
+          ]},
+          ]},
+          {name: '1-1-2', children: []},
+        ]
+      },
+      {name: '1-2', children: [
+          {name: '1-2-1', children: [
+            {name: '1-2-1-1', children: []},
+            {name: '1-2-1-2', children: []},
+          ]},
+          {name: '1-2-2', children: []},
+        ]
+      },
+      {name: '1-3', children: []}, 
+    ]
+
+    const expected =[
+      {name: '1-1-1-1', children: []},
+      {name: '1-1-1-2', children: []}, 
+      {name: '1-1-2', children: []},
+      {name: '1-2-1-1', children: []},
+      {name: '1-2-1-2', children: []},
+      {name: '1-2-2', children: []},
+      {name: '1-3', children: []}, 
+    ]
+
+    expect(extractLeafNodes(childrenKey, nodes)).toEqual(expected)
+  })
+
+  test('빈 배열인 경우, 빈 배열을 반환한다.', ()=> {
+     expect(extractLeafNodes('children', [])).toEqual([])
   })
 })
