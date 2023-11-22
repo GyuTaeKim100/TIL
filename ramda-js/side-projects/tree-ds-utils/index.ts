@@ -1,8 +1,3 @@
-// @ TODO : TypeScript 적용 필용 - 1차적으로 완료
-// @ TODO : Jest 기반 Test Code 작성 필요
-// @ TODO : 보다 높은 추상화 수준의 함수 추가 예정
-// @ TODO : Add Maybe Monad 
-
 const R = require('ramda');
 
 interface IHasChildren {
@@ -93,33 +88,22 @@ export const extractLeafNodes= R.curry((childrenKey, nodes) : IExtractLeafNodes 
   )(nodes),
 );
 
-interface IUpdateEachNode {
+interface IMapEachNode {
     <TNode>(tchildrenKey: string, ransformation: (node: TNode) => TNode, nodes: TNode[]): Array<TNode>;
 }
-export const updateEachNode= R.curry((childrenKey, transformation, treeNodes) : IUpdateEachNode=>
+export const mapEachNode= R.curry((childrenKey, transformation, treeNodes) : IMapEachNode=>
   R.pipe(
-      // @TODO apply hasChildren, isLeafNode function
       R.ifElse(
-          R.isNil,
+          isLeafNode(childrenKey),
           R.identity,
           R.pipe(
+              R.map( transformation),
               R.map(
                   R.ifElse(
-                      R.isNil,
-                      R.identity,
-                      transformation,
-                  ),
-              ),
-              R.map(
-                  // @TODO apply hasChildren, isLeafNode function 
-                  R.ifElse(
-                      R.both(
-                          R.isNotNil,
-                          R.hasPath([childrenKey]),
-                      ),
+                      hasChildren(childrenKey),
                       R.over(
                           R.lensProp(childrenKey),
-                          updateEachNode(childrenKey, transformation),
+                          mapEachNode(childrenKey, transformation),
                       ),
                       R.identity,
                   ),
@@ -129,7 +113,7 @@ export const updateEachNode= R.curry((childrenKey, transformation, treeNodes) : 
   )(treeNodes),
 );
 
-// test for updateEachNode
+// test for mapEachNode
 // const tree2 = [{
 //   name: 'A',
 //   children: [
@@ -146,7 +130,7 @@ export const updateEachNode= R.curry((childrenKey, transformation, treeNodes) : 
 //     },
 //   ],
 // }];
-// console.log('updateEachNode ', updateEachNode(R.assoc('testValue', 1), 'children', tree2));
+// console.log('mapEachNode ', mapEachNode(R.assoc('testValue', 1), 'children', tree2));
 
 interface ICreateIncrementer {
     next: () => number;
@@ -160,7 +144,7 @@ interface IAddIncreasementSequenceEachNode {
 }
 export const addIncreasementSequenceEachNode = R.curry((childrenKey, start, sequenceKey, treeNodes): IAddIncreasementSequenceEachNode => {
   const incrementer=createIncrementer(start);
-  return updateEachNode(childrenKey, (el)=> R.assoc(sequenceKey, incrementer.next())(el),  treeNodes);
+  return mapEachNode(childrenKey, (el)=> R.assoc(sequenceKey, incrementer.next())(el),  treeNodes);
 },
 );
 
@@ -188,7 +172,7 @@ interface IUpdateNodesByCondition {
     <TNode>( childrenKey: string, condition: (node: TNode) => boolean, transformation: (node: TNode) => TNode, nodes: TNode[]): Array<TNode>;
 }
 export const updateNodesByCondition= R.curry((childrenKey, condition, transformation, treeNodes): IUpdateNodesByCondition =>
-  updateEachNode(
+  mapEachNode(
       childrenKey,
       R.pipe(
           R.when(condition, transformation),
@@ -221,7 +205,7 @@ interface IRemovePropEachNode {
     <TNode>(childrenKey: string, propKey: string,  nodes: TNode[]): Array<TNode>;
 }
 export const removePropEachNode = R.curry((childrenKey, propKey,  treeNodes): IRemovePropEachNode =>
-  updateEachNode(childrenKey, R.dissoc(propKey),  treeNodes));
+  mapEachNode(childrenKey, R.dissoc(propKey),  treeNodes));
 
 // test for removePropEachNode
 // const tree5 = [{
@@ -246,7 +230,7 @@ interface IUpdatePropNameEachNode {
     <TNode>(childrenKey: string, propKey: string, newPropKey: string,  nodes: TNode[]): Array<TNode>;
 }
 export const updatePropNameEachNode = R.curry((childrenKey, propKey, newPropKey,  treeNodes): IUpdatePropNameEachNode =>
-  updateEachNode(
+  mapEachNode(
       childrenKey,
       (el)=>R.mergeAll(
           [

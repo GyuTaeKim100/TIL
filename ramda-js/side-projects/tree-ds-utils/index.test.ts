@@ -3,7 +3,7 @@ import { describe, expect, test} from '@jest/globals';
 
 const R = require('ramda');
 
-import { hasChildren, isLeafNode, deepFlatten , ensureArray, filterEachNode, extractLeafNodes } from './index'
+import { hasChildren, isLeafNode, deepFlatten , ensureArray, filterEachNode, extractLeafNodes, mapEachNode } from './index'
 
 
 describe('hasChildren', ()=> {
@@ -392,4 +392,58 @@ describe('extractLeafNodes', ()=> {
   test('빈 배열인 경우, 빈 배열을 반환한다.', ()=> {
      expect(extractLeafNodes('children', [])).toEqual([])
   })
+})
+
+describe('mapEachNode', ()=> {
+  test('전체 노드를 map한다', ()=> {
+    const childrenKey = 'children'
+    const nodes = [
+      {name: '1', children: [
+        {name: '1-1', children: [
+          {name: '1-1-1', children: [
+            {name: '1-1-1-1', children: []},
+            {name: '1-1-1-2', children: []},
+          ]},
+          ]},
+          {name: '1-1-2', children: []},
+        ]
+      },
+      {name: '1-2', children: [
+          {name: '1-2-1', children: [
+            {name: '1-2-1-1', children: []},
+            {name: '1-2-1-2', children: []},
+          ]},
+          {name: '1-2-2', children: []},
+        ]
+      },
+      {name: '1-3', children: []}, 
+    ]
+
+    const expected  = [
+      {name: '1', newValue: 'inserted', children: [
+        {name: '1-1', newValue: 'inserted', children: [
+          {name: '1-1-1', newValue: 'inserted', children: [
+            {name: '1-1-1-1', newValue: 'inserted', children: []},
+            {name: '1-1-1-2', newValue: 'inserted', children: []},
+          ]},
+          ]},
+          {name: '1-1-2', newValue: 'inserted', children: []},
+        ]
+      },
+      {name: '1-2', newValue: 'inserted', children: [
+          {name: '1-2-1', newValue: 'inserted', children: [
+            {name: '1-2-1-1', newValue: 'inserted', children: []},
+            {name: '1-2-1-2', newValue: 'inserted', children: []},
+          ]},
+          {name: '1-2-2', newValue: 'inserted', children: []},
+        ]
+      },
+      {name: '1-3', newValue: 'inserted', children: []}, 
+    ]
+
+    expect(mapEachNode(childrenKey, (node)=> ({...node, newValue: 'inserted'}), nodes)).toEqual(expected)
+
+
+  })
+
 })

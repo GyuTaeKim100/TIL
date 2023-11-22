@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updatePropNameEachNode = exports.updateNodesByCondition = exports.updateEachNode = exports.someLeafNodeV2 = exports.someLeafNode = exports.removePropEachNode = exports.isLeafNode = exports.isDescendantNodeCondition = exports.hasChildren = exports.filterEachNode = exports.extractLeafNodes = exports.ensureArray = exports.deepFlatten = exports.addIncreasementSequenceEachNode = void 0;
+exports.updatePropNameEachNode = exports.updateNodesByCondition = exports.someLeafNodeV2 = exports.someLeafNode = exports.removePropEachNode = exports.mapEachNode = exports.isLeafNode = exports.isDescendantNodeCondition = exports.hasChildren = exports.filterEachNode = exports.extractLeafNodes = exports.ensureArray = exports.deepFlatten = exports.addIncreasementSequenceEachNode = void 0;
 // @ TODO : TypeScript 적용 필용 - 1차적으로 완료
 // @ TODO : Jest 기반 Test Code 작성 필요
 // @ TODO : 보다 높은 추상화 수준의 함수 추가 예정
@@ -20,13 +20,9 @@ const deepFlatten = exports.deepFlatten = R.curry((childrenKey, nodes) => R.pipe
 const ensureArray = exports.ensureArray = R.cond([[R.isNil, R.always([])], [R.is(Array), R.identity], [R.is(Object), R.of(Array)]]);
 const filterEachNode = exports.filterEachNode = R.curry((childrenKey, predicate, treeNodes) => R.pipe(R.filter(predicate), R.map(R.ifElse(hasChildren(childrenKey), R.over(R.lensProp(childrenKey), filterEachNode(childrenKey, predicate)), R.identity)))(treeNodes));
 const extractLeafNodes = exports.extractLeafNodes = R.curry((childrenKey, nodes) => R.pipe(deepFlatten(childrenKey), R.filter(isLeafNode(childrenKey)))(nodes));
-const updateEachNode = exports.updateEachNode = R.curry((childrenKey, transformation, treeNodes) => R.pipe(
-// @TODO apply hasChildren, isLeafNode function
-R.ifElse(R.isNil, R.identity, R.pipe(R.map(R.ifElse(R.isNil, R.identity, transformation)), R.map(
-// @TODO apply hasChildren, isLeafNode function 
-R.ifElse(R.both(R.isNotNil, R.hasPath([childrenKey])), R.over(R.lensProp(childrenKey), updateEachNode(childrenKey, transformation)), R.identity)))))(treeNodes));
+const mapEachNode = exports.mapEachNode = R.curry((childrenKey, transformation, treeNodes) => R.pipe(R.ifElse(isLeafNode(childrenKey), R.identity, R.pipe(R.map(transformation), R.map(R.ifElse(hasChildren(childrenKey), R.over(R.lensProp(childrenKey), mapEachNode(childrenKey, transformation)), R.identity)))))(treeNodes));
 
-// test for updateEachNode
+// test for mapEachNode
 // const tree2 = [{
 //   name: 'A',
 //   children: [
@@ -43,14 +39,14 @@ R.ifElse(R.both(R.isNotNil, R.hasPath([childrenKey])), R.over(R.lensProp(childre
 //     },
 //   ],
 // }];
-// console.log('updateEachNode ', updateEachNode(R.assoc('testValue', 1), 'children', tree2));
+// console.log('mapEachNode ', mapEachNode(R.assoc('testValue', 1), 'children', tree2));
 
 const createIncrementer = (count = 0) => ({
   next: () => ++count
 });
 const addIncreasementSequenceEachNode = exports.addIncreasementSequenceEachNode = R.curry((childrenKey, start, sequenceKey, treeNodes) => {
   const incrementer = createIncrementer(start);
-  return updateEachNode(childrenKey, el => R.assoc(sequenceKey, incrementer.next())(el), treeNodes);
+  return mapEachNode(childrenKey, el => R.assoc(sequenceKey, incrementer.next())(el), treeNodes);
 });
 
 // // test for addSequenceToTreeNodes
@@ -73,7 +69,7 @@ const addIncreasementSequenceEachNode = exports.addIncreasementSequenceEachNode 
 
 // console.log('addSequenceToTreeNodes ', addSequenceToTreeNodes(0, 'seq', 'children', tree3));
 
-const updateNodesByCondition = exports.updateNodesByCondition = R.curry((childrenKey, condition, transformation, treeNodes) => updateEachNode(childrenKey, R.pipe(R.when(condition, transformation)), treeNodes));
+const updateNodesByCondition = exports.updateNodesByCondition = R.curry((childrenKey, condition, transformation, treeNodes) => mapEachNode(childrenKey, R.pipe(R.when(condition, transformation)), treeNodes));
 
 // test for updateNodesByCondition
 // const tree4 = [{
@@ -94,7 +90,7 @@ const updateNodesByCondition = exports.updateNodesByCondition = R.curry((childre
 // }];
 // console.log('updateNodesByCondition', updateNodesByCondition(R.propEq('A', 'name'), R.assoc('testValue', 1), 'children', tree4));
 
-const removePropEachNode = exports.removePropEachNode = R.curry((childrenKey, propKey, treeNodes) => updateEachNode(childrenKey, R.dissoc(propKey), treeNodes));
+const removePropEachNode = exports.removePropEachNode = R.curry((childrenKey, propKey, treeNodes) => mapEachNode(childrenKey, R.dissoc(propKey), treeNodes));
 
 // test for removePropEachNode
 // const tree5 = [{
@@ -115,7 +111,7 @@ const removePropEachNode = exports.removePropEachNode = R.curry((childrenKey, pr
 // }];
 // console.log('removePropEachNode', removePropEachNode('name', 'children', tree5));
 
-const updatePropNameEachNode = exports.updatePropNameEachNode = R.curry((childrenKey, propKey, newPropKey, treeNodes) => updateEachNode(childrenKey, el => R.mergeAll([{
+const updatePropNameEachNode = exports.updatePropNameEachNode = R.curry((childrenKey, propKey, newPropKey, treeNodes) => mapEachNode(childrenKey, el => R.mergeAll([{
   [newPropKey]: R.prop(propKey)(el)
 }, R.omit([propKey])(el)]), treeNodes));
 
